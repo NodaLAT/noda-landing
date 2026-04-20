@@ -1,0 +1,1414 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Noda — Automatización con IA para tu negocio</title>
+<meta name="description" content="Noda automatiza la atención al cliente, agendamiento y operaciones de tu PYME con bots inteligentes en WhatsApp. Diseñado para clínicas, laboratorios y comercios en Ecuador.">
+<meta name="theme-color" content="#0A0A0A">
+
+<!-- Open Graph -->
+<meta property="og:title" content="Noda — Automatización con IA">
+<meta property="og:description" content="Bots de WhatsApp y automatización inteligente para PYMEs ecuatorianas.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://noda.lat">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300..800&family=Manrope:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --bg: #0A0A0A;
+    --bg-elev: #121212;
+    --surface: #161616;
+    --surface-2: #1E1E1E;
+    --border: #262626;
+    --border-bright: #383838;
+    --text: #F5F5F0;
+    --text-dim: #A0A099;
+    --text-muted: #6B6B65;
+    --teal: #2C9B9B;
+    --teal-bright: #3DBFBF;
+    --teal-dim: #1A6868;
+    --teal-glow: rgba(61, 191, 191, 0.15);
+    --display: "Bricolage Grotesque", serif;
+    --body: "Manrope", system-ui, sans-serif;
+    --mono: "JetBrains Mono", monospace;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--body);
+    font-weight: 400;
+    line-height: 1.6;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Subtle grain overlay across whole page */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background-image:
+      radial-gradient(circle at 20% 10%, var(--teal-glow), transparent 40%),
+      radial-gradient(circle at 80% 90%, rgba(44, 155, 155, 0.08), transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E");
+    opacity: 0.025;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 32px;
+    position: relative;
+    z-index: 2;
+  }
+
+  /* ============ NAV ============ */
+  nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    background: rgba(10, 10, 10, 0.7);
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.3s ease;
+  }
+
+  nav.scrolled {
+    border-bottom-color: var(--border);
+  }
+
+  .nav-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 32px;
+    max-width: 1280px;
+    margin: 0 auto;
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: var(--text);
+  }
+
+  .logo-mark {
+    width: 36px;
+    height: 36px;
+    flex-shrink: 0;
+  }
+
+  .logo-text {
+    font-family: var(--display);
+    font-weight: 600;
+    font-size: 22px;
+    letter-spacing: -0.02em;
+  }
+
+  .logo-tag {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.18em;
+    color: var(--teal);
+    margin-left: 4px;
+    text-transform: uppercase;
+    border-left: 1px solid var(--border-bright);
+    padding-left: 10px;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 40px;
+    align-items: center;
+  }
+
+  .nav-links a {
+    color: var(--text-dim);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    transition: color 0.2s ease;
+  }
+
+  .nav-links a:hover {
+    color: var(--text);
+  }
+
+  .nav-cta {
+    background: var(--teal);
+    color: var(--bg);
+    padding: 10px 20px;
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: 14px;
+    text-decoration: none;
+    transition: all 0.25s ease;
+    border: 1px solid var(--teal);
+  }
+
+  .nav-cta:hover {
+    background: var(--teal-bright);
+    border-color: var(--teal-bright);
+    transform: translateY(-1px);
+  }
+
+  .menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    color: var(--text);
+    cursor: pointer;
+    padding: 8px;
+  }
+
+  /* ============ HERO ============ */
+  .hero {
+    padding: 180px 0 120px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+
+  .hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--teal-bright);
+    background: rgba(61, 191, 191, 0.08);
+    border: 1px solid rgba(61, 191, 191, 0.2);
+    padding: 6px 14px;
+    border-radius: 999px;
+    margin-bottom: 32px;
+    letter-spacing: 0.05em;
+  }
+
+  .hero-eyebrow::before {
+    content: "";
+    width: 6px;
+    height: 6px;
+    background: var(--teal-bright);
+    border-radius: 50%;
+    box-shadow: 0 0 8px var(--teal-bright);
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  h1 {
+    font-family: var(--display);
+    font-size: clamp(2.5rem, 6vw, 4.8rem);
+    font-weight: 500;
+    line-height: 1.02;
+    letter-spacing: -0.035em;
+    color: var(--text);
+    margin-bottom: 28px;
+  }
+
+  h1 em {
+    font-style: italic;
+    font-weight: 400;
+    color: var(--teal-bright);
+    background: linear-gradient(135deg, var(--teal-bright), var(--teal));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .hero-sub {
+    font-size: 1.15rem;
+    color: var(--text-dim);
+    margin-bottom: 40px;
+    max-width: 540px;
+    line-height: 1.6;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 16px 28px;
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: 15px;
+    text-decoration: none;
+    transition: all 0.25s ease;
+    cursor: pointer;
+    border: none;
+    font-family: inherit;
+  }
+
+  .btn-primary {
+    background: var(--teal);
+    color: var(--bg);
+  }
+
+  .btn-primary:hover {
+    background: var(--teal-bright);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 30px -10px var(--teal-glow);
+  }
+
+  .btn-ghost {
+    background: transparent;
+    color: var(--text);
+    border: 1px solid var(--border-bright);
+  }
+
+  .btn-ghost:hover {
+    border-color: var(--teal);
+    color: var(--teal-bright);
+  }
+
+  .arrow {
+    transition: transform 0.25s ease;
+  }
+
+  .btn:hover .arrow {
+    transform: translateX(3px);
+  }
+
+  /* Hero visual: chat mockup */
+  .chat-mockup {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 24px;
+    box-shadow:
+      0 30px 80px -20px rgba(0, 0, 0, 0.6),
+      0 0 60px -20px var(--teal-glow);
+    position: relative;
+  }
+
+  .chat-mockup::before {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    border-radius: 20px;
+    padding: 1px;
+    background: linear-gradient(135deg, var(--teal) 0%, transparent 50%);
+    -webkit-mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+    opacity: 0.4;
+  }
+
+  .chat-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 18px;
+  }
+
+  .chat-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--teal), var(--teal-dim));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--bg);
+  }
+
+  .chat-name {
+    font-weight: 600;
+    font-size: 14px;
+  }
+
+  .chat-status {
+    font-size: 11px;
+    color: var(--teal-bright);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .chat-status::before {
+    content: "";
+    width: 6px;
+    height: 6px;
+    background: var(--teal-bright);
+    border-radius: 50%;
+  }
+
+  .messages {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .msg {
+    max-width: 80%;
+    padding: 10px 14px;
+    border-radius: 14px;
+    font-size: 13.5px;
+    line-height: 1.45;
+    opacity: 0;
+    animation: slideIn 0.5s ease forwards;
+  }
+
+  .msg-user {
+    background: var(--surface-2);
+    align-self: flex-end;
+    border-bottom-right-radius: 4px;
+    color: var(--text);
+  }
+
+  .msg-bot {
+    background: var(--teal-dim);
+    color: var(--text);
+    align-self: flex-start;
+    border-bottom-left-radius: 4px;
+  }
+
+  .msg:nth-child(1) { animation-delay: 0.6s; }
+  .msg:nth-child(2) { animation-delay: 1.2s; }
+  .msg:nth-child(3) { animation-delay: 1.8s; }
+  .msg:nth-child(4) { animation-delay: 2.4s; }
+
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ============ TRUST STRIP ============ */
+  .trust-strip {
+    padding: 60px 0;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .trust-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 32px;
+  }
+
+  .trust-item {
+    text-align: center;
+  }
+
+  .trust-num {
+    font-family: var(--display);
+    font-size: 2.4rem;
+    font-weight: 500;
+    color: var(--teal-bright);
+    letter-spacing: -0.03em;
+  }
+
+  .trust-label {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-top: 4px;
+    font-family: var(--mono);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  /* ============ SECTION ============ */
+  section {
+    padding: 120px 0;
+    position: relative;
+  }
+
+  .section-eyebrow {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--teal);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .section-eyebrow::before {
+    content: "";
+    width: 30px;
+    height: 1px;
+    background: var(--teal);
+  }
+
+  h2 {
+    font-family: var(--display);
+    font-size: clamp(2rem, 4.5vw, 3.4rem);
+    font-weight: 500;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    margin-bottom: 24px;
+    max-width: 800px;
+  }
+
+  h2 em {
+    font-style: italic;
+    font-weight: 400;
+    color: var(--teal-bright);
+  }
+
+  .section-sub {
+    font-size: 1.1rem;
+    color: var(--text-dim);
+    max-width: 620px;
+    margin-bottom: 64px;
+  }
+
+  /* ============ PROBLEMA ============ */
+  .problem-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+    margin-top: 56px;
+  }
+
+  .problem-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 32px;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .problem-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--teal), transparent);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .problem-card:hover {
+    border-color: var(--border-bright);
+    transform: translateY(-4px);
+  }
+
+  .problem-card:hover::before {
+    opacity: 1;
+  }
+
+  .problem-num {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--teal);
+    margin-bottom: 16px;
+    letter-spacing: 0.1em;
+  }
+
+  .problem-title {
+    font-family: var(--display);
+    font-size: 1.4rem;
+    font-weight: 500;
+    margin-bottom: 12px;
+    letter-spacing: -0.01em;
+  }
+
+  .problem-desc {
+    color: var(--text-dim);
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+
+  /* ============ SERVICIOS ============ */
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-top: 56px;
+  }
+
+  .service-card {
+    background: linear-gradient(180deg, var(--surface) 0%, var(--bg-elev) 100%);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 36px 32px;
+    transition: all 0.3s ease;
+    position: relative;
+  }
+
+  .service-card:hover {
+    border-color: var(--teal-dim);
+    transform: translateY(-6px);
+  }
+
+  .service-icon {
+    width: 48px;
+    height: 48px;
+    background: rgba(61, 191, 191, 0.1);
+    border: 1px solid rgba(61, 191, 191, 0.25);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 24px;
+    color: var(--teal-bright);
+  }
+
+  .service-title {
+    font-family: var(--display);
+    font-size: 1.35rem;
+    font-weight: 500;
+    margin-bottom: 12px;
+    letter-spacing: -0.01em;
+  }
+
+  .service-desc {
+    color: var(--text-dim);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin-bottom: 20px;
+  }
+
+  .service-list {
+    list-style: none;
+    padding: 0;
+  }
+
+  .service-list li {
+    font-size: 0.88rem;
+    color: var(--text-dim);
+    padding: 6px 0;
+    padding-left: 22px;
+    position: relative;
+  }
+
+  .service-list li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 13px;
+    width: 12px;
+    height: 1px;
+    background: var(--teal);
+  }
+
+  /* ============ PROCESO ============ */
+  .process {
+    background: var(--bg-elev);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    margin-top: 56px;
+    position: relative;
+  }
+
+  .steps::before {
+    content: "";
+    position: absolute;
+    top: 24px;
+    left: 12%;
+    right: 12%;
+    height: 1px;
+    background: linear-gradient(90deg, var(--teal-dim), var(--teal), var(--teal-dim));
+    opacity: 0.3;
+  }
+
+  .step {
+    padding: 0 16px;
+    text-align: left;
+    position: relative;
+  }
+
+  .step-num {
+    width: 48px;
+    height: 48px;
+    background: var(--bg);
+    border: 1px solid var(--teal);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--mono);
+    font-weight: 500;
+    color: var(--teal-bright);
+    margin-bottom: 20px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .step-title {
+    font-family: var(--display);
+    font-size: 1.15rem;
+    font-weight: 500;
+    margin-bottom: 8px;
+    letter-spacing: -0.01em;
+  }
+
+  .step-desc {
+    font-size: 0.9rem;
+    color: var(--text-dim);
+    line-height: 1.55;
+  }
+
+  /* ============ DIFERENCIADORES ============ */
+  .why-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+
+  .why-points {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    margin-top: 40px;
+  }
+
+  .why-point {
+    display: flex;
+    gap: 20px;
+    padding-bottom: 32px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .why-point:last-child {
+    border-bottom: none;
+  }
+
+  .why-icon {
+    flex-shrink: 0;
+    width: 36px;
+    height: 36px;
+    color: var(--teal-bright);
+  }
+
+  .why-content h3 {
+    font-family: var(--display);
+    font-size: 1.2rem;
+    font-weight: 500;
+    margin-bottom: 6px;
+    letter-spacing: -0.01em;
+  }
+
+  .why-content p {
+    color: var(--text-dim);
+    font-size: 0.95rem;
+    line-height: 1.55;
+  }
+
+  .why-visual {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 40px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .why-visual::before {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, var(--teal-glow) 0%, transparent 50%);
+    pointer-events: none;
+  }
+
+  .stat-block {
+    position: relative;
+    z-index: 2;
+    margin-bottom: 32px;
+    padding-bottom: 32px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .stat-block:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+
+  .stat-num {
+    font-family: var(--display);
+    font-size: 3.5rem;
+    font-weight: 500;
+    color: var(--teal-bright);
+    letter-spacing: -0.04em;
+    line-height: 1;
+  }
+
+  .stat-label {
+    color: var(--text-dim);
+    font-size: 0.95rem;
+    margin-top: 8px;
+  }
+
+  /* ============ CTA FINAL ============ */
+  .cta-section {
+    text-align: center;
+    padding: 140px 0;
+  }
+
+  .cta-box {
+    background:
+      radial-gradient(circle at 50% 0%, var(--teal-glow), transparent 60%),
+      var(--surface);
+    border: 1px solid var(--border-bright);
+    border-radius: 28px;
+    padding: 80px 40px;
+    max-width: 900px;
+    margin: 0 auto;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cta-box h2 {
+    margin: 0 auto 20px;
+    text-align: center;
+  }
+
+  .cta-box .section-sub {
+    margin: 0 auto 40px;
+    text-align: center;
+  }
+
+  .cta-actions {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  /* ============ FOOTER ============ */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 60px 0 40px;
+  }
+
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 60px;
+    margin-bottom: 48px;
+  }
+
+  .footer-brand p {
+    color: var(--text-dim);
+    font-size: 0.9rem;
+    max-width: 300px;
+    margin-top: 16px;
+    line-height: 1.6;
+  }
+
+  .footer-col h4 {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text-muted);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+
+  .footer-col a {
+    display: block;
+    color: var(--text-dim);
+    text-decoration: none;
+    font-size: 0.92rem;
+    padding: 4px 0;
+    transition: color 0.2s ease;
+  }
+
+  .footer-col a:hover {
+    color: var(--teal-bright);
+  }
+
+  .footer-bottom {
+    padding-top: 32px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .footer-bottom .mono {
+    font-family: var(--mono);
+  }
+
+  /* ============ MOBILE ============ */
+  @media (max-width: 900px) {
+    .container { padding: 0 20px; }
+    .nav-inner { padding: 16px 20px; }
+    .nav-links { display: none; }
+    .menu-toggle { display: block; }
+    .hero { padding: 130px 0 80px; }
+    .hero-grid { grid-template-columns: 1fr; gap: 60px; }
+    .hero-actions { flex-direction: column; align-items: stretch; }
+    .hero-actions .btn { justify-content: center; }
+    .trust-grid { grid-template-columns: repeat(2, 1fr); gap: 40px 24px; }
+    section { padding: 80px 0; }
+    .problem-grid { grid-template-columns: 1fr; }
+    .services-grid { grid-template-columns: 1fr; }
+    .steps { grid-template-columns: 1fr; gap: 40px; }
+    .steps::before { display: none; }
+    .why-grid { grid-template-columns: 1fr; gap: 60px; }
+    .footer-grid { grid-template-columns: 1fr 1fr; gap: 40px; }
+    .footer-bottom { flex-direction: column; text-align: center; }
+    .cta-box { padding: 50px 24px; }
+    .cta-actions { flex-direction: column; }
+    .cta-actions .btn { justify-content: center; }
+  }
+
+  /* Mobile menu */
+  .mobile-menu {
+    position: fixed;
+    inset: 0;
+    background: var(--bg);
+    z-index: 99;
+    padding: 100px 32px 40px;
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+  }
+
+  .mobile-menu.open {
+    transform: translateX(0);
+  }
+
+  .mobile-menu a {
+    display: block;
+    color: var(--text);
+    text-decoration: none;
+    font-family: var(--display);
+    font-size: 1.8rem;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .mobile-menu a:last-child {
+    border-bottom: none;
+    margin-top: 24px;
+    background: var(--teal);
+    color: var(--bg);
+    text-align: center;
+    border-radius: 999px;
+    font-size: 1rem;
+    font-family: var(--body);
+    font-weight: 600;
+    padding: 16px;
+  }
+
+  /* Reveal on scroll */
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<nav id="nav">
+  <div class="nav-inner">
+    <a href="#" class="logo">
+      <svg class="logo-mark" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <ellipse cx="35" cy="50" rx="28" ry="22" fill="#2C9B9B"/>
+        <ellipse cx="30" cy="55" rx="14" ry="11" fill="#1A6868" opacity="0.6"/>
+        <circle cx="72" cy="35" r="10" fill="#2C9B9B"/>
+        <path d="M 58 48 Q 68 50 70 38" stroke="#2C9B9B" stroke-width="6" fill="none" stroke-linecap="round"/>
+        <circle cx="78" cy="68" r="9" fill="#2C9B9B"/>
+        <path d="M 62 60 Q 72 65 76 60" stroke="#2C9B9B" stroke-width="5" fill="none" stroke-linecap="round"/>
+      </svg>
+      <span class="logo-text">Noda</span>
+      <span class="logo-tag">IA Automation</span>
+    </a>
+    <div class="nav-links">
+      <a href="#servicios">Servicios</a>
+      <a href="#proceso">Proceso</a>
+      <a href="#por-que">Por qué Noda</a>
+      <a href="https://wa.me/593998270713" class="nav-cta">Hablar con Noda</a>
+    </div>
+    <button class="menu-toggle" id="menuToggle" aria-label="Menú">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="3" y1="6" x2="21" y2="6"/>
+        <line x1="3" y1="12" x2="21" y2="12"/>
+        <line x1="3" y1="18" x2="21" y2="18"/>
+      </svg>
+    </button>
+  </div>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#servicios">Servicios</a>
+  <a href="#proceso">Proceso</a>
+  <a href="#por-que">Por qué Noda</a>
+  <a href="https://wa.me/593998270713">Hablar con Noda</a>
+</div>
+
+<!-- ============ HERO ============ -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-grid">
+      <div>
+        <span class="hero-eyebrow">Disponible para nuevos clientes en Quito</span>
+        <h1>Tu negocio responde, agenda y vende <em>solo</em>, 24 horas al día.</h1>
+        <p class="hero-sub">
+          Noda construye bots de WhatsApp y automatizaciones con IA que atienden a tus clientes,
+          agendan citas y manejan procesos rutinarios — sin que tengas que contratar más personal
+          ni programar nada.
+        </p>
+        <div class="hero-actions">
+          <a href="https://wa.me/593998270713?text=Hola%20Noda%2C%20quiero%20automatizar%20mi%20negocio" class="btn btn-primary">
+            Agenda una demo gratis
+            <svg class="arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <path d="M5 12h14M13 5l7 7-7 7"/>
+            </svg>
+          </a>
+          <a href="#servicios" class="btn btn-ghost">Ver qué hacemos</a>
+        </div>
+      </div>
+
+      <div class="chat-mockup">
+        <div class="chat-header">
+          <div class="chat-avatar">L</div>
+          <div>
+            <div class="chat-name">Laboratorio · Bot Noda</div>
+            <div class="chat-status">en línea</div>
+          </div>
+        </div>
+        <div class="messages">
+          <div class="msg msg-user">Hola, quiero agendar un examen de sangre 🩸</div>
+          <div class="msg msg-bot">¡Hola! Claro, te ayudo. ¿Para qué fecha lo necesitas?</div>
+          <div class="msg msg-user">Mañana en la mañana si se puede</div>
+          <div class="msg msg-bot">✅ Listo. Te agendé para mañana 9:00 AM. Recibirás un recordatorio 24h antes. Recuerda venir en ayunas.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TRUST STRIP ============ -->
+<section class="trust-strip" style="padding: 50px 0;">
+  <div class="container">
+    <div class="trust-grid">
+      <div class="trust-item">
+        <div class="trust-num">24/7</div>
+        <div class="trust-label">Atención sin pausa</div>
+      </div>
+      <div class="trust-item">
+        <div class="trust-num">&lt;3s</div>
+        <div class="trust-label">Tiempo de respuesta</div>
+      </div>
+      <div class="trust-item">
+        <div class="trust-num">85%</div>
+        <div class="trust-label">Consultas automatizadas</div>
+      </div>
+      <div class="trust-item">
+        <div class="trust-num">7d</div>
+        <div class="trust-label">Tu bot en producción</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PROBLEMA ============ -->
+<section id="problema">
+  <div class="container reveal">
+    <span class="section-eyebrow">El problema</span>
+    <h2>Tu PYME pierde clientes mientras nadie contesta el <em>WhatsApp</em>.</h2>
+    <p class="section-sub">
+      La mayoría de negocios en Ecuador tienen el mismo cuello de botella: una sola persona contestando
+      mensajes, citas perdidas por no responder a tiempo, y procesos manuales que consumen horas todos los días.
+    </p>
+
+    <div class="problem-grid">
+      <div class="problem-card">
+        <div class="problem-num">01 / Atención fragmentada</div>
+        <h3 class="problem-title">Mensajes sin responder a las 8pm</h3>
+        <p class="problem-desc">
+          Tus clientes escriben a cualquier hora. Si no contestas en minutos, se van con la competencia.
+          Contratar a alguien de turno nocturno cuesta más de $400/mes.
+        </p>
+      </div>
+      <div class="problem-card">
+        <div class="problem-num">02 / Citas perdidas</div>
+        <h3 class="problem-title">Agendamiento manual y errores humanos</h3>
+        <p class="problem-desc">
+          Llamadas cruzadas, citas duplicadas, horarios mal anotados. Cada cita perdida es ingreso que se va,
+          y cada cliente molesto es reseña negativa potencial.
+        </p>
+      </div>
+      <div class="problem-card">
+        <div class="problem-num">03 / Procesos repetitivos</div>
+        <h3 class="problem-title">Tu equipo hace lo mismo todo el día</h3>
+        <p class="problem-desc">
+          Confirmar citas, enviar recordatorios, responder precios, mandar resultados. Tareas mecánicas
+          que ocupan el 60% del día de tu personal — y que un bot puede hacer solo.
+        </p>
+      </div>
+      <div class="problem-card">
+        <div class="problem-num">04 / Cero datos, cero decisiones</div>
+        <h3 class="problem-title">No sabes qué pasa en tu propio negocio</h3>
+        <p class="problem-desc">
+          ¿Cuántas consultas recibiste esta semana? ¿Qué exámenes son los más pedidos? Sin automatización,
+          no hay datos. Sin datos, decides a ciegas.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SERVICIOS ============ -->
+<section id="servicios">
+  <div class="container reveal">
+    <span class="section-eyebrow">Servicios</span>
+    <h2>Tres tipos de automatización que <em>sí</em> mueven la aguja.</h2>
+    <p class="section-sub">
+      No vendemos magia ni proyectos eternos. Implementamos sistemas concretos que empiezan a funcionar
+      en cuestión de días, no meses.
+    </p>
+
+    <div class="services-grid">
+      <div class="service-card">
+        <div class="service-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
+          </svg>
+        </div>
+        <h3 class="service-title">Bot de WhatsApp con IA</h3>
+        <p class="service-desc">
+          Tu asistente virtual que conversa, agenda y resuelve consultas de tus clientes 24/7,
+          conectado a tu calendario y base de datos.
+        </p>
+        <ul class="service-list">
+          <li>Agendamiento automático de citas</li>
+          <li>Respuesta a preguntas frecuentes</li>
+          <li>Recordatorios automáticos</li>
+          <li>Integración con Google Calendar</li>
+        </ul>
+      </div>
+
+      <div class="service-card">
+        <div class="service-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+            <polyline points="14 2 14 8 20 8"/>
+            <line x1="9" y1="13" x2="15" y2="13"/>
+            <line x1="9" y1="17" x2="15" y2="17"/>
+          </svg>
+        </div>
+        <h3 class="service-title">Automatización de procesos</h3>
+        <p class="service-desc">
+          Conectamos tus herramientas (Excel, correo, CRM, calendario) para que el flujo de trabajo
+          de tu negocio se ejecute solo, sin copy-paste.
+        </p>
+        <ul class="service-list">
+          <li>Sincronización entre sistemas</li>
+          <li>Envío automático de reportes</li>
+          <li>Generación de documentos</li>
+          <li>Notificaciones inteligentes</li>
+        </ul>
+      </div>
+
+      <div class="service-card">
+        <div class="service-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <line x1="18" y1="20" x2="18" y2="10"/>
+            <line x1="12" y1="20" x2="12" y2="4"/>
+            <line x1="6" y1="20" x2="6" y2="14"/>
+          </svg>
+        </div>
+        <h3 class="service-title">Dashboards e inteligencia</h3>
+        <p class="service-desc">
+          Convertimos los datos que ya genera tu negocio en reportes claros que llegan a tu correo
+          o WhatsApp para que decidas con información real.
+        </p>
+        <ul class="service-list">
+          <li>Reportes automáticos semanales</li>
+          <li>Métricas en tiempo real</li>
+          <li>Análisis de comportamiento de clientes</li>
+          <li>Alertas inteligentes</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PROCESO ============ -->
+<section id="proceso" class="process">
+  <div class="container reveal">
+    <span class="section-eyebrow">Cómo trabajamos</span>
+    <h2>De la primera reunión a tu bot funcionando: <em>7 días</em>.</h2>
+    <p class="section-sub">
+      Sin propuestas eternas ni desarrollos de 6 meses. Trabajamos rápido, con metodología clara
+      y comunicación constante.
+    </p>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">01</div>
+        <h3 class="step-title">Diagnóstico</h3>
+        <p class="step-desc">
+          Reunión de 45 minutos para entender tu negocio, mapear procesos manuales y detectar
+          dónde la IA tiene mayor impacto.
+        </p>
+      </div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <h3 class="step-title">Diseño</h3>
+        <p class="step-desc">
+          Te entregamos una propuesta con flujos, integraciones y precio fijo mensual.
+          Tú decides qué se construye primero.
+        </p>
+      </div>
+      <div class="step">
+        <div class="step-num">03</div>
+        <h3 class="step-title">Implementación</h3>
+        <p class="step-desc">
+          Construimos tu solución, la conectamos a tus herramientas y la probamos contigo
+          antes de salir en vivo.
+        </p>
+      </div>
+      <div class="step">
+        <div class="step-num">04</div>
+        <h3 class="step-title">Operación</h3>
+        <p class="step-desc">
+          Monitoreamos todo, ajustamos según uso real y entregamos reportes mensuales.
+          Soporte permanente incluido.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ POR QUÉ NODA ============ -->
+<section id="por-que">
+  <div class="container reveal">
+    <div class="why-grid">
+      <div>
+        <span class="section-eyebrow">Por qué Noda</span>
+        <h2>No somos otra <em>agencia</em>. Somos tu equipo de automatización.</h2>
+
+        <div class="why-points">
+          <div class="why-point">
+            <svg class="why-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+              <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+              <path d="M2 17l10 5 10-5"/>
+              <path d="M2 12l10 5 10-5"/>
+            </svg>
+            <div class="why-content">
+              <h3>Especializados en PYMEs ecuatorianas</h3>
+              <p>Conocemos el contexto local: Twilio, métodos de pago, regulación y la forma en que la gente realmente usa WhatsApp acá.</p>
+            </div>
+          </div>
+
+          <div class="why-point">
+            <svg class="why-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+              <circle cx="12" cy="12" r="10"/>
+              <polyline points="12 6 12 12 16 14"/>
+            </svg>
+            <div class="why-content">
+              <h3>Implementación rápida, no proyectos eternos</h3>
+              <p>Tu primer bot funcionando en 7 días. Iteramos con datos reales, no con suposiciones.</p>
+            </div>
+          </div>
+
+          <div class="why-point">
+            <svg class="why-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+            </svg>
+            <div class="why-content">
+              <h3>Soporte humano, no chatbot que te ignora</h3>
+              <p>Cuando tienes un problema, contestamos como personas. Sin tickets eternos ni call centers tercerizados.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="why-visual">
+        <div class="stat-block">
+          <div class="stat-num">$150</div>
+          <div class="stat-label">Desde mensual — sin costo de instalación oculto</div>
+        </div>
+        <div class="stat-block">
+          <div class="stat-num">+30h</div>
+          <div class="stat-label">Que tu equipo recupera al mes en tareas automatizadas</div>
+        </div>
+        <div class="stat-block">
+          <div class="stat-num">0</div>
+          <div class="stat-label">Conocimiento técnico requerido de tu lado</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CTA FINAL ============ -->
+<section class="cta-section">
+  <div class="container reveal">
+    <div class="cta-box">
+      <h2>Empecemos por una <em>demo gratis</em>.</h2>
+      <p class="section-sub">
+        Te mostramos un bot funcional en vivo y conversamos qué procesos de tu negocio
+        podemos automatizar primero. Sin compromiso, sin venta agresiva.
+      </p>
+      <div class="cta-actions">
+        <a href="https://wa.me/593998270713?text=Hola%20Noda%2C%20quiero%20agendar%20la%20demo%20gratis" class="btn btn-primary">
+          Escribir por WhatsApp
+          <svg class="arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path d="M5 12h14M13 5l7 7-7 7"/>
+          </svg>
+        </a>
+        <a href="mailto:contacto@noda.lat?subject=Quiero%20una%20demo" class="btn btn-ghost">
+          contacto@noda.lat
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="#" class="logo">
+          <svg class="logo-mark" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <ellipse cx="35" cy="50" rx="28" ry="22" fill="#2C9B9B"/>
+            <ellipse cx="30" cy="55" rx="14" ry="11" fill="#1A6868" opacity="0.6"/>
+            <circle cx="72" cy="35" r="10" fill="#2C9B9B"/>
+            <path d="M 58 48 Q 68 50 70 38" stroke="#2C9B9B" stroke-width="6" fill="none" stroke-linecap="round"/>
+            <circle cx="78" cy="68" r="9" fill="#2C9B9B"/>
+            <path d="M 62 60 Q 72 65 76 60" stroke="#2C9B9B" stroke-width="5" fill="none" stroke-linecap="round"/>
+          </svg>
+          <span class="logo-text">Noda</span>
+        </a>
+        <p>Automatización con inteligencia artificial para pequeñas y medianas empresas ecuatorianas.</p>
+      </div>
+
+      <div class="footer-col">
+        <h4>Producto</h4>
+        <a href="#servicios">Bots de WhatsApp</a>
+        <a href="#servicios">Automatización</a>
+        <a href="#servicios">Dashboards</a>
+      </div>
+
+      <div class="footer-col">
+        <h4>Empresa</h4>
+        <a href="#por-que">Quiénes somos</a>
+        <a href="#proceso">Cómo trabajamos</a>
+      </div>
+
+      <div class="footer-col">
+        <h4>Contacto</h4>
+        <a href="https://wa.me/593998270713">+593 99 827 0713</a>
+        <a href="mailto:contacto@noda.lat">contacto@noda.lat</a>
+        <a href="https://instagram.com/noda.lat" target="_blank">Instagram</a>
+        <a href="https://tiktok.com/@noda.lat" target="_blank">TikTok</a>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <span>© 2026 Noda — Quito, Ecuador. Todos los derechos reservados.</span>
+      <span class="mono">noda.lat</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Scroll detection for nav
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 20) {
+      nav.classList.add('scrolled');
+    } else {
+      nav.classList.remove('scrolled');
+    }
+  });
+
+  // Mobile menu
+  const menuToggle = document.getElementById('menuToggle');
+  const mobileMenu = document.getElementById('mobileMenu');
+  let menuOpen = false;
+  menuToggle.addEventListener('click', () => {
+    menuOpen = !menuOpen;
+    mobileMenu.classList.toggle('open', menuOpen);
+  });
+  mobileMenu.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => {
+      menuOpen = false;
+      mobileMenu.classList.remove('open');
+    });
+  });
+
+  // Reveal on scroll
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
