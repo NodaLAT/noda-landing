@@ -4,14 +4,15 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Noda — Automatización con IA para tu negocio</title>
-<meta name="description" content="Noda automatiza la atención al cliente, agendamiento y operaciones de tu PYME con bots inteligentes en WhatsApp. Diseñado para clínicas, laboratorios y comercios en Ecuador.">
+<meta name="description" content="Noda automatiza la atención al cliente, agendamiento y operaciones de tu negocio con bots inteligentes en WhatsApp. Diseñado para clínicas, laboratorios y comercios en Ecuador.">
 <meta name="theme-color" content="#0A0A0A">
 
-<!-- Open Graph -->
 <meta property="og:title" content="Noda — Automatización con IA">
-<meta property="og:description" content="Bots de WhatsApp y automatización inteligente para PYMEs ecuatorianas.">
+<meta property="og:description" content="Bots de WhatsApp y automatización inteligente para negocios ecuatorianos.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://noda.lat">
+
+<link rel="icon" type="image/png" href="isotipo-noda.png">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -28,17 +29,16 @@
     --text: #F5F5F0;
     --text-dim: #A0A099;
     --text-muted: #6B6B65;
-    --teal: #2C9B9B;
-    --teal-bright: #3DBFBF;
-    --teal-dim: #1A6868;
-    --teal-glow: rgba(61, 191, 191, 0.15);
+    --teal: #3CA09E;
+    --teal-bright: #4FB8B5;
+    --teal-dim: #2A7F7D;
+    --teal-glow: rgba(79, 184, 181, 0.18);
     --display: "Bricolage Grotesque", serif;
     --body: "Manrope", system-ui, sans-serif;
     --mono: "JetBrains Mono", monospace;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
-
   html { scroll-behavior: smooth; }
 
   body {
@@ -52,14 +52,13 @@
     -moz-osx-font-smoothing: grayscale;
   }
 
-  /* Subtle grain overlay across whole page */
   body::before {
     content: "";
     position: fixed;
     inset: 0;
     background-image:
       radial-gradient(circle at 20% 10%, var(--teal-glow), transparent 40%),
-      radial-gradient(circle at 80% 90%, rgba(44, 155, 155, 0.08), transparent 50%);
+      radial-gradient(circle at 80% 90%, rgba(60, 160, 158, 0.08), transparent 50%);
     pointer-events: none;
     z-index: 0;
   }
@@ -82,12 +81,9 @@
     z-index: 2;
   }
 
-  /* ============ NAV ============ */
   nav {
     position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
+    top: 0; left: 0; right: 0;
     z-index: 100;
     backdrop-filter: blur(14px);
     -webkit-backdrop-filter: blur(14px);
@@ -96,9 +92,7 @@
     transition: border-color 0.3s ease;
   }
 
-  nav.scrolled {
-    border-bottom-color: var(--border);
-  }
+  nav.scrolled { border-bottom-color: var(--border); }
 
   .nav-inner {
     display: flex;
@@ -121,6 +115,7 @@
     width: 36px;
     height: 36px;
     flex-shrink: 0;
+    object-fit: contain;
   }
 
   .logo-text {
@@ -155,9 +150,7 @@
     transition: color 0.2s ease;
   }
 
-  .nav-links a:hover {
-    color: var(--text);
-  }
+  .nav-links a:hover { color: var(--text); }
 
   .nav-cta {
     background: var(--teal);
@@ -186,7 +179,6 @@
     padding: 8px;
   }
 
-  /* ============ HERO ============ */
   .hero {
     padding: 180px 0 120px;
     position: relative;
@@ -207,8 +199,8 @@
     font-family: var(--mono);
     font-size: 12px;
     color: var(--teal-bright);
-    background: rgba(61, 191, 191, 0.08);
-    border: 1px solid rgba(61, 191, 191, 0.2);
+    background: rgba(79, 184, 181, 0.08);
+    border: 1px solid rgba(79, 184, 181, 0.2);
     padding: 6px 14px;
     border-radius: 999px;
     margin-bottom: 32px;
@@ -302,15 +294,9 @@
     color: var(--teal-bright);
   }
 
-  .arrow {
-    transition: transform 0.25s ease;
-  }
+  .arrow { transition: transform 0.25s ease; }
+  .btn:hover .arrow { transform: translateX(3px); }
 
-  .btn:hover .arrow {
-    transform: translateX(3px);
-  }
-
-  /* Hero visual: chat mockup */
   .chat-mockup {
     background: var(--surface);
     border: 1px solid var(--border);
@@ -360,10 +346,7 @@
     color: var(--bg);
   }
 
-  .chat-name {
-    font-weight: 600;
-    font-size: 14px;
-  }
+  .chat-name { font-weight: 600; font-size: 14px; }
 
   .chat-status {
     font-size: 11px;
@@ -421,7 +404,6 @@
     to { opacity: 1; transform: translateY(0); }
   }
 
-  /* ============ TRUST STRIP ============ */
   .trust-strip {
     padding: 60px 0;
     border-top: 1px solid var(--border);
@@ -434,9 +416,7 @@
     gap: 32px;
   }
 
-  .trust-item {
-    text-align: center;
-  }
+  .trust-item { text-align: center; }
 
   .trust-num {
     font-family: var(--display);
@@ -455,11 +435,7 @@
     text-transform: uppercase;
   }
 
-  /* ============ SECTION ============ */
-  section {
-    padding: 120px 0;
-    position: relative;
-  }
+  section { padding: 120px 0; position: relative; }
 
   .section-eyebrow {
     font-family: var(--mono);
@@ -503,7 +479,6 @@
     margin-bottom: 64px;
   }
 
-  /* ============ PROBLEMA ============ */
   .problem-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -524,8 +499,7 @@
   .problem-card::before {
     content: "";
     position: absolute;
-    top: 0;
-    left: 0;
+    top: 0; left: 0;
     width: 100%;
     height: 1px;
     background: linear-gradient(90deg, transparent, var(--teal), transparent);
@@ -538,9 +512,7 @@
     transform: translateY(-4px);
   }
 
-  .problem-card:hover::before {
-    opacity: 1;
-  }
+  .problem-card:hover::before { opacity: 1; }
 
   .problem-num {
     font-family: var(--mono);
@@ -564,7 +536,6 @@
     line-height: 1.6;
   }
 
-  /* ============ SERVICIOS ============ */
   .services-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -589,8 +560,8 @@
   .service-icon {
     width: 48px;
     height: 48px;
-    background: rgba(61, 191, 191, 0.1);
-    border: 1px solid rgba(61, 191, 191, 0.25);
+    background: rgba(79, 184, 181, 0.1);
+    border: 1px solid rgba(79, 184, 181, 0.25);
     border-radius: 12px;
     display: flex;
     align-items: center;
@@ -614,10 +585,7 @@
     margin-bottom: 20px;
   }
 
-  .service-list {
-    list-style: none;
-    padding: 0;
-  }
+  .service-list { list-style: none; padding: 0; }
 
   .service-list li {
     font-size: 0.88rem;
@@ -637,7 +605,6 @@
     background: var(--teal);
   }
 
-  /* ============ PROCESO ============ */
   .process {
     background: var(--bg-elev);
     border-top: 1px solid var(--border);
@@ -700,7 +667,6 @@
     line-height: 1.55;
   }
 
-  /* ============ DIFERENCIADORES ============ */
   .why-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -722,9 +688,7 @@
     border-bottom: 1px solid var(--border);
   }
 
-  .why-point:last-child {
-    border-bottom: none;
-  }
+  .why-point:last-child { border-bottom: none; }
 
   .why-icon {
     flex-shrink: 0;
@@ -759,10 +723,8 @@
   .why-visual::before {
     content: "";
     position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
+    top: -50%; left: -50%;
+    width: 200%; height: 200%;
     background: radial-gradient(circle, var(--teal-glow) 0%, transparent 50%);
     pointer-events: none;
   }
@@ -792,11 +754,7 @@
     margin-top: 8px;
   }
 
-  /* ============ CTA FINAL ============ */
-  .cta-section {
-    text-align: center;
-    padding: 140px 0;
-  }
+  .cta-section { text-align: center; padding: 140px 0; }
 
   .cta-box {
     background:
@@ -811,15 +769,8 @@
     overflow: hidden;
   }
 
-  .cta-box h2 {
-    margin: 0 auto 20px;
-    text-align: center;
-  }
-
-  .cta-box .section-sub {
-    margin: 0 auto 40px;
-    text-align: center;
-  }
+  .cta-box h2 { margin: 0 auto 20px; text-align: center; }
+  .cta-box .section-sub { margin: 0 auto 40px; text-align: center; }
 
   .cta-actions {
     display: flex;
@@ -828,7 +779,6 @@
     flex-wrap: wrap;
   }
 
-  /* ============ FOOTER ============ */
   footer {
     border-top: 1px solid var(--border);
     padding: 60px 0 40px;
@@ -867,9 +817,7 @@
     transition: color 0.2s ease;
   }
 
-  .footer-col a:hover {
-    color: var(--teal-bright);
-  }
+  .footer-col a:hover { color: var(--teal-bright); }
 
   .footer-bottom {
     padding-top: 32px;
@@ -883,11 +831,8 @@
     gap: 16px;
   }
 
-  .footer-bottom .mono {
-    font-family: var(--mono);
-  }
+  .footer-bottom .mono { font-family: var(--mono); }
 
-  /* ============ MOBILE ============ */
   @media (max-width: 900px) {
     .container { padding: 0 20px; }
     .nav-inner { padding: 16px 20px; }
@@ -911,7 +856,6 @@
     .cta-actions .btn { justify-content: center; }
   }
 
-  /* Mobile menu */
   .mobile-menu {
     position: fixed;
     inset: 0;
@@ -922,9 +866,7 @@
     transition: transform 0.3s ease;
   }
 
-  .mobile-menu.open {
-    transform: translateX(0);
-  }
+  .mobile-menu.open { transform: translateX(0); }
 
   .mobile-menu a {
     display: block;
@@ -949,7 +891,6 @@
     padding: 16px;
   }
 
-  /* Reveal on scroll */
   .reveal {
     opacity: 0;
     transform: translateY(30px);
@@ -964,18 +905,10 @@
 </head>
 <body>
 
-<!-- ============ NAV ============ -->
 <nav id="nav">
   <div class="nav-inner">
     <a href="#" class="logo">
-      <svg class="logo-mark" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <ellipse cx="35" cy="50" rx="28" ry="22" fill="#2C9B9B"/>
-        <ellipse cx="30" cy="55" rx="14" ry="11" fill="#1A6868" opacity="0.6"/>
-        <circle cx="72" cy="35" r="10" fill="#2C9B9B"/>
-        <path d="M 58 48 Q 68 50 70 38" stroke="#2C9B9B" stroke-width="6" fill="none" stroke-linecap="round"/>
-        <circle cx="78" cy="68" r="9" fill="#2C9B9B"/>
-        <path d="M 62 60 Q 72 65 76 60" stroke="#2C9B9B" stroke-width="5" fill="none" stroke-linecap="round"/>
-      </svg>
+      <img class="logo-mark" src="isotipo-noda.png" alt="Noda">
       <span class="logo-text">Noda</span>
       <span class="logo-tag">IA Automation</span>
     </a>
@@ -1002,7 +935,6 @@
   <a href="https://wa.me/593998270713">Hablar con Noda</a>
 </div>
 
-<!-- ============ HERO ============ -->
 <section class="hero">
   <div class="container">
     <div class="hero-grid">
@@ -1044,7 +976,6 @@
   </div>
 </section>
 
-<!-- ============ TRUST STRIP ============ -->
 <section class="trust-strip" style="padding: 50px 0;">
   <div class="container">
     <div class="trust-grid">
@@ -1068,11 +999,10 @@
   </div>
 </section>
 
-<!-- ============ PROBLEMA ============ -->
 <section id="problema">
   <div class="container reveal">
     <span class="section-eyebrow">El problema</span>
-    <h2>Tu PYME pierde clientes mientras nadie contesta el <em>WhatsApp</em>.</h2>
+    <h2>Tu negocio pierde clientes mientras nadie contesta el <em>WhatsApp</em>.</h2>
     <p class="section-sub">
       La mayoría de negocios en Ecuador tienen el mismo cuello de botella: una sola persona contestando
       mensajes, citas perdidas por no responder a tiempo, y procesos manuales que consumen horas todos los días.
@@ -1115,7 +1045,6 @@
   </div>
 </section>
 
-<!-- ============ SERVICIOS ============ -->
 <section id="servicios">
   <div class="container reveal">
     <span class="section-eyebrow">Servicios</span>
@@ -1191,7 +1120,6 @@
   </div>
 </section>
 
-<!-- ============ PROCESO ============ -->
 <section id="proceso" class="process">
   <div class="container reveal">
     <span class="section-eyebrow">Cómo trabajamos</span>
@@ -1238,7 +1166,6 @@
   </div>
 </section>
 
-<!-- ============ POR QUÉ NODA ============ -->
 <section id="por-que">
   <div class="container reveal">
     <div class="why-grid">
@@ -1300,7 +1227,6 @@
   </div>
 </section>
 
-<!-- ============ CTA FINAL ============ -->
 <section class="cta-section">
   <div class="container reveal">
     <div class="cta-box">
@@ -1324,20 +1250,12 @@
   </div>
 </section>
 
-<!-- ============ FOOTER ============ -->
 <footer>
   <div class="container">
     <div class="footer-grid">
       <div class="footer-brand">
         <a href="#" class="logo">
-          <svg class="logo-mark" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <ellipse cx="35" cy="50" rx="28" ry="22" fill="#2C9B9B"/>
-            <ellipse cx="30" cy="55" rx="14" ry="11" fill="#1A6868" opacity="0.6"/>
-            <circle cx="72" cy="35" r="10" fill="#2C9B9B"/>
-            <path d="M 58 48 Q 68 50 70 38" stroke="#2C9B9B" stroke-width="6" fill="none" stroke-linecap="round"/>
-            <circle cx="78" cy="68" r="9" fill="#2C9B9B"/>
-            <path d="M 62 60 Q 72 65 76 60" stroke="#2C9B9B" stroke-width="5" fill="none" stroke-linecap="round"/>
-          </svg>
+          <img class="logo-mark" src="isotipo-noda.png" alt="Noda">
           <span class="logo-text">Noda</span>
         </a>
         <p>Automatización con inteligencia artificial para pequeñas y medianas empresas ecuatorianas.</p>
@@ -1358,7 +1276,6 @@
 
       <div class="footer-col">
         <h4>Contacto</h4>
-        <a href="https://wa.me/593998270713">+593 99 827 0713</a>
         <a href="mailto:contacto@noda.lat">contacto@noda.lat</a>
         <a href="https://instagram.com/noda.lat" target="_blank">Instagram</a>
         <a href="https://tiktok.com/@noda.lat" target="_blank">TikTok</a>
@@ -1373,17 +1290,12 @@
 </footer>
 
 <script>
-  // Scroll detection for nav
   const nav = document.getElementById('nav');
   window.addEventListener('scroll', () => {
-    if (window.scrollY > 20) {
-      nav.classList.add('scrolled');
-    } else {
-      nav.classList.remove('scrolled');
-    }
+    if (window.scrollY > 20) nav.classList.add('scrolled');
+    else nav.classList.remove('scrolled');
   });
 
-  // Mobile menu
   const menuToggle = document.getElementById('menuToggle');
   const mobileMenu = document.getElementById('mobileMenu');
   let menuOpen = false;
@@ -1398,12 +1310,9 @@
     });
   });
 
-  // Reveal on scroll
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-      }
+      if (entry.isIntersecting) entry.target.classList.add('visible');
     });
   }, { threshold: 0.1 });
 
