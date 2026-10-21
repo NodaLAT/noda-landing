@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { EMAIL, INSTAGRAM_URL, TIKTOK_URL, WHATSAPP_URL } from "@/lib/site";
 
 // Pie de página. Se usa en todas las páginas (vía app/layout.tsx).
@@ -30,7 +31,11 @@ export default function Footer() {
         </div>
         <div className="footer-bottom">
           <span>© 2026 Noda — Quito, Ecuador. Atendemos clientes globalmente.</span>
-          <span className="mono">noda.lat</span>
+          <span className="footer-legal">
+            <Link href="/privacidad">Privacidad</Link>
+            <Link href="/terminos">Términos</Link>
+            <span className="mono">noda.lat</span>
+          </span>
         </div>
       </div>
     </footer>

@@ -1,0 +1,33 @@
+/* =====================================================================
+   Páginas legales (/privacidad, /terminos), enlaces legales del Footer
+   y pequeños ajustes de la portada. Solo variables de design-system.css.
+   ===================================================================== */
+
+/* ---------- Páginas legales ---------- */
+.legal-head{padding-bottom:40px}
+.draft-banner{display:flex;align-items:center;gap:10px;margin-bottom:26px;padding:12px 16px;
+  border-radius:var(--radius-btn);background:var(--tag-warn-bg);color:var(--tag-warn-tx);
+  border:1px dashed var(--tag-warn-tx);font-weight:700;font-size:var(--fs-small)}
+.legal-date{margin-top:14px;font-family:var(--mono);font-size:var(--fs-caption);color:var(--mut)}
+.legal-section{padding-top:0}
+.legal{max-width:760px}
+.legal h2{font-size:clamp(1.2rem,2vw,1.45rem);line-height:1.25;margin:44px 0 14px}
+.legal h2:first-child{margin-top:0}
+.legal p{color:var(--mut);font-size:var(--fs-body);margin-bottom:14px}
+.legal ul{list-style:none;display:flex;flex-direction:column;gap:10px;margin:4px 0 16px}
+.legal li{position:relative;padding-left:22px;color:var(--mut);font-size:var(--fs-body)}
+.legal li::before{content:"";position:absolute;left:2px;top:10px;width:7px;height:7px;border-radius:50%;background:var(--teal)}
+.legal strong{color:var(--ink);font-weight:600}
+.legal a{color:var(--teal-tx);text-decoration:underline;text-underline-offset:2px}
+.legal-pending{background:var(--tag-warn-bg);color:var(--tag-warn-tx);font-weight:700;padding:1px 6px;border-radius:6px;white-space:nowrap}
+
+/* ---------- Footer: enlaces legales ---------- */
+.footer-legal{display:flex;align-items:center;flex-wrap:wrap;gap:18px}
+.footer-legal a{transition:color var(--dur-fast)}
+.footer-legal a:hover{color:var(--white)}
+
+/* ---------- Portada ---------- */
+/* Etiqueta "Demo" en el chat del caso VyR */
+.chat-mockup .chat-header .demo-tag{margin-left:auto}
+/* Chips del teléfono del hero: si el texto no entra (pantallas muy angostas), baja de línea */
+.noda-hero-chip{max-width:100%;white-space:normal;text-align:center}

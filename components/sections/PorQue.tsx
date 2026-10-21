@@ -23,7 +23,7 @@ export default function PorQue() {
           </div>
           <div className="why-visual">
             <div className="stat-block"><div className="stat-num">ROI</div><div className="stat-label">Desde el primer mes — el sistema se paga solo con el tiempo que libera</div></div>
-            <div className="stat-block"><div className="stat-num" data-count="30" data-prefix="+" data-suffix="h">+30h</div><div className="stat-label">Que tu equipo recupera al mes en tareas automatizadas</div></div>
+            <div className="stat-block"><div className="stat-num">Caso real</div><div className="stat-label">En salud: Laboratorios VyR San Rafael</div></div>
             <div className="stat-block"><div className="stat-num">0</div><div className="stat-label">Conocimiento técnico requerido de tu lado</div></div>
           </div>
         </div>

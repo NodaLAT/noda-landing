@@ -69,13 +69,14 @@ export default function HeroPhoneDemo() {
   }, []);
 
   return (
-    <div ref={rootRef} className="noda-hero" role="img" aria-label="Demostración del asistente de WhatsApp de NODA: responde 24/7, agenda citas y cotiza al instante.">
+    <div ref={rootRef} className="noda-hero" role="img" aria-label="Demostración del asistente de WhatsApp de NODA: responde 24/7, agenda citas, cotiza al instante e interpreta documentos y resultados con IA.">
 
       {/* Texto real para lectores de pantalla (la simulación visual va aria-hidden) */}
       <ul className="noda-hero-sr">
         <li>Atención automática 24/7 por WhatsApp.</li>
         <li>Agenda y confirma citas, con recordatorios.</li>
         <li>Cotizaciones al instante.</li>
+        <li>Interpreta documentos y resultados con IA.</li>
       </ul>
 
       <div className="noda-hero-brand" aria-hidden="true">
@@ -167,6 +168,32 @@ export default function HeroPhoneDemo() {
                   <span className="noda-hero-quote-row"><span>Evaluación</span><b>Incluida</b></span>
                   <span className="noda-hero-quote-total"><span>Total</span><b>$35</b></span>
                   <span className="noda-hero-quote-foot">Válido por 7 días</span>
+                </span>
+              </div>
+            </div>
+          </div>
+
+          {/* ESCENA 4 · Interpreta documentos y resultados (valores inventados) */}
+          <div className="noda-hero-scene" data-scene="3">
+            <span className="noda-hero-chip noda-hero-anim noda-hero-hidden">Interpreta documentos y resultados con IA</span>
+            <div className="noda-hero-chat">
+              <div className="noda-hero-row noda-hero-row-user noda-hero-b-user noda-hero-anim noda-hero-hidden">
+                <span className="noda-hero-bubble noda-hero-bubble-user">📎 Te envío mi resultado</span>
+              </div>
+              <div className="noda-hero-row noda-hero-row-bot noda-hero-typing noda-hero-anim noda-hero-hidden">
+                <span className="noda-hero-bubble noda-hero-bubble-bot noda-hero-dots">
+                  <i style={dot(0)}></i><i style={dot(1)}></i><i style={dot(2)}></i>
+                </span>
+              </div>
+              <div className="noda-hero-row noda-hero-row-bot noda-hero-b-bot noda-hero-anim noda-hero-hidden">
+                <span className="noda-hero-bubble noda-hero-bubble-bot">Lo revisé. Te lo explico en palabras simples 👇</span>
+              </div>
+              <div className="noda-hero-row noda-hero-row-bot noda-hero-extra noda-hero-anim noda-hero-hidden">
+                <span className="noda-hero-card noda-hero-quote">
+                  <span className="noda-hero-quote-head">Resultado explicado</span>
+                  <span className="noda-hero-quote-row"><span>Glucosa</span><b>Normal</b></span>
+                  <span className="noda-hero-quote-row"><span>Colesterol</span><b>Algo alto</b></span>
+                  <span className="noda-hero-quote-foot">Esta explicación es orientativa y no reemplaza la consulta con tu médico.</span>
                 </span>
               </div>
             </div>

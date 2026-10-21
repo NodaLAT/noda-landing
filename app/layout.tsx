@@ -7,6 +7,7 @@ import "@/styles/design-system.css";
 import "@/styles/globals.css";
 import "@/styles/noda-hero.css";
 import "@/styles/servicios.css";
+import "@/styles/legal.css";
 
 export const metadata: Metadata = {
   // La portada usa "default"; las demás páginas, "Título | Noda".
