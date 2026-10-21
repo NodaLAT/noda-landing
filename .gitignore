@@ -1,0 +1,21 @@
+# dependencias
+/node_modules
+
+# compilación de Next.js
+/.next/
+/out/
+/build
+next-env.d.ts
+*.tsbuildinfo
+
+# variables de entorno (claves, tokens, webhooks: NUNCA al repositorio)
+.env
+.env*.local
+
+# Vercel
+.vercel
+
+# sistema
+.DS_Store
+Thumbs.db
+npm-debug.log*

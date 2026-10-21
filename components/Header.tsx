@@ -1,0 +1,47 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import { NAV_LINKS, WHATSAPP_URL } from "@/lib/site";
+
+// Menú superior + menú de celular. Se usa en todas las páginas (vía app/layout.tsx).
+export default function Header() {
+  const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 20);
+    onScroll();
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  const closeMenu = () => setMenuOpen(false);
+
+  return (
+    <>
+      <nav id="nav" className={scrolled ? "scrolled" : undefined}>
+        <div className="nav-inner">
+          <a href="/#" className="logo"><img src="/logo-noda.png" alt="Noda — IA Automation" /></a>
+          <div className="nav-links">
+            {NAV_LINKS.map((l) => (
+              <a key={l.href} href={l.href}>{l.label}</a>
+            ))}
+            <a href={WHATSAPP_URL} className="nav-cta">Hablar con Noda</a>
+          </div>
+          <button className="menu-toggle" id="menuToggle" aria-label="Menú" onClick={() => setMenuOpen((o) => !o)}>
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <line x1="3" y1="6" x2="21" y2="6" /><line x1="3" y1="12" x2="21" y2="12" /><line x1="3" y1="18" x2="21" y2="18" />
+            </svg>
+          </button>
+        </div>
+      </nav>
+
+      <div className={menuOpen ? "mobile-menu open" : "mobile-menu"} id="mobileMenu">
+        {NAV_LINKS.map((l) => (
+          <a key={l.href} href={l.href} onClick={closeMenu}>{l.label}</a>
+        ))}
+        <a href={WHATSAPP_URL} onClick={closeMenu}>Hablar con Noda</a>
+      </div>
+    </>
+  );
+}
