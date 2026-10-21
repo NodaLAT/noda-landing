@@ -23,7 +23,7 @@ export type Icono =
 
 // Mensajes que el asistente puede mostrar en un chat de ejemplo.
 export type Mensaje =
-  | { tipo: "texto"; texto: string }
+  | { tipo: "texto"; texto: string; de?: "cliente" }   // de: "cliente" = respuesta simulada del visitante
   | { tipo: "confirmacion"; titulo: string; detalle: string; etiqueta: string }
   | { tipo: "cotizacion"; titulo: string; filas: [string, string][]; total: string; nota?: string }
   | { tipo: "ficha"; titulo: string; filas: [string, string][] }
@@ -49,7 +49,9 @@ export type CasoReal = {
   puntos?: string[];
   etiquetas?: string[];
   conversacion?: { de: "cliente" | "bot"; texto: string }[];
-  videoProximamente?: boolean;   // muestra el espacio "Video próximamente"
+  // Video del flujo real: dirección de YouTube o archivo en /public (ej. "/videos/vyr.mp4").
+  // Mientras esté vacío, el bloque de video no se muestra.
+  video?: string;
 };
 
 export type Servicio = {
@@ -61,7 +63,12 @@ export type Servicio = {
   destacado?: boolean;      // servicio estrella: se resalta en la cartelera
   precio: Precio;
   seo: { titulo: string; descripcion: string };
-  problema: { titulo: string; texto: string; puntos: string[] };
+  problema: {
+    titulo: string;
+    texto: string;
+    puntos: string[];
+    dato?: { texto: string; fuente: string };   // cifra con fuente (opcional)
+  };
   demo: DemoChat | DemoWeb | DemoPanel;
   pasos: { titulo: string; texto: string }[];   // siempre 4
   caso?: CasoReal;
@@ -97,6 +104,7 @@ export const SERVICIOS: Servicio[] = [
         "Las mismas preguntas de precios, horarios y ubicación, todos los días.",
         "Clientes interesados que se enfrían mientras esperan una respuesta.",
       ],
+      dato: { texto: "12,6 millones de personas en Ecuador usan WhatsApp cada semana.", fuente: "Sensor Tower, 2025" },
     },
     demo: {
       tipo: "chat",
@@ -178,8 +186,9 @@ export const SERVICIOS: Servicio[] = [
         {
           pregunta: "Quiero vacunar a mi perro mañana",
           respuesta: [
-            { tipo: "texto", texto: "¡Claro! Mañana tengo libre a las 10:00 am y a las 4:30 pm." },
-            { tipo: "texto", texto: "Te reservé la primera. Si prefieres la otra, me avisas. 👇" },
+            { tipo: "texto", texto: "¡Claro! Mañana tengo libre a las 10:00 am y a las 4:30 pm. ¿Cuál prefieres?" },
+            { tipo: "texto", texto: "A las 10:00 am, por favor", de: "cliente" },
+            { tipo: "texto", texto: "¡Listo! Te reservé a las 10:00 am. ✅" },
             { tipo: "confirmacion", titulo: "Cita confirmada", detalle: "Mañana · 10:00 am · Vacunación", etiqueta: "Recordatorio programado" },
           ],
         },
@@ -330,14 +339,14 @@ export const SERVICIOS: Servicio[] = [
     },
     pasos: [
       { titulo: "Identificamos tus documentos", texto: "Vemos qué documentos manejas y qué necesita entender cada persona que los recibe." },
-      { titulo: "Preparamos la lectura con tus formatos", texto: "La IA aprende a reconocer tus documentos, incluso fotos poco claras o escritos a mano." },
+      { titulo: "Preparamos la lectura con tus formatos", texto: "La IA aprende a reconocer tus documentos, incluso fotos o documentos escritos a mano." },
       { titulo: "Llega el documento", texto: "Por WhatsApp, por tu web o desde tu propio sistema, y se lee en segundos." },
       { titulo: "Tu cliente o tu equipo recibe la explicación", texto: "En palabras simples y con lo importante ordenado, sin copiar nada a mano." },
     ],
     caso: {
       ...VYR,
       descripcion: "Cuando un resultado está listo, el paciente lo recibe por WhatsApp junto con una explicación clara, generada por IA, de lo que significan sus valores, siempre con la recomendación de revisarlo con su médico. En funcionamiento desde julio de 2026.",
-      videoProximamente: true,
+      video: "",   // pega aquí el enlace del video cuando esté listo
     },
   },
 
@@ -379,8 +388,10 @@ export const SERVICIOS: Servicio[] = [
         {
           pregunta: "¿Puedo visitar uno el sábado?",
           respuesta: [
-            { tipo: "texto", texto: "¡Claro! Te agendé la visita para el sábado a las 11:00 am. ✅" },
-            { tipo: "ficha", titulo: "Contacto actualizado", filas: [["Etapa", "Visita agendada"], ["Asesor", "Avisado"], ["Recordatorio", "El viernes"]] },
+            { tipo: "texto", texto: "¡Claro! El sábado tengo disponible a las 10:00 am o a las 3:00 pm. ¿Cuál prefieres?" },
+            { tipo: "texto", texto: "A las 10:00 am", de: "cliente" },
+            { tipo: "texto", texto: "¡Listo! Te agendé la visita para el sábado a las 10:00 am. ✅" },
+            { tipo: "ficha", titulo: "Contacto actualizado", filas: [["Etapa", "Visita agendada"], ["Visita", "Sábado · 10:00 am"], ["Asesor", "Avisado"], ["Recordatorio", "El viernes"]] },
           ],
         },
         {
@@ -432,7 +443,7 @@ export const SERVICIOS: Servicio[] = [
           pregunta: "¿Cómo nos fue esta semana?",
           respuesta: [
             { tipo: "texto", texto: "Aquí tienes el resumen de la semana:" },
-            { tipo: "indicadores", titulo: "Resumen semanal", items: [["$4.820", "Ventas"], ["312", "Pedidos"]], barras: [40, 55, 48, 62, 70, 95, 80] },
+            { tipo: "indicadores", titulo: "Resumen semanal", items: [["$4,820", "Ventas"], ["312", "Pedidos"]], barras: [40, 55, 48, 62, 70, 95, 80] },
             { tipo: "texto", texto: "El sábado fue tu mejor día. 📈" },
           ],
         },
@@ -541,11 +552,15 @@ export const SERVICIO_A_MEDIDA = {
 
 export const numeroServicio = (i: number) => String(i + 1).padStart(2, "0");
 
+// Dólares con coma para miles y punto para decimales: 1500 → "$1,500"; 49.9 → "$49.90".
+const dolares = (n: number) =>
+  "$" + n.toLocaleString("en-US", { minimumFractionDigits: Number.isInteger(n) ? 0 : 2, maximumFractionDigits: 2 });
+
 export function textoPrecio(p: Precio): string {
   if (!p.mostrarPrecio || (p.setup === null && p.mensual === null)) return "Cotiza a medida";
   const partes: string[] = [];
-  if (p.setup !== null) partes.push(`$${p.setup} de implementación`);
-  if (p.mensual !== null) partes.push(`$${p.mensual}/mes`);
+  if (p.setup !== null) partes.push(`${dolares(p.setup)} de implementación`);
+  if (p.mensual !== null) partes.push(`${dolares(p.mensual)}/mes`);
   return "Desde " + partes.join(" + ");
 }
 

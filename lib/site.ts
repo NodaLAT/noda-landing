@@ -18,7 +18,6 @@ export const TIKTOK_URL = "https://tiktok.com/@noda.lat";
 // en la portada hacen scroll a la sección; desde otra página, llevan a la portada.
 export const NAV_LINKS = [
   { label: "Servicios", href: "/servicios" },
-  { label: "Soluciones", href: "/#soluciones" },
   { label: "Casos", href: "/#casos" },
   { label: "Proceso", href: "/#proceso" },
   { label: "Por qué Noda", href: "/#por-que" },

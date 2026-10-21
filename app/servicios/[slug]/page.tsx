@@ -65,6 +65,12 @@ export default async function ServicioPage({ params }: Props) {
               <span className="section-eyebrow">El problema</span>
               <h2>{s.problema.titulo}</h2>
               <p className="section-sub">{s.problema.texto}</p>
+              {s.problema.dato && (
+                <div className="svc-dato">
+                  <p>{s.problema.dato.texto}</p>
+                  <p className="source-note">Fuente: {s.problema.dato.fuente}</p>
+                </div>
+              )}
             </div>
             <div className="case-card-large">
               <div className="list-title">¿Te suena familiar?</div>
@@ -139,7 +145,7 @@ export default async function ServicioPage({ params }: Props) {
 }
 
 function Caso({ caso }: { caso: CasoReal }) {
-  const tieneLateral = caso.videoProximamente || !!caso.conversacion;
+  const tieneLateral = !!caso.video || !!caso.conversacion;
   return (
     <section className="band-beige">
       <div className="container reveal">
@@ -167,14 +173,8 @@ function Caso({ caso }: { caso: CasoReal }) {
             )}
           </div>
 
-          {caso.videoProximamente ? (
-            <div className="video-slot">
-              <span className="video-play" aria-hidden="true">
-                <svg width="24" height="24" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg>
-              </span>
-              <span className="video-label">Video próximamente</span>
-              <span className="video-text">El flujo real, tal como funciona hoy en {caso.negocio}.</span>
-            </div>
+          {caso.video ? (
+            <VideoCaso url={caso.video} negocio={caso.negocio} />
           ) : caso.conversacion && (
             <div className="chat-mockup">
               <div className="chat-header">
@@ -191,5 +191,25 @@ function Caso({ caso }: { caso: CasoReal }) {
         </div>
       </div>
     </section>
+  );
+}
+
+// Video del caso real: acepta un enlace de YouTube o un archivo de video en /public.
+function VideoCaso({ url, negocio }: { url: string; negocio: string }) {
+  const youtube = url.match(/(?:youtube\.com\/(?:watch\?v=|shorts\/|embed\/)|youtu\.be\/)([\w-]{11})/);
+  return (
+    <div className="video-frame">
+      {youtube ? (
+        <iframe
+          src={`https://www.youtube-nocookie.com/embed/${youtube[1]}`}
+          title={`Video: el flujo real en ${negocio}`}
+          allow="accelerometer; encrypted-media; gyroscope; picture-in-picture"
+          allowFullScreen
+          loading="lazy"
+        />
+      ) : (
+        <video src={url} controls preload="metadata" playsInline aria-label={`Video: el flujo real en ${negocio}`} />
+      )}
+    </div>
   );
 }

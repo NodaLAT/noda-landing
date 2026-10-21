@@ -27,6 +27,10 @@
 .footer-legal a:hover{color:var(--white)}
 
 /* ---------- Portada ---------- */
+/* Fuente de un dato (texto pequeño debajo de la cifra o frase) */
+.source-note{margin-top:8px;font-family:var(--mono);font-size:var(--fs-micro);letter-spacing:.02em;color:var(--mut);opacity:.85}
+.problem-card .source-note{margin-top:10px}
+.band-dark .source-note{color:var(--on-dark-mut)}
 /* Etiqueta "Demo" en el chat del caso VyR */
 .chat-mockup .chat-header .demo-tag{margin-left:auto}
 /* Chips del teléfono del hero: si el texto no entra (pantallas muy angostas), baja de línea */

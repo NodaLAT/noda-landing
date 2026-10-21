@@ -23,7 +23,8 @@ export default function Problema() {
           <div className="problem-card">
             <div className="problem-num">03 / Procesos repetitivos</div>
             <h3 className="problem-title">Tu equipo hace lo mismo todo el día</h3>
-            <p className="problem-desc">Confirmar citas, enviar recordatorios, responder precios, hacer seguimiento, mandar resultados. Tareas mecánicas que ocupan el 60% del día — y que un sistema puede hacer solo.</p>
+            <p className="problem-desc">Confirmar citas, enviar recordatorios, responder precios, hacer seguimiento, mandar resultados. Más del 40% de los trabajadores dedica al menos una cuarta parte de su semana a tareas repetitivas, y un sistema puede hacerlas solo.</p>
+            <p className="source-note">Fuente: Smartsheet, Automation in the Workplace</p>
           </div>
           <div className="problem-card">
             <div className="problem-num">04 / Cero datos, cero decisiones</div>

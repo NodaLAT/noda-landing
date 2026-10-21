@@ -10,7 +10,8 @@ type Item = { id: number; de: "cliente" | "bot"; mensaje: Mensaje };
 export default function ChatDemo({ demo }: { demo: DemoChat }) {
   const inicial: Item[] = [{ id: 0, de: "bot", mensaje: { tipo: "texto", texto: demo.saludo } }];
   const [items, setItems] = useState<Item[]>(inicial);
-  const [escribiendo, setEscribiendo] = useState(false);
+  const [escribiendo, setEscribiendo] = useState(false);   // hay una respuesta en curso (botones bloqueados)
+  const [botEscribe, setBotEscribe] = useState(false);     // el próximo mensaje es del bot: se ven los puntitos
   const siguienteId = useRef(1);
   const timers = useRef<number[]>([]);
   const cajaRef = useRef<HTMLDivElement>(null);
@@ -21,7 +22,7 @@ export default function ChatDemo({ demo }: { demo: DemoChat }) {
   useEffect(() => {
     const caja = cajaRef.current;
     if (caja) caja.scrollTo({ top: caja.scrollHeight, behavior: "smooth" });
-  }, [items, escribiendo]);
+  }, [items, botEscribe]);
 
   function agregar(de: Item["de"], mensaje: Mensaje) {
     setItems((prev) => [...prev, { id: siguienteId.current++, de, mensaje }]);
@@ -32,13 +33,19 @@ export default function ChatDemo({ demo }: { demo: DemoChat }) {
     const { pregunta, respuesta } = demo.preguntas[indice];
     agregar("cliente", { tipo: "texto", texto: pregunta });
     setEscribiendo(true);
-    let espera = 900;
+    const esCliente = (m: Mensaje) => m.tipo === "texto" && m.de === "cliente";
+    setBotEscribe(!esCliente(respuesta[0]));
+    let espera = esCliente(respuesta[0]) ? 1400 : 900;
     respuesta.forEach((mensaje, i) => {
+      const siguiente = respuesta[i + 1];
       timers.current.push(window.setTimeout(() => {
-        agregar("bot", mensaje);
-        if (i === respuesta.length - 1) setEscribiendo(false);
+        agregar(esCliente(mensaje) ? "cliente" : "bot", mensaje);
+        setBotEscribe(!!siguiente && !esCliente(siguiente));
+        if (!siguiente) setEscribiendo(false);
       }, espera));
-      espera += mensaje.tipo === "texto" ? 650 + Math.min(mensaje.texto.length * 12, 700) : 1100;
+      // Pausa antes del próximo mensaje: más larga si el "cliente" está eligiendo una opción.
+      espera += siguiente && esCliente(siguiente) ? 1600
+        : mensaje.tipo === "texto" ? 650 + Math.min(mensaje.texto.length * 12, 700) : 1100;
     });
   }
 
@@ -46,6 +53,7 @@ export default function ChatDemo({ demo }: { demo: DemoChat }) {
     timers.current.forEach(clearTimeout);
     timers.current = [];
     setEscribiendo(false);
+    setBotEscribe(false);
     setItems(inicial);
   }
 
@@ -55,14 +63,14 @@ export default function ChatDemo({ demo }: { demo: DemoChat }) {
         <div className="chat-avatar" aria-hidden="true">{demo.negocio.charAt(0)}</div>
         <div>
           <div className="chat-name">{demo.negocio}</div>
-          <div className="chat-status">{escribiendo ? "escribiendo…" : "en línea"}</div>
+          <div className="chat-status">{botEscribe ? "escribiendo…" : "en línea"}</div>
         </div>
         <span className="demo-tag">Demo</span>
       </div>
 
       <div className="messages" ref={cajaRef} aria-live="polite">
         {items.map((it) => <Burbuja key={it.id} item={it} />)}
-        {escribiendo && (
+        {botEscribe && (
           <div className="typing msg-in" aria-label="El asistente está escribiendo"><i /><i /><i /></div>
         )}
       </div>

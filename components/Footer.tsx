@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { EMAIL, INSTAGRAM_URL, TIKTOK_URL, WHATSAPP_URL } from "@/lib/site";
+import { EMAIL, INSTAGRAM_URL, TIKTOK_URL, WHATSAPP_URL, whatsappLink } from "@/lib/site";
+import { SERVICIOS, SERVICIO_A_MEDIDA } from "@/lib/servicios";
 
 // Pie de página. Se usa en todas las páginas (vía app/layout.tsx).
 export default function Footer() {
@@ -12,10 +13,11 @@ export default function Footer() {
             <p>Automatización con inteligencia artificial para negocios que quieren crecer sin sumar más personal.</p>
           </div>
           <div className="footer-col">
-            <h4>Soluciones</h4>
-            <a href="/#soluciones">Atención 24/7 con IA</a><a href="/#soluciones">Agendamiento</a>
-            <a href="/#soluciones">Cotizaciones</a><a href="/#soluciones">CRM y leads</a>
-            <a href="/#soluciones">Reportes</a><a href="/#soluciones">Procesos a medida</a>
+            <h4>Servicios</h4>
+            {SERVICIOS.map((s) => (
+              <Link key={s.slug} href={`/servicios/${s.slug}`}>{s.nombre}</Link>
+            ))}
+            <a href={whatsappLink(SERVICIO_A_MEDIDA.mensajeWhatsApp)}>Diagnóstico gratis</a>
           </div>
           <div className="footer-col">
             <h4>Empresa</h4>

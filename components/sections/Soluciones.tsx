@@ -12,7 +12,7 @@ export default function Soluciones() {
         </p>
         <div className="sol-grid">
 
-          <div className="sol-card">
+          <Link href="/servicios/atencion-y-ventas-whatsapp" className="sol-card">
             <div className="sol-visual">
               <div className="mc u"><span>¿Tienen turno para hoy? 🩸</span></div>
               <div className="mc b"><span>¡Hola! Sí, tengo espacio a las 3:00 pm.</span></div>
@@ -20,9 +20,9 @@ export default function Soluciones() {
             </div>
             <h3 className="sol-title">Atención y ventas 24/7</h3>
             <p className="sol-desc">Tu asistente conversa, resuelve y deriva a humano cuando hay señal de compra. En WhatsApp, en menos de 3 segundos.</p>
-          </div>
+          </Link>
 
-          <div className="sol-card">
+          <Link href="/servicios/agendamiento-y-recordatorios" className="sol-card">
             <div className="sol-visual">
               <div className="confirm">
                 <span className="confirm-ico">✓</span>
@@ -34,10 +34,10 @@ export default function Soluciones() {
               </div>
             </div>
             <h3 className="sol-title">Agendamiento y recordatorios</h3>
-            <p className="sol-desc">Citas reservadas solas, confirmaciones automáticas y recordatorios 24h antes. Reduce los no-shows a la mitad.</p>
-          </div>
+            <p className="sol-desc">Citas reservadas solas, confirmaciones automáticas y recordatorios 24h antes. Los recordatorios reducen las inasistencias en un 25%.</p>
+          </Link>
 
-          <div className="sol-card">
+          <Link href="/servicios/cotizaciones-al-instante" className="sol-card">
             <div className="sol-visual">
               <div className="pf">
                 <div className="pf-head">Cotización</div>
@@ -49,9 +49,9 @@ export default function Soluciones() {
             </div>
             <h3 className="sol-title">Cotizaciones al instante</h3>
             <p className="sol-desc">Tus clientes piden precio y reciben la proforma completa en segundos, con tu formato y tus márgenes. Sin tocar una hoja de cálculo.</p>
-          </div>
+          </Link>
 
-          <div className="sol-card">
+          <Link href="/servicios/reportes-y-dashboards" className="sol-card">
             <div className="sol-visual">
               <div className="dk-row">
                 <div className="dk-kpi"><div className="dk-num">47</div><div className="dk-label">Consultas</div></div>
@@ -65,9 +65,9 @@ export default function Soluciones() {
             </div>
             <h3 className="sol-title">Reportes y dashboards</h3>
             <p className="sol-desc">Convertimos los datos que ya genera tu negocio en reportes claros que llegan a tu correo o WhatsApp. Decides con información real.</p>
-          </div>
+          </Link>
 
-          <div className="sol-card">
+          <Link href="/servicios/crm-y-seguimiento-de-leads" className="sol-card">
             <div className="sol-visual">
               <div className="ld"><span className="ld-av">MV</span><span className="ld-info"><span className="ld-name">María V. — Ecografía</span><br /><span className="ld-status">Pidió precio · 2h</span></span><span className="ld-tag a">Activo</span></div>
               <div className="ld"><span className="ld-av">JR</span><span className="ld-info"><span className="ld-name">Juan R. — Examen sangre</span><br /><span className="ld-status">Sin respuesta · 48h</span></span><span className="ld-tag w">Reactivar</span></div>
@@ -75,18 +75,20 @@ export default function Soluciones() {
             </div>
             <h3 className="sol-title">CRM y seguimiento de leads</h3>
             <p className="sol-desc">Cada lead llega registrado, etiquetado y con seguimiento automático. Reactivamos a los fríos y avisamos cuando hay señal de compra.</p>
-          </div>
+          </Link>
 
-          <div className="sol-card">
+          <Link href="/servicios/interpretacion-de-documentos" className="sol-card">
             <div className="sol-visual">
-              <div className="chk"><i>✓</i><span>Recordatorios de pago automáticos</span></div>
-              <div className="chk"><i>✓</i><span>Onboarding de clientes sin fricción</span></div>
-              <div className="chk"><i>✓</i><span>Integración con tu ERP o CRM</span></div>
-              <div className="chk"><i>✓</i><span>Generación de documentos</span></div>
+              <div className="pf">
+                <div className="pf-head">Resultado de laboratorio</div>
+                <div className="pf-row"><span>Glucosa</span><b>92 mg/dL</b></div>
+                <div className="pf-row"><span>Colesterol total</span><b>215 mg/dL</b></div>
+              </div>
+              <div className="mc b"><span>Tu glucosa está normal. El colesterol, un poco alto: coméntalo con tu médico.</span></div>
             </div>
-            <h3 className="sol-title">Procesos internos a medida</h3>
-            <p className="sol-desc">Cobranzas, onboarding, integraciones, notificaciones internas. Si lo haces a mano todos los días, lo automatizamos.</p>
-          </div>
+            <h3 className="sol-title">Interpretación de documentos con IA</h3>
+            <p className="sol-desc">Resultados, informes, facturas u órdenes: la IA los lee y se los explica a tu cliente o a tu equipo en palabras simples.</p>
+          </Link>
 
         </div>
         <div className="services-note">
