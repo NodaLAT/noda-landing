@@ -139,12 +139,13 @@ export default async function ServicioPage({ params }: Props) {
 }
 
 function Caso({ caso }: { caso: CasoReal }) {
+  const tieneLateral = caso.videoProximamente || !!caso.conversacion;
   return (
     <section className="band-beige">
       <div className="container reveal">
         <span className="section-eyebrow">Caso real</span>
         <h2>Ya funciona en un negocio <em>real</em>.</h2>
-        <div className="case-spotlight">
+        <div className={tieneLateral ? "case-spotlight" : "case-spotlight case-spotlight--single"}>
           <div className="case-card-large">
             <div className="case-header">
               <div className="case-mark">{caso.iniciales}</div>
@@ -154,12 +155,16 @@ function Caso({ caso }: { caso: CasoReal }) {
               </div>
             </div>
             <p className="case-desc">{caso.descripcion}</p>
-            <ul className="case-impact">
-              {caso.puntos.map((p) => <li key={p}>{p}</li>)}
-            </ul>
-            <div className="case-tags">
-              {caso.etiquetas.map((t) => <span className="case-tag" key={t}>{t}</span>)}
-            </div>
+            {caso.puntos && (
+              <ul className="case-impact">
+                {caso.puntos.map((p) => <li key={p}>{p}</li>)}
+              </ul>
+            )}
+            {caso.etiquetas && (
+              <div className="case-tags">
+                {caso.etiquetas.map((t) => <span className="case-tag" key={t}>{t}</span>)}
+              </div>
+            )}
           </div>
 
           {caso.videoProximamente ? (

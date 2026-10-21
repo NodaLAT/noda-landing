@@ -46,10 +46,10 @@ export type CasoReal = {
   sector: string;
   ciudad: string;
   descripcion: string;
-  puntos: string[];
-  etiquetas: string[];
+  puntos?: string[];
+  etiquetas?: string[];
   conversacion?: { de: "cliente" | "bot"; texto: string }[];
-  videoProximamente?: boolean;
+  videoProximamente?: boolean;   // muestra el espacio "Video próximamente"
 };
 
 export type Servicio = {
@@ -138,19 +138,11 @@ export const SERVICIOS: Servicio[] = [
     ],
     caso: {
       ...VYR,
-      descripcion: "Atención al paciente automatizada por WhatsApp, agendamiento de exámenes y recordatorios antes de la toma de muestra. La recepción se libera para concentrarse en lo que de verdad requiere atención humana.",
+      descripcion: "En Laboratorios VyR San Rafael, el asistente atiende a los pacientes las 24 horas por WhatsApp: precios, horarios, servicios y estado de sus resultados. Cuando el resultado está listo, se lo envía automáticamente, y si el paciente necesita hablar con una persona, la secretaria toma la conversación.",
       puntos: [
-        "Recepción liberada de consultas repetitivas a lo largo del día",
-        "Agendamiento disponible 24/7 desde WhatsApp",
-        "Recordatorios automáticos 24 horas antes de la cita",
-        "Reporte diario al equipo con las consultas y citas del día",
-      ],
-      etiquetas: ["Asistente de WhatsApp", "Agendamiento", "Recordatorios", "Reportes"],
-      conversacion: [
-        { de: "cliente", texto: "Hola, necesito agendar un perfil lipídico" },
-        { de: "bot", texto: "¡Hola! Claro 🩸 ¿Para qué fecha lo necesitas?" },
-        { de: "cliente", texto: "Mañana en la mañana" },
-        { de: "bot", texto: "✅ Listo. Te agendé mañana 8:30 AM. Recuerda venir en ayunas (8h). Te enviaré recordatorio esta noche." },
+        "Atención 24/7 por WhatsApp",
+        "Entrega automática de resultados",
+        "Paso a la secretaria cuando hace falta",
       ],
     },
   },
@@ -283,73 +275,68 @@ export const SERVICIOS: Servicio[] = [
   {
     slug: "interpretacion-de-documentos",
     nombre: "Interpretación de documentos con IA",
-    promesa: "Tus clientes envían la foto de un documento y tu negocio entiende al instante qué necesitan.",
-    resumen: "La IA lee órdenes, facturas, listas o formularios —incluso escritos a mano— y convierte cada documento en información ordenada, lista para usar.",
+    promesa: "La IA lee tus documentos y los explica en palabras simples, al instante.",
+    resumen: "Resultados, informes, facturas u órdenes: la IA los lee, extrae lo importante y se lo explica a tu cliente o a tu equipo en lenguaje claro.",
     icono: "documento",
     destacado: true,
     precio: SIN_PRECIO,
     seo: {
       titulo: "Interpretación de documentos con IA",
-      descripcion: "Tus clientes envían fotos de órdenes, facturas o listas por WhatsApp y la IA las lee, entiende qué necesitan y deja la información lista para tu equipo.",
+      descripcion: "La IA lee resultados, informes, facturas u órdenes, extrae lo importante y lo explica en palabras simples a tus clientes o a tu equipo.",
     },
     problema: {
-      titulo: "Tu equipo pasa horas leyendo y copiando documentos.",
-      texto: "Órdenes, recetas, facturas, listas escritas a mano: cada documento hay que leerlo, entenderlo y pasarlo a mano a otro lado. Es lento, cansado, y basta un error de tipeo para que algo salga mal.",
+      titulo: "Tus clientes reciben documentos que no entienden, y tu equipo pasa horas explicándolos o copiándolos a mano.",
+      texto: "Resultados, informes, facturas, órdenes: están llenos de términos y datos que no todos entienden. Tus clientes escriben para preguntar qué significan, y tu equipo repite la misma explicación o pasa los datos a mano, uno por uno.",
       puntos: [
-        "Documentos con letra difícil que alguien tiene que descifrar.",
-        "Datos que se copian a mano, uno por uno.",
-        "Clientes que esperan mientras alguien revisa lo que enviaron.",
+        "Clientes que no entienden los documentos que reciben.",
+        "Tu equipo explica lo mismo una y otra vez.",
+        "Datos que se copian a mano, con riesgo de errores.",
       ],
     },
     demo: {
       tipo: "chat",
       titulo: "Pruébalo tú mismo.",
-      intro: "Elige un documento de ejemplo —de un laboratorio, una ferretería o una oficina contable— y mira cómo la IA lo lee y lo ordena.",
+      intro: "Elige un documento de ejemplo —un resultado de laboratorio, una lista de pedido escrita a mano o una factura— y mira cómo la IA lo lee y lo explica.",
       negocio: "Asistente de documentos",
-      saludo: "¡Hola! 📄 Envíame la foto de tu documento y te digo al instante qué entendí.",
+      saludo: "¡Hola! 📄 Envíame tu documento y te explico en palabras simples lo que dice.",
       preguntas: [
         {
-          pregunta: "📎 Foto de una orden médica",
+          pregunta: "📎 Resultado de laboratorio",
           respuesta: [
-            { tipo: "texto", texto: "Recibí tu orden. Esto es lo que entendí:" },
-            { tipo: "ficha", titulo: "Orden médica · Laboratorio", filas: [["Exámenes", "Hemograma, glucosa, perfil lipídico"], ["Preparación", "Ayuno de 8 horas"], ["Tipo de muestra", "Sangre"]] },
-            { tipo: "texto", texto: "¿Te agendo para mañana a primera hora?" },
+            { tipo: "texto", texto: "Recibí tu resultado. Te explico lo principal en palabras simples:" },
+            // Valores ficticios, solo para el ejemplo.
+            { tipo: "ficha", titulo: "Resultado de laboratorio · Demo", filas: [["Glucosa", "92 mg/dL · Normal"], ["Hemoglobina", "14.2 g/dL · Normal"], ["Colesterol total", "215 mg/dL · Algo alto"]] },
+            { tipo: "texto", texto: "Tu glucosa y tu hemoglobina están dentro de los valores esperados. El colesterol está un poco por encima del rango de referencia: es un punto para conversar en tu próxima consulta." },
+            { tipo: "texto", texto: "Esta explicación es orientativa y no reemplaza la consulta con tu médico." },
           ],
         },
         {
-          pregunta: "📎 Foto de una lista escrita a mano",
+          pregunta: "📎 Lista de pedido escrita a mano",
           respuesta: [
-            { tipo: "texto", texto: "Leí tu lista escrita a mano ✍️. Esto es lo que encontré:" },
-            { tipo: "ficha", titulo: "Lista de materiales · Ferretería", filas: [["Cemento 50 kg", "10 sacos"], ["Varilla 12 mm", "20 unidades"], ["Alambre de amarre", "5 kg"]] },
+            { tipo: "texto", texto: "Leí tu lista escrita a mano ✍️. Así queda tu pedido ordenado:" },
+            { tipo: "ficha", titulo: "Pedido · Ferretería · Demo", filas: [["Cemento 50 kg", "10 sacos"], ["Varilla 12 mm", "20 unidades"], ["Alambre de amarre", "5 kg"]] },
             { tipo: "texto", texto: "¿Te preparo la cotización?" },
           ],
         },
         {
-          pregunta: "📎 Foto de una factura de proveedor",
+          pregunta: "📎 Factura de proveedor",
           respuesta: [
-            { tipo: "texto", texto: "Factura leída ✅. Estos son los datos:" },
-            { tipo: "ficha", titulo: "Factura de proveedor", filas: [["N.º de factura", "001-002-000123"], ["Subtotal", "$120.00"], ["IVA", "$18.00"], ["Total", "$138.00"]] },
+            { tipo: "texto", texto: "Factura leída ✅. Estos son los datos, ya ordenados:" },
+            { tipo: "ficha", titulo: "Factura de proveedor · Demo", filas: [["N.º de factura", "001-002-000123"], ["Subtotal", "$120.00"], ["IVA", "$18.00"], ["Total", "$138.00"]] },
             { tipo: "texto", texto: "La guardé en tu registro de compras." },
           ],
         },
       ],
     },
     pasos: [
-      { titulo: "Identificamos tus documentos", texto: "Vemos qué documentos recibes y qué datos necesitas sacar de cada uno." },
-      { titulo: "Preparamos la lectura", texto: "La IA aprende a reconocer tus formatos, incluso fotos poco claras o escritos a mano." },
-      { titulo: "Tu cliente envía una foto", texto: "Llega por WhatsApp o por tu web, y se lee en segundos." },
-      { titulo: "La información queda lista", texto: "Los datos llegan ordenados a tu equipo o a tu sistema, sin copiar nada a mano." },
+      { titulo: "Identificamos tus documentos", texto: "Vemos qué documentos manejas y qué necesita entender cada persona que los recibe." },
+      { titulo: "Preparamos la lectura con tus formatos", texto: "La IA aprende a reconocer tus documentos, incluso fotos poco claras o escritos a mano." },
+      { titulo: "Llega el documento", texto: "Por WhatsApp, por tu web o desde tu propio sistema, y se lee en segundos." },
+      { titulo: "Tu cliente o tu equipo recibe la explicación", texto: "En palabras simples y con lo importante ordenado, sin copiar nada a mano." },
     ],
-    // REVISAR: confirmar con Noda los detalles exactos de este flujo en VyR antes de publicar.
     caso: {
       ...VYR,
-      descripcion: "Los pacientes envían por WhatsApp la foto de su orden médica. La IA la lee, identifica los exámenes solicitados y deja la información lista para que la recepción atienda sin transcribir nada.",
-      puntos: [
-        "Órdenes médicas recibidas por WhatsApp, a cualquier hora",
-        "Exámenes identificados automáticamente a partir de la foto",
-        "Información lista para la recepción, sin copiar a mano",
-      ],
-      etiquetas: ["Interpretación de documentos", "Asistente de WhatsApp", "Agendamiento"],
+      descripcion: "Cuando un resultado está listo, el paciente lo recibe por WhatsApp junto con una explicación clara, generada por IA, de lo que significan sus valores, siempre con la recomendación de revisarlo con su médico. En funcionamiento desde julio de 2026.",
       videoProximamente: true,
     },
   },
