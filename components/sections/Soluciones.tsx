@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function Soluciones() {
   return (
     <section id="soluciones">
@@ -90,6 +92,12 @@ export default function Soluciones() {
         <div className="services-note">
           ¿Tienes un proceso que no encaja en estas cajas? <strong>Cuéntanoslo.</strong>{" "}
           Nuestra premisa es simple: si es repetitivo y consume tiempo humano, hay forma de automatizarlo.
+        </div>
+        <div className="sol-more">
+          <Link href="/servicios" className="btn btn-primary">
+            Ver todos los servicios
+            <svg className="arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M5 12h14M13 5l7 7-7 7" /></svg>
+          </Link>
         </div>
       </div>
     </section>

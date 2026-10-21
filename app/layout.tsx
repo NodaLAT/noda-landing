@@ -6,9 +6,11 @@ import ScrollEffects from "@/components/ScrollEffects";
 import "@/styles/design-system.css";
 import "@/styles/globals.css";
 import "@/styles/noda-hero.css";
+import "@/styles/servicios.css";
 
 export const metadata: Metadata = {
-  title: "Noda — Automatización con IA para tu negocio",
+  // La portada usa "default"; las demás páginas, "Título | Noda".
+  title: { default: "Noda — Automatización con IA para tu negocio", template: "%s | Noda" },
   description:
     "Noda automatiza la atención al cliente, agendamiento, cotizaciones, seguimiento de leads, reportes y procesos internos de tu negocio con IA. Si lo repites todos los días, lo automatizamos.",
   openGraph: { title: "Noda — Automatización con IA" },

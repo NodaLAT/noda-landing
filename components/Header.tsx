@@ -1,7 +1,16 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { NAV_LINKS, WHATSAPP_URL } from "@/lib/site";
+
+// Enlaces a otra página (ej. /servicios) usan <Link> para cargar al instante;
+// los que van a una sección de la portada (/#casos) usan <a> normal.
+function NavLink({ href, label, onClick }: { href: string; label: string; onClick?: () => void }) {
+  return href.includes("#")
+    ? <a href={href} onClick={onClick}>{label}</a>
+    : <Link href={href} onClick={onClick}>{label}</Link>;
+}
 
 // Menú superior + menú de celular. Se usa en todas las páginas (vía app/layout.tsx).
 export default function Header() {
@@ -24,7 +33,7 @@ export default function Header() {
           <a href="/#" className="logo"><img src="/logo-noda.png" alt="Noda — IA Automation" /></a>
           <div className="nav-links">
             {NAV_LINKS.map((l) => (
-              <a key={l.href} href={l.href}>{l.label}</a>
+              <NavLink key={l.href} href={l.href} label={l.label} />
             ))}
             <a href={WHATSAPP_URL} className="nav-cta">Hablar con Noda</a>
           </div>
@@ -38,7 +47,7 @@ export default function Header() {
 
       <div className={menuOpen ? "mobile-menu open" : "mobile-menu"} id="mobileMenu">
         {NAV_LINKS.map((l) => (
-          <a key={l.href} href={l.href} onClick={closeMenu}>{l.label}</a>
+          <NavLink key={l.href} href={l.href} label={l.label} onClick={closeMenu} />
         ))}
         <a href={WHATSAPP_URL} onClick={closeMenu}>Hablar con Noda</a>
       </div>

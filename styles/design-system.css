@@ -46,6 +46,8 @@
   --hero-grid-line:rgba(20,32,30,.035);/* cuadrícula de fondo del hero */
   --on-dark-surface:rgba(255,255,255,.05);  /* cajas sobre fondo oscuro */
   --on-dark-border:rgba(255,255,255,.1);
+  --teal-bright-soft:rgba(40,184,174,.16); /* fondo de íconos sobre fondo oscuro */
+  --typing-dot:rgba(255,255,255,.85);      /* puntitos de "escribiendo…" */
 
   /* ===== TIPOGRAFÍA =====
      --display = títulos (Bricolage Grotesque, peso 600; cifras en 700)
