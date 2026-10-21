@@ -30,7 +30,7 @@ export default function Header() {
     <>
       <nav id="nav" className={scrolled ? "scrolled" : undefined}>
         <div className="nav-inner">
-          <a href="/#" className="logo"><img src="/logo-noda.png" alt="Noda — IA Automation" /></a>
+          <a href="/#" className="logo"><img src="/logo-noda.webp" alt="Noda — IA Automation" width={439} height={150} /></a>
           <div className="nav-links">
             {NAV_LINKS.map((l) => (
               <NavLink key={l.href} href={l.href} label={l.label} />

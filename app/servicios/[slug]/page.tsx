@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { SERVICIOS, mensajeInteres, numeroServicio, textoPrecio, type CasoReal } from "@/lib/servicios";
 import { whatsappLink } from "@/lib/site";
+import { metadataPagina } from "@/lib/seo";
 import { Flecha } from "@/components/servicios/Iconos";
 import ChatDemo from "@/components/servicios/ChatDemo";
 import { MaquetaPanel, MaquetaWeb } from "@/components/servicios/Maquetas";
@@ -21,11 +22,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const s = SERVICIOS.find((x) => x.slug === slug);
   if (!s) return {};
-  return {
-    title: s.seo.titulo,
-    description: s.seo.descripcion,
-    openGraph: { title: `${s.seo.titulo} | Noda`, description: s.seo.descripcion },
-  };
+  return metadataPagina({ titulo: s.seo.titulo, descripcion: s.seo.descripcion, ruta: `/servicios/${s.slug}` });
 }
 
 export default async function ServicioPage({ params }: Props) {

@@ -19,7 +19,6 @@
 .legal li::before{content:"";position:absolute;left:2px;top:10px;width:7px;height:7px;border-radius:50%;background:var(--teal)}
 .legal strong{color:var(--ink);font-weight:600}
 .legal a{color:var(--teal-tx);text-decoration:underline;text-underline-offset:2px}
-.legal-pending{background:var(--tag-warn-bg);color:var(--tag-warn-tx);font-weight:700;padding:1px 6px;border-radius:6px;white-space:nowrap}
 
 /* ---------- Footer: enlaces legales ---------- */
 .footer-legal{display:flex;align-items:center;flex-wrap:wrap;gap:18px}
@@ -28,10 +27,20 @@
 
 /* ---------- Portada ---------- */
 /* Fuente de un dato (texto pequeño debajo de la cifra o frase) */
-.source-note{margin-top:8px;font-family:var(--mono);font-size:var(--fs-micro);letter-spacing:.02em;color:var(--mut);opacity:.85}
+.source-note{margin-top:8px;font-family:var(--mono);font-size:var(--fs-micro);letter-spacing:.02em;color:var(--mut)}
 .problem-card .source-note{margin-top:10px}
 .band-dark .source-note{color:var(--on-dark-mut)}
 /* Etiqueta "Demo" en el chat del caso VyR */
 .chat-mockup .chat-header .demo-tag{margin-left:auto}
 /* Chips del teléfono del hero: si el texto no entra (pantallas muy angostas), baja de línea */
 .noda-hero-chip{max-width:100%;white-space:normal;text-align:center}
+
+/* ---------- Página 404 ---------- */
+.not-found{min-height:72vh;display:flex;align-items:center}
+.not-found .container{width:100%}
+.not-found .hero-sub{margin-bottom:32px}
+
+/* ---------- Footer: títulos de columna ---------- */
+/* Son <h2> (orden correcto para lectores de pantalla) con el mismo aspecto que tenían como <h4> */
+.footer-col .footer-title{font-size:13px;font-family:var(--mono);font-weight:700;line-height:inherit;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--teal-bright);margin-bottom:16px}

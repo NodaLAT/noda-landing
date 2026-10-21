@@ -2,6 +2,10 @@ import type { Metadata, Viewport } from "next";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ScrollEffects from "@/components/ScrollEffects";
+import DatosEstructurados from "@/components/DatosEstructurados";
+import { Analytics } from "@vercel/analytics/next";
+import { Bricolage_Grotesque, JetBrains_Mono, Manrope } from "next/font/google";
+import { ES_PRODUCCION, SITE_URL } from "@/lib/seo";
 // El orden importa: igual que en el index.html original.
 import "@/styles/design-system.css";
 import "@/styles/globals.css";
@@ -9,13 +13,22 @@ import "@/styles/noda-hero.css";
 import "@/styles/servicios.css";
 import "@/styles/legal.css";
 
+// Las mismas tipografías de siempre (Google Fonts), pero servidas desde nuestro propio sitio:
+// el celular no tiene que conectarse a otro servidor y la página aparece antes.
+// design-system.css las usa a través de --font-display, --font-body y --font-mono.
+const fuenteDisplay = Bricolage_Grotesque({ subsets: ["latin", "latin-ext"], axes: ["opsz"], display: "swap", variable: "--font-display" });
+const fuenteBody = Manrope({ subsets: ["latin", "latin-ext"], display: "swap", variable: "--font-body" });
+const fuenteMono = JetBrains_Mono({ subsets: ["latin", "latin-ext"], weight: ["400", "500"], display: "swap", variable: "--font-mono" });
+
 export const metadata: Metadata = {
+  // Dirección base para enlaces e imágenes al compartir: www.noda.lat en producción,
+  // la dirección de la vista previa en Vercel, o la de tu computadora.
+  metadataBase: new URL(ES_PRODUCCION ? SITE_URL : process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3000"),
   // La portada usa "default"; las demás páginas, "Título | Noda".
   title: { default: "Noda — Automatización con IA para tu negocio", template: "%s | Noda" },
   description:
     "Noda automatiza la atención al cliente, agendamiento, cotizaciones, seguimiento de leads, reportes y procesos internos de tu negocio con IA. Si lo repites todos los días, lo automatizamos.",
-  openGraph: { title: "Noda — Automatización con IA" },
-  icons: { icon: { url: "/isotipo-noda.png", type: "image/png" } },
+  openGraph: { siteName: "Noda", locale: "es_EC", type: "website" },
 };
 
 export const viewport: Viewport = {
@@ -26,21 +39,15 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="es" data-scroll-behavior="smooth">
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-        {/* Mismas fuentes y misma URL que la landing original */}
-        <link
-          href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300..800&family=Manrope:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
-          rel="stylesheet"
-        />
-      </head>
+    <html lang="es" data-scroll-behavior="smooth" className={`${fuenteDisplay.variable} ${fuenteBody.variable} ${fuenteMono.variable}`}>
       <body>
         <Header />
         {children}
         <Footer />
         <ScrollEffects />
+        <DatosEstructurados />
+        {/* Medición de visitas de Vercel: sin cookies y sin datos que identifiquen a la persona */}
+        <Analytics />
       </body>
     </html>
   );

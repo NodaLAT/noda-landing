@@ -1,15 +1,12 @@
 import type { Metadata } from "next";
+import { metadataPagina } from "@/lib/seo";
 import Link from "next/link";
-import PaginaLegal, { Pendiente } from "@/components/legal/PaginaLegal";
+import PaginaLegal from "@/components/legal/PaginaLegal";
 import { EMAIL } from "@/lib/site";
 
 const descripcion = "Condiciones de uso del sitio web de Noda: información de servicios, ejemplos, explicaciones generadas con IA y responsabilidad.";
 
-export const metadata: Metadata = {
-  title: "Términos y condiciones",
-  description: descripcion,
-  openGraph: { title: "Términos y condiciones | Noda", description: descripcion },
-};
+export const metadata: Metadata = metadataPagina({ titulo: "Términos y condiciones", descripcion, ruta: "/terminos" });
 
 // BORRADOR pendiente de revisión legal. Leyes de la República del Ecuador.
 export default function TerminosPage() {
@@ -21,7 +18,7 @@ export default function TerminosPage() {
     >
       <h2>1. Quiénes somos</h2>
       <p>
-        Este sitio pertenece a <Pendiente>[RAZÓN SOCIAL]</Pendiente>, con RUC <Pendiente>[RUC]</Pendiente> y domicilio
+        Este sitio pertenece a NODA S.A.S., con RUC 1793237077001 y domicilio
         en Quito, Ecuador (en adelante, &quot;Noda&quot;). Al usar noda.lat aceptas estos términos. Si no estás de
         acuerdo con ellos, te pedimos no usar el sitio.
       </p>

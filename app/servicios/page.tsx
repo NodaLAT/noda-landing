@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { metadataPagina } from "@/lib/seo";
 import { SERVICIOS } from "@/lib/servicios";
 import { TarjetaAMedida, TarjetaServicio } from "@/components/servicios/TarjetaServicio";
 import Contacto from "@/components/sections/Contacto";
@@ -6,11 +7,7 @@ import Contacto from "@/components/sections/Contacto";
 const descripcion =
   "Atención por WhatsApp, agendamiento, cotizaciones, lectura de documentos con IA, seguimiento de clientes, reportes, webs y sistemas a medida para tu negocio.";
 
-export const metadata: Metadata = {
-  title: "Servicios de automatización con IA",
-  description: descripcion,
-  openGraph: { title: "Servicios de automatización con IA | Noda", description: descripcion },
-};
+export const metadata: Metadata = metadataPagina({ titulo: "Servicios de automatización con IA", descripcion, ruta: "/servicios" });
 
 // Cartelera de servicios. Las tarjetas salen de lib/servicios.ts.
 export default function ServiciosPage() {

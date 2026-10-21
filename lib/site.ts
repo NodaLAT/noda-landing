@@ -2,9 +2,10 @@
 // Son datos públicos (aparecen en el sitio). Claves, tokens o webhooks
 // NUNCA van aquí: van en variables de entorno de Vercel.
 
-export const WHATSAPP_URL = "https://wa.me/593979938457";
 export const WHATSAPP_DEMO_URL =
   "https://wa.me/593979938457?text=Hola%20Noda%2C%20quiero%20automatizar%20mi%20negocio";
+// Botón general ("Hablar con Noda" y WhatsApp del pie de página): también con mensaje precargado.
+export const WHATSAPP_URL = WHATSAPP_DEMO_URL;
 export const WHATSAPP_DIAGNOSTICO_URL =
   "https://wa.me/593979938457?text=Hola%20Noda%2C%20quiero%20agendar%20mi%20diagn%C3%B3stico%20gratis";
 // Enlace a WhatsApp con un mensaje precargado (ej. "Hola Noda, me interesa ...").

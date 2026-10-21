@@ -34,8 +34,3 @@ export default function PaginaLegal({ titulo, intro, actualizado, children }: {
     </>
   );
 }
-
-// Datos que faltan completar: se ven resaltados para no olvidarlos.
-export const Pendiente = ({ children }: { children: React.ReactNode }) => (
-  <span className="legal-pending">{children}</span>
-);

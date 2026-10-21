@@ -1,15 +1,12 @@
 import type { Metadata } from "next";
+import { metadataPagina } from "@/lib/seo";
 import Link from "next/link";
-import PaginaLegal, { Pendiente } from "@/components/legal/PaginaLegal";
+import PaginaLegal from "@/components/legal/PaginaLegal";
 import { EMAIL } from "@/lib/site";
 
 const descripcion = "Cómo trata Noda los datos personales que recibe por WhatsApp, correo y formularios, y cómo puedes ejercer tus derechos.";
 
-export const metadata: Metadata = {
-  title: "Política de privacidad",
-  description: descripcion,
-  openGraph: { title: "Política de privacidad | Noda", description: descripcion },
-};
+export const metadata: Metadata = metadataPagina({ titulo: "Política de privacidad", descripcion, ruta: "/privacidad" });
 
 // BORRADOR pendiente de revisión legal. Basado en la Ley Orgánica de
 // Protección de Datos Personales del Ecuador (LOPDP).
@@ -23,7 +20,7 @@ export default function PrivacidadPage() {
       <h2>1. Quiénes somos</h2>
       <p>
         Noda es una agencia de automatización con inteligencia artificial con sede en Quito, Ecuador. El responsable
-        del tratamiento de tus datos es <Pendiente>[RAZÓN SOCIAL]</Pendiente>, con RUC <Pendiente>[RUC]</Pendiente>.
+        del tratamiento de tus datos es NODA S.A.S., con RUC 1793237077001.
         Puedes escribirnos a <a href={`mailto:${EMAIL}`}>{EMAIL}</a>.
       </p>
       <p>
@@ -39,8 +36,13 @@ export default function PrivacidadPage() {
         <li><strong>Mientras navegas por el sitio:</strong> datos técnicos básicos, como el tipo de navegador o las páginas visitadas, que nuestro proveedor de alojamiento usa para que el sitio funcione y sea seguro.</li>
       </ul>
       <p>
-        Hoy este sitio no usa cookies de publicidad ni de seguimiento. No te pedimos datos sensibles, como información
-        de salud, a través de este sitio; si nos los compartes por tu cuenta, los usaremos solo para atender tu consulta.
+        Este sitio no usa cookies de publicidad ni de seguimiento. Para saber cuántas personas nos visitan usamos una
+        herramienta de medición que no usa cookies ni guarda datos que te identifiquen: solo cuenta las visitas de forma
+        agregada (páginas vistas, país, tipo de dispositivo y de dónde llegaste al sitio).
+      </p>
+      <p>
+        No te pedimos datos sensibles, como información de salud, a través de este sitio; si nos los compartes por tu
+        cuenta, los usaremos solo para atender tu consulta.
       </p>
 
       <h2>3. Para qué usamos tus datos</h2>
@@ -62,7 +64,7 @@ export default function PrivacidadPage() {
       <ul>
         <li><strong>Servicios de mensajería,</strong> como WhatsApp, para recibir y responder tus mensajes.</li>
         <li><strong>Servicios de inteligencia artificial,</strong> que nos ayudan a leer, ordenar y responder la información.</li>
-        <li><strong>Servicios de correo, alojamiento web y almacenamiento en la nube.</strong></li>
+        <li><strong>Servicios de correo, alojamiento web, almacenamiento en la nube y medición de visitas sin cookies.</strong></li>
       </ul>
       <p>
         Solo les compartimos lo necesario para cada tarea y les exigimos que protejan tus datos. Algunos de estos
@@ -121,7 +123,7 @@ export default function PrivacidadPage() {
 
       <h2>11. Contacto</h2>
       <p>
-        <Pendiente>[RAZÓN SOCIAL]</Pendiente> · RUC <Pendiente>[RUC]</Pendiente> · Quito, Ecuador ·{" "}
+        NODA S.A.S. · RUC 1793237077001 · Quito, Ecuador ·{" "}
         <a href={`mailto:${EMAIL}`}>{EMAIL}</a>
       </p>
     </PaginaLegal>

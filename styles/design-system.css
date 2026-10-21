@@ -19,9 +19,9 @@
   --teal-tx:#0F5F58; --teal-fill:#E1F5EE;
   --ink:#14201E; --mut:#6E6655; --user:#EDE6D8; --user-tx:#3A352B;
   --on-dark:#F3EFE7; --on-dark-mut:#9FBDB7;
-  --display:'Bricolage Grotesque',system-ui,sans-serif;
-  --body:'Manrope',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
-  --mono:'JetBrains Mono',ui-monospace,monospace;
+  --display:var(--font-display),system-ui,sans-serif;     /* Bricolage Grotesque */
+  --body:var(--font-body),system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;   /* Manrope */
+  --mono:var(--font-mono),ui-monospace,monospace;        /* JetBrains Mono */
   --maxw:1180px; --ease:cubic-bezier(.22,.61,.36,1);
 }
 

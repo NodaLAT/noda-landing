@@ -9,22 +9,22 @@ export default function Footer() {
       <div className="container">
         <div className="footer-grid">
           <div className="footer-brand">
-            <a href="/#" className="logo"><img src="/logo-noda.png" alt="Noda — IA Automation" /></a>
+            <a href="/#" className="logo"><img src="/logo-noda.webp" alt="Noda — IA Automation" width={439} height={150} /></a>
             <p>Automatización con inteligencia artificial para negocios que quieren crecer sin sumar más personal.</p>
           </div>
           <div className="footer-col">
-            <h4>Servicios</h4>
+            <h2 className="footer-title">Servicios</h2>
             {SERVICIOS.map((s) => (
               <Link key={s.slug} href={`/servicios/${s.slug}`}>{s.nombre}</Link>
             ))}
             <a href={whatsappLink(SERVICIO_A_MEDIDA.mensajeWhatsApp)}>Diagnóstico gratis</a>
           </div>
           <div className="footer-col">
-            <h4>Empresa</h4>
+            <h2 className="footer-title">Empresa</h2>
             <a href="/#por-que">Quiénes somos</a><a href="/#casos">Casos</a><a href="/#proceso">Cómo trabajamos</a>
           </div>
           <div className="footer-col">
-            <h4>Contacto</h4>
+            <h2 className="footer-title">Contacto</h2>
             <a href={`mailto:${EMAIL}`}>{EMAIL}</a>
             <a href={WHATSAPP_URL} target="_blank">WhatsApp</a>
             <a href={INSTAGRAM_URL} target="_blank">Instagram</a>
