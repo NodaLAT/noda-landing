@@ -30,12 +30,26 @@
   /* ===== COLORES =====
      Fondos claros:  --cream (fondo general) · --cream-2 · --beige (bandas) · --white (tarjetas)
      Bordes:         --line · --line-2
-     Marca (teal):   --teal (botones) · --teal-bright (hover) · --teal-tx (texto teal legible)
+     Marca (teal):   --teal (bordes, íconos, decoración) · --teal-accion (botones y burbujas con texto blanco)
+                     --teal-bright (acentos sobre fondo oscuro) · --teal-tx (texto teal legible)
                      --teal-fill (fondos suaves de etiquetas)
      Oscuros:        --teal-dk (banda oscura) · --teal-dk2 (tarjetas sobre oscuro)
      Texto:          --ink (principal) · --mut (secundario)
      Sobre oscuro:   --on-dark (texto) · --on-dark-mut (texto secundario)
      Chat:           --user / --user-tx (burbuja del cliente) */
+  /* ----- Los dos verdes de la marca ----- */
+  /* --teal (#1FA098, Bloque 1): verde de marca para BORDES, ÍCONOS y DETALLES DECORATIVOS
+     (círculos de ✓, avatares, viñetas, barras de gráficos, bordes al pasar el mouse) y para
+     palabras destacadas sobre fondo crema. No usar como fondo de texto blanco: no alcanza
+     el contraste mínimo (3,2:1).
+     --teal-accion (#14807A): verde para FONDOS CON TEXTO BLANCO ENCIMA (botones, burbujas del
+     bot) y para palabras destacadas sobre fondo beige. Cumple la norma de accesibilidad
+     WCAG AA: 4,8:1 con blanco y 4,0:1 sobre beige.
+     --teal-accion-hover (#10706B): el mismo botón al pasar el mouse; un poco más oscuro
+     para que el texto blanco siga leyéndose bien (5,9:1). */
+  --teal-accion:#14807A;
+  --teal-accion-hover:#10706B;
+
   --footer-bg:#0A2522;                 /* fondo del footer */
   --teal-dk-hover:#13433E;             /* tarjeta oscura al pasar el mouse */
   --tag-warn-bg:#FAEEDA; --tag-warn-tx:#854F0B;   /* etiqueta "Reactivar" */
