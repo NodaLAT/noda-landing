@@ -19,3 +19,10 @@ next-env.d.ts
 .DS_Store
 Thumbs.db
 npm-debug.log*
+
+# Skills de diseño instaladas localmente (no se suben al repositorio)
+/.claude/skills/
+/.mcp.json
+/PRODUCT.md
+/DESIGN.md
+/.impeccable/
