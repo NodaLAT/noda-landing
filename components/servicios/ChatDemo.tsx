@@ -68,7 +68,7 @@ export default function ChatDemo({ demo }: { demo: DemoChat }) {
         <span className="demo-tag">Demo</span>
       </div>
 
-      <div className="messages" ref={cajaRef} aria-live="polite">
+      <div className="messages" ref={cajaRef} aria-live="polite" data-lenis-prevent>
         {items.map((it) => <Burbuja key={it.id} item={it} />)}
         {botEscribe && (
           <div className="typing msg-in" aria-label="El asistente está escribiendo"><i /><i /><i /></div>

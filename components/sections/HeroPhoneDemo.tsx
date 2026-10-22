@@ -4,14 +4,19 @@ import { useEffect, useRef, type CSSProperties } from "react";
 
 const dot = (i: number) => ({ "--i": i }) as CSSProperties;
 
-// Teléfono animado del hero: 3 escenas de chat de WhatsApp que se repiten.
-// La lógica es la del <script> original del index.html, con los mismos tiempos.
+// Teléfono animado del hero: 4 escenas de chat de WhatsApp que se repiten.
+// La lógica del ciclo es la del <script> original del index.html, con los mismos tiempos.
+// Además: en computadora, la sección protagonista (HeroStory) elige la escena con el scroll
+// (evento "noda:escena"), y un brillo teal detrás del teléfono sigue suavemente al mouse.
 export default function HeroPhoneDemo() {
   const rootRef = useRef<HTMLDivElement>(null);
+  const stageRef = useRef<HTMLDivElement>(null);
+  const glowRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const root = rootRef.current;
-    if (!root) return;
+    const root = rootRef.current, stage = stageRef.current, glow = glowRef.current;
+    if (!root || !stage || !glow) return;
+    const reducir = matchMedia("(prefers-reduced-motion: reduce)").matches;
     const scenes = Array.from(root.querySelectorAll<HTMLElement>(".noda-hero-scene"));
     const statusText = root.querySelector(".noda-hero-status-text");
     const SCENE_MS = 5000, CYCLE = SCENE_MS * scenes.length;
@@ -51,21 +56,75 @@ export default function HeroPhoneDemo() {
     function play() { if (running) return; running = true; start = 0; idx = 0; rafId = requestAnimationFrame(frame); }
     function pause() { running = false; if (rafId) cancelAnimationFrame(rafId); }
 
+    const COMPLETA = [".noda-hero-chip", ".noda-hero-b-user", ".noda-hero-b-bot", ".noda-hero-extra"];
+
     // Estado inicial visible: el teléfono nunca se ve en blanco antes de que arranque el loop.
     const s0 = scenes[0]; s0.classList.add("is-active");
-    [".noda-hero-chip", ".noda-hero-b-user", ".noda-hero-b-bot", ".noda-hero-extra"].forEach((sel) => { show(q(s0, sel)); });
+    COMPLETA.forEach((sel) => { show(q(s0, sel)); });
     setStatus("en línea");
 
-    // Solo anima cuando el teléfono está en pantalla.
-    let io: IntersectionObserver | undefined;
-    if ("IntersectionObserver" in window) {
-      io = new IntersectionObserver((es) => {
-        es.forEach((e) => { if (e.isIntersecting) play(); else pause(); });
-      }, { threshold: .2 });
-      io.observe(root);
-    } else { play(); }
+    // --- Escena elegida por el scroll (sección protagonista, solo computadora) ---
+    let enHistoria = false;
+    let timers: number[] = [];
+    const limpiar = () => { timers.forEach(clearTimeout); timers = []; };
+    function verEscena(k: number, animar: boolean) {
+      pause(); limpiar();
+      scenes.forEach((s) => { resetScene(s); s.classList.remove("is-active"); });
+      const s = scenes[k]; s.classList.add("is-active"); setStatus("en línea");
+      if (!animar) { COMPLETA.forEach((sel) => show(q(s, sel))); return; }
+      // Misma secuencia del ciclo, más corta: el texto de al lado ya explica la escena.
+      const t = (ms: number, fn: () => void) => { timers.push(window.setTimeout(fn, ms)); };
+      t(60, () => show(q(s, ".noda-hero-chip")));
+      t(280, () => show(q(s, ".noda-hero-b-user")));
+      t(640, () => { show(q(s, ".noda-hero-typing")); setStatus("escribiendo…"); });
+      t(1300, () => { const ty = q(s, ".noda-hero-typing"); if (ty) { ty.classList.remove("is-in"); ty.classList.add("noda-hero-hidden"); } setStatus("en línea"); show(q(s, ".noda-hero-b-bot")); });
+      t(1820, () => show(q(s, ".noda-hero-extra")));
+    }
+    const alCambiarEscena = (e: Event) => {
+      const k = (e as CustomEvent<number | null>).detail;
+      if (k === null) {   // volvió arriba: retoma el ciclo automático desde la primera escena
+        enHistoria = false; limpiar(); pause();
+        if (reducir) { verEscena(0, false); return; }
+        scenes.forEach((s) => { resetScene(s); s.classList.remove("is-active"); });
+        play();
+        return;
+      }
+      enHistoria = true;
+      verEscena(k, !reducir);
+    };
+    window.addEventListener("noda:escena", alCambiarEscena);
 
-    return () => { pause(); io?.disconnect(); };
+    // Solo anima cuando el teléfono está en pantalla (y no si la persona pidió reducir movimiento).
+    let io: IntersectionObserver | undefined;
+    if (!reducir) {
+      io = new IntersectionObserver((es) => {
+        es.forEach((e) => { if (!e.isIntersecting) pause(); else if (!enHistoria) play(); });
+      }, { threshold: .2 });
+      io.observe(stage);
+    }
+
+    // --- Brillo que sigue al mouse (solo computadora; movimiento suavizado, máximo 28 px) ---
+    let quitarMouse = () => {};
+    if (!reducir && matchMedia("(hover: hover) and (pointer: fine)").matches) {
+      let x = 0, y = 0, tx = 0, ty = 0, raf = 0;
+      const paso = () => {
+        x += (tx - x) * 0.08; y += (ty - y) * 0.08;   // se acerca de a poco: se siente natural, no pegado al cursor
+        glow.style.transform = `translate3d(${x.toFixed(2)}px, ${y.toFixed(2)}px, 0)`;
+        raf = Math.abs(tx - x) > 0.1 || Math.abs(ty - y) > 0.1 ? requestAnimationFrame(paso) : 0;
+      };
+      const mover = (ev: PointerEvent) => {
+        const r = stage.getBoundingClientRect();
+        if (r.bottom < 0 || r.top > innerHeight) return;   // fuera de pantalla: no hace nada
+        const lim = (v: number) => Math.max(-1, Math.min(1, v));
+        tx = lim((ev.clientX - (r.left + r.width / 2)) / (innerWidth / 2)) * 28;
+        ty = lim((ev.clientY - (r.top + r.height / 2)) / (innerHeight / 2)) * 28;
+        if (!raf) raf = requestAnimationFrame(paso);
+      };
+      window.addEventListener("pointermove", mover, { passive: true });
+      quitarMouse = () => { window.removeEventListener("pointermove", mover); if (raf) cancelAnimationFrame(raf); };
+    }
+
+    return () => { pause(); limpiar(); io?.disconnect(); quitarMouse(); window.removeEventListener("noda:escena", alCambiarEscena); };
   }, []);
 
   return (
@@ -84,6 +143,9 @@ export default function HeroPhoneDemo() {
         <span className="noda-hero-tag">Asistente de WhatsApp con IA</span>
       </div>
 
+      {/* Escenario: en computadora queda fijo mientras pasan las escenas; el brillo va detrás */}
+      <div className="noda-hero-stage" ref={stageRef}>
+      <div className="noda-hero-glow" ref={glowRef} aria-hidden="true" />
       <div className="noda-hero-phone" aria-hidden="true">
         {/* Barra superior */}
         <div className="noda-hero-topbar">
@@ -208,6 +270,7 @@ export default function HeroPhoneDemo() {
             <svg viewBox="0 0 24 24" width="16" height="16"><path fill="#fff" d="M3 11l16-7-7 16-2.5-6.5z" /></svg>
           </span>
         </div>
+      </div>
       </div>
     </div>
   );

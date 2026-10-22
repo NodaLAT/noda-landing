@@ -1,0 +1,56 @@
+/* =====================================================================
+   ANIMACIONES — ronda 1 (rama sitio-v2-animado)
+   Criterio: solo se animan opacidad y posición; entradas con --ease-salida;
+   con "reducir movimiento" activado el sitio se ve sin animaciones.
+   ===================================================================== */
+
+/* ---------- Scroll suave (Lenis, solo computadora con mouse) ---------- */
+html.lenis,html.lenis body{height:auto}
+.lenis.lenis-smooth{scroll-behavior:auto!important}
+.lenis.lenis-smooth [data-lenis-prevent]{overscroll-behavior:contain}
+.lenis.lenis-stopped{overflow:hidden}
+
+/* ---------- Hero: el título aparece palabra por palabra ---------- */
+/* Solo opacidad y posición: el navegador las anima sin recalcular la página (sin "blur", que en celular cuesta) */
+.hero-title .hero-word{display:inline-block;opacity:0;transform:translateY(.3em);
+  animation:palabraEntra .8s var(--ease-salida) forwards;animation-delay:calc(var(--i) * var(--stagger) + 120ms)}
+@keyframes palabraEntra{to{opacity:1;transform:none}}
+
+/* ---------- Hero: brillo teal detrás del teléfono ---------- */
+.noda-hero-stage{position:relative}
+.noda-hero-glow{position:absolute;left:50%;top:50%;width:170%;aspect-ratio:1;margin:-85% 0 0 -85%;border-radius:50%;
+  background:radial-gradient(closest-side,rgba(31,160,152,.22),rgba(31,160,152,.08) 55%,rgba(31,160,152,0));
+  pointer-events:none;z-index:0;will-change:transform}
+.noda-hero-stage .noda-hero-phone{z-index:1}
+
+/* ---------- Sección protagonista: textos de las 4 escenas ---------- */
+.story-num{font-family:var(--mono);font-size:var(--fs-caption);letter-spacing:.12em;color:var(--teal-tx);margin-bottom:14px}
+.story-step h2{font-size:clamp(1.5rem,2.4vw,2.1rem);line-height:1.15;margin-bottom:12px}
+.story-text{color:var(--mut);font-size:var(--fs-section-sub);max-width:440px;margin-bottom:16px}
+
+/* Computadora: el teléfono se queda fijo mientras los textos pasan a su lado */
+@media (min-width:981px){
+  .hero-story{overflow:clip}   /* "clip" en vez de "hidden": permite que el teléfono quede fijo */
+  .hero-story .hero-grid{grid-template-areas:"intro visual" "story visual";align-items:start;row-gap:0}
+  /* 867.6px = alto del logo + teléfono: el texto queda centrado igual que antes */
+  .hero-story .hero-intro{grid-area:intro;min-height:867.6px;display:flex;flex-direction:column;justify-content:center}
+  .hero-story .hero-visual{grid-area:visual;align-self:stretch}
+  .hero-story .noda-hero-stage{position:sticky;top:max(92px,calc(50vh - 299px))}
+  .story{grid-area:story;padding-bottom:10vh}   /* espacio para que el teléfono siga fijo con el último texto */
+  .story-step{min-height:78vh;display:flex;flex-direction:column;justify-content:center;opacity:.28;
+    transition:opacity .45s var(--ease-salida)}
+  .story-step.is-active{opacity:1}
+}
+/* Celular y tablet: versión vertical simple; el teléfono sigue con su animación automática */
+@media (max-width:980px){
+  .story-step{padding:24px 0;border-top:var(--border)}
+  .story-step:first-child{border-top:none;padding-top:4px}
+}
+
+/* ---------- Reducir movimiento: el sitio se ve sin animaciones ---------- */
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation-duration:.01ms!important;animation-delay:0s!important;animation-iteration-count:1!important;
+    transition-duration:.01ms!important;transition-delay:0s!important}
+  .hero-title .hero-word{opacity:1;transform:none}
+}

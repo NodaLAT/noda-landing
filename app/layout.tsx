@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ScrollEffects from "@/components/ScrollEffects";
+import SmoothScroll from "@/components/SmoothScroll";
 import DatosEstructurados from "@/components/DatosEstructurados";
 import { Analytics } from "@vercel/analytics/next";
 import { Bricolage_Grotesque, JetBrains_Mono, Manrope } from "next/font/google";
@@ -12,6 +13,7 @@ import "@/styles/globals.css";
 import "@/styles/noda-hero.css";
 import "@/styles/servicios.css";
 import "@/styles/legal.css";
+import "@/styles/animaciones.css";
 
 // Las mismas tipografías de siempre (Google Fonts), pero servidas desde nuestro propio sitio:
 // el celular no tiene que conectarse a otro servidor y la página aparece antes.
@@ -45,6 +47,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         {children}
         <Footer />
         <ScrollEffects />
+        <SmoothScroll />
         <DatosEstructurados />
         {/* Medición de visitas de Vercel: sin cookies y sin datos que identifiquen a la persona */}
         <Analytics />

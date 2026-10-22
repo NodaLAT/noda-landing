@@ -28,7 +28,10 @@ export default function ScrollEffects() {
     const cObs = new IntersectionObserver((entries) => {
       entries.forEach((e) => { if (e.isIntersecting) { runCounter(e.target as HTMLElement); cObs.unobserve(e.target); } });
     }, { threshold: .6 });
-    document.querySelectorAll<HTMLElement>("[data-count]").forEach((el) => cObs.observe(el));
+    // Con "reducir movimiento" los números se muestran directamente en su valor final.
+    if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      document.querySelectorAll<HTMLElement>("[data-count]").forEach((el) => cObs.observe(el));
+    }
 
     return () => { obs.disconnect(); cObs.disconnect(); };
   }, [pathname]);

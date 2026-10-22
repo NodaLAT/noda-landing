@@ -121,6 +121,10 @@
 
   /* ===== MOVIMIENTO ===== */
   --dur-fast:.2s; --dur:.28s; --dur-card:.3s; --dur-reveal:.8s;
+  /* Curvas fuertes (criterio de Emil Kowalski): */
+  --ease-salida:cubic-bezier(.23,1,.32,1);       /* entradas: arranca rápido, frena suave */
+  --ease-movimiento:cubic-bezier(.77,0,.175,1);  /* algo que se mueve dentro de la pantalla */
+  --stagger:55ms;                                /* pausa entre elementos que aparecen en cadena */
 
   /* ===== PUNTOS DE QUIEBRE (referencia; CSS no permite variables en @media) =====
      980px → tablet (menú hamburguesa, columnas a 1)
