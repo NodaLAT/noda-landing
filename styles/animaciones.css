@@ -20,8 +20,12 @@ html.lenis,html.lenis body{height:auto}
 .noda-hero-stage{position:relative}
 .noda-hero-glow{position:absolute;left:50%;top:50%;width:170%;aspect-ratio:1;margin:-85% 0 0 -85%;border-radius:50%;
   background:radial-gradient(closest-side,rgba(31,160,152,.22),rgba(31,160,152,.08) 55%,rgba(31,160,152,0));
-  pointer-events:none;z-index:0;will-change:transform}
+  pointer-events:none;z-index:0}
 .noda-hero-stage .noda-hero-phone{z-index:1}
+/* Solo donde el brillo se mueve (computadora con mouse) se le reserva una capa propia */
+@media (hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference){
+  .noda-hero-glow{will-change:transform}
+}
 
 /* ---------- Sección protagonista: textos de las 4 escenas ---------- */
 .story-num{font-family:var(--mono);font-size:var(--fs-caption);letter-spacing:.12em;color:var(--teal-tx);margin-bottom:14px}

@@ -106,11 +106,16 @@ export default function HeroPhoneDemo() {
     // --- Brillo que sigue al mouse (solo computadora; movimiento suavizado, máximo 28 px) ---
     let quitarMouse = () => {};
     if (!reducir && matchMedia("(hover: hover) and (pointer: fine)").matches) {
-      let x = 0, y = 0, tx = 0, ty = 0, raf = 0;
-      const paso = () => {
-        x += (tx - x) * 0.08; y += (ty - y) * 0.08;   // se acerca de a poco: se siente natural, no pegado al cursor
+      let x = 0, y = 0, tx = 0, ty = 0, raf = 0, antes = 0;
+      const paso = (ahora: number) => {
+        // Se acerca de a poco (como un resorte suave): natural, no pegado al cursor.
+        // Calculado por tiempo, no por cuadro: se siente igual en pantallas de 60 y de 120 Hz.
+        const dt = antes ? Math.min(64, ahora - antes) : 16.7; antes = ahora;
+        const k = 1 - Math.pow(1 - 0.08, dt / 16.7);
+        x += (tx - x) * k; y += (ty - y) * k;
         glow.style.transform = `translate3d(${x.toFixed(2)}px, ${y.toFixed(2)}px, 0)`;
-        raf = Math.abs(tx - x) > 0.1 || Math.abs(ty - y) > 0.1 ? requestAnimationFrame(paso) : 0;
+        if (Math.abs(tx - x) > 0.1 || Math.abs(ty - y) > 0.1) raf = requestAnimationFrame(paso);
+        else { raf = 0; antes = 0; }
       };
       const mover = (ev: PointerEvent) => {
         const r = stage.getBoundingClientRect();
