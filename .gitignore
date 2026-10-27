@@ -19,3 +19,7 @@ next-env.d.ts
 .DS_Store
 Thumbs.db
 npm-debug.log*
+
+# assets v3: originales pesados y hoja de revisión (no van al repo público)
+/assets-v3-originales/
+/revision-assets-v3.png
