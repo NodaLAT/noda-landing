@@ -12,6 +12,7 @@ import "@/styles/globals.css";
 import "@/styles/noda-hero.css";
 import "@/styles/servicios.css";
 import "@/styles/legal.css";
+import "@/styles/home-v3.css";
 
 // Las mismas tipografías de siempre (Google Fonts), pero servidas desde nuestro propio sitio:
 // el celular no tiene que conectarse a otro servidor y la página aparece antes.

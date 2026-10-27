@@ -35,7 +35,7 @@ export default function Header() {
             {NAV_LINKS.map((l) => (
               <NavLink key={l.href} href={l.href} label={l.label} />
             ))}
-            <a href={WHATSAPP_URL} className="nav-cta">Hablar con Noda</a>
+            <a href={WHATSAPP_URL} className="nav-cta">Cotiza por WhatsApp</a>
           </div>
           <button className="menu-toggle" id="menuToggle" aria-label="Menú" onClick={() => setMenuOpen((o) => !o)}>
             <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -49,7 +49,7 @@ export default function Header() {
         {NAV_LINKS.map((l) => (
           <NavLink key={l.href} href={l.href} label={l.label} onClick={closeMenu} />
         ))}
-        <a href={WHATSAPP_URL} onClick={closeMenu}>Hablar con Noda</a>
+        <a href={WHATSAPP_URL} onClick={closeMenu}>Cotiza por WhatsApp</a>
       </div>
     </>
   );

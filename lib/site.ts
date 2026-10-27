@@ -21,5 +21,4 @@ export const NAV_LINKS = [
   { label: "Servicios", href: "/servicios" },
   { label: "Casos", href: "/#casos" },
   { label: "Proceso", href: "/#proceso" },
-  { label: "Por qué Noda", href: "/#por-que" },
 ];

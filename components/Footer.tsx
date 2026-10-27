@@ -20,8 +20,8 @@ export default function Footer() {
             <a href={whatsappLink(SERVICIO_A_MEDIDA.mensajeWhatsApp)}>Diagnóstico gratis</a>
           </div>
           <div className="footer-col">
-            <h2 className="footer-title">Empresa</h2>
-            <a href="/#por-que">Quiénes somos</a><a href="/#casos">Casos</a><a href="/#proceso">Cómo trabajamos</a>
+            <h2 className="footer-title">Noda</h2>
+            <a href="/#por-que">Por qué Noda</a><a href="/#casos">Casos</a><a href="/#proceso">Cómo trabajamos</a>
           </div>
           <div className="footer-col">
             <h2 className="footer-title">Contacto</h2>
@@ -32,7 +32,7 @@ export default function Footer() {
           </div>
         </div>
         <div className="footer-bottom">
-          <span>© 2026 Noda — Quito, Ecuador. Atendemos clientes globalmente.</span>
+          <span>© 2026 NODA S.A.S. · Quito, Ecuador</span>
           <span className="footer-legal">
             <Link href="/privacidad">Privacidad</Link>
             <Link href="/terminos">Términos</Link>

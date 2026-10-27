@@ -50,6 +50,25 @@
   --teal-accion:#14807A;
   --teal-accion-hover:#10706B;
 
+  /* ----- Paleta v3 (portada nueva, colorida) -----
+     Nombres del manual de marca. Para cambiar la paleta completa más adelante,
+     basta con editar estos valores. Regla de contraste (WCAG AA):
+     texto BLANCO solo sobre --teal-texto (#14807A) o --tinta (#0F2E2D);
+     sobre --teal, --cian, --coral y --sol el texto va en --tinta. */
+  --v3-beige:#F5E8D6;       /* fondo claro cálido */
+  --v3-tinta:#0F2E2D;       /* verde casi negro: fondos oscuros y texto principal sobre claro */
+  --v3-teal:#1FA098;        /* verde de marca */
+  --v3-teal-texto:#14807A;  /* verde con texto blanco encima (= --teal-accion) */
+  --v3-cian:#1BB8C9;        /* celeste */
+  --v3-coral:#FF6F59;       /* coral */
+  --v3-sol:#FFC145;         /* amarillo sol */
+  /* tonos "sombra" (un paso más oscuros) para las palabras gigantes tono sobre tono */
+  --v3-teal-dark:#178C85;
+  --v3-cian-dark:#14A0B0;
+  --v3-coral-dark:#F2573F;
+  --v3-sol-dark:#F0A91F;
+  --v3-tinta-soft:rgba(245,232,214,.06); /* palabra gigante sobre fondo tinta */
+
   --footer-bg:#0A2522;                 /* fondo del footer */
   --teal-dk-hover:#13433E;             /* tarjeta oscura al pasar el mouse */
   --tag-warn-bg:#FAEEDA; --tag-warn-tx:#854F0B;   /* etiqueta "Reactivar" */
