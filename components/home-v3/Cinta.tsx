@@ -18,7 +18,7 @@ function Grupo() {
 
 export default function Cinta() {
   return (
-    <div className="v3-cinta" aria-label="Atiende 24/7, agenda sola, cotiza en segundos, interpreta con IA">
+    <div className="v3-cinta" role="img" aria-label="Atiende 24/7, agenda sola, cotiza en segundos, interpreta con IA">
       <div className="v3-cinta-track">
         <Grupo />
         <Grupo />

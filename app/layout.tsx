@@ -43,7 +43,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="es" data-scroll-behavior="smooth" className={`${fuenteDisplay.variable} ${fuenteBody.variable} ${fuenteMono.variable}`}>
       <body>
         <Header />
-        {children}
+        <main>{children}</main>
         <Footer />
         <ScrollEffects />
         <DatosEstructurados />
