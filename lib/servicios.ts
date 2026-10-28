@@ -75,7 +75,7 @@ export type Servicio = {
   pasos: { titulo: string; texto: string }[];   // "Cómo funciona": siempre 3
   incluye: string[];        // "Qué incluye" (vacío = PENDIENTE)
   idealPara: string[];      // "Ideal para" (vacío = PENDIENTE)
-  dato: Dato;
+  dato?: Dato;              // cifra destacada (sin dato, la sección no se muestra)
   demo: DemoChat | DemoWeb | DemoPanel;
   faq: { pregunta: string; respuesta: string }[];   // vacío = PENDIENTE
   relacionados: string[];   // slugs de servicios que se combinan bien con este
@@ -84,13 +84,13 @@ export type Servicio = {
 
 const SIN_PRECIO: Precio = { setup: null, mensual: null, mostrarPrecio: false };
 
-// Cifras aprobadas, cada una con su fuente (textos tomados del sitio anterior).
-const CIFRAS = {
+// Cifras aprobadas, cada una con su fuente. Las usan las páginas de servicio y "El problema" de la portada.
+export const CIFRAS = {
   whatsapp: { cifra: "12,6 M", texto: "de personas usan WhatsApp cada semana en Ecuador.", fuente: "Sensor Tower, 2025" },
-  respuesta: { cifra: "7×", texto: "más probabilidad de concretar una venta si respondes en la primera hora.", fuente: "Harvard Business Review" },
+  respuesta: { cifra: "7×", texto: "más probabilidad de concretar una oportunidad de venta si respondes en la primera hora.", fuente: "Harvard Business Review" },
   repetitivas: { cifra: "40 %+", texto: "de los trabajadores dedica al menos un cuarto de su semana a tareas repetitivas.", fuente: "Smartsheet, Automation in the Workplace" },
   horas: { cifra: "6 h", texto: "por semana que un trabajador estima recuperar automatizando tareas repetitivas.", fuente: "Smartsheet, Automation in the Workplace" },
-  inasistencias: { cifra: "−25 %", texto: "de inasistencias cuando tus clientes reciben recordatorios.", fuente: "BMJ Open, 2016" },
+  inasistencias: { cifra: "−25 %", texto: "de inasistencias cuando tus clientes reciben recordatorios.", fuente: "BMJ Open, metaanálisis 2016" },
 } satisfies Record<string, Dato>;
 
 const VYR = {
@@ -163,7 +163,7 @@ export const SERVICIOS: Servicio[] = [
     ],
     incluye: [],
     idealPara: [],
-    dato: CIFRAS.whatsapp,
+    dato: CIFRAS.respuesta,
     faq: [],
     relacionados: ["agendamiento-y-recordatorios", "cotizaciones-al-instante", "crm-y-seguimiento-de-leads"],
     caso: {
@@ -309,7 +309,6 @@ export const SERVICIOS: Servicio[] = [
     ],
     incluye: [],
     idealPara: [],
-    dato: CIFRAS.respuesta,
     faq: [],
     relacionados: ["atencion-y-ventas-whatsapp", "crm-y-seguimiento-de-leads", "interpretacion-de-documentos"],
   },
@@ -381,7 +380,6 @@ export const SERVICIOS: Servicio[] = [
     ],
     incluye: [],
     idealPara: [],
-    dato: CIFRAS.repetitivas,
     faq: [],
     relacionados: ["atencion-y-ventas-whatsapp", "cotizaciones-al-instante", "apps-y-sistemas-a-medida"],
     caso: {
@@ -520,7 +518,7 @@ export const SERVICIOS: Servicio[] = [
     ],
     incluye: [],
     idealPara: [],
-    dato: CIFRAS.repetitivas,
+    dato: CIFRAS.horas,
     faq: [],
     relacionados: ["crm-y-seguimiento-de-leads", "agendamiento-y-recordatorios", "apps-y-sistemas-a-medida"],
   },
@@ -601,7 +599,6 @@ export const SERVICIOS: Servicio[] = [
     ],
     incluye: [],
     idealPara: [],
-    dato: CIFRAS.horas,
     faq: [],
     relacionados: ["webs-con-ia", "reportes-y-dashboards", "interpretacion-de-documentos"],
   },

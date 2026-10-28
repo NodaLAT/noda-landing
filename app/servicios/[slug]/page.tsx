@@ -108,18 +108,20 @@ export default async function ServicioPage({ params }: Props) {
         </div>
       </section>
 
-      {/* 6. Dato con fuente */}
-      <section className="p3-sec p3-sec-c">
-        <div className="p3-wrap">
-          <figure className="p3-dato">
-            <span className="p3-dato-cifra">{s.dato.cifra}</span>
-            <figcaption>
-              <p className="p3-dato-texto">{s.dato.texto}</p>
-              <p className="p3-dato-fuente">Fuente: {s.dato.fuente}</p>
-            </figcaption>
-          </figure>
-        </div>
-      </section>
+      {/* 6. Dato con fuente (solo si el servicio tiene una cifra aprobada) */}
+      {s.dato && (
+        <section className="p3-sec p3-sec-c">
+          <div className="p3-wrap">
+            <figure className="p3-dato">
+              <span className="p3-dato-cifra">{s.dato.cifra}</span>
+              <figcaption>
+                <p className="p3-dato-texto">{s.dato.texto}</p>
+                <p className="p3-dato-fuente">Fuente: {s.dato.fuente}</p>
+              </figcaption>
+            </figure>
+          </div>
+        </section>
+      )}
 
       {/* 7. Demo */}
       <section className="p3-sec p3-sec-c" id="demo">
