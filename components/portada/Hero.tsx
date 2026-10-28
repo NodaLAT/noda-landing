@@ -20,12 +20,14 @@ export default function Hero() {
           <span className="p3-mask"><span className="p3-mask-in p3-anim" style={{ "--d": ".35s" } as React.CSSProperties}>Automatizamos tu negocio</span></span>
           <span className="p3-mask"><span className="p3-mask-in p3-anim" style={{ "--d": ".5s" } as React.CSSProperties}>para que <em className="p3-acento">vendas más.</em></span></span>
         </h1>
-        <p className="p3-hero-sub p3-anim" style={{ "--d": ".65s" } as React.CSSProperties}>
-          Respondemos, agendamos y cotizamos por ti en WhatsApp, las 24 horas, con IA.
-        </p>
-        <div className="p3-hero-acc p3-anim" style={{ "--d": ".8s" } as React.CSSProperties}>
-          <a href={WHATSAPP_URL} className="p3-btn p3-btn-acento p3-shine">Cotiza por WhatsApp</a>
-          <a href="#nodos" className="p3-btn p3-btn-outline">Ver cómo funciona</a>
+        <div className="p3-hero-pie">
+          <p className="p3-hero-sub p3-anim" style={{ "--d": ".65s" } as React.CSSProperties}>
+            Respondemos, agendamos y cotizamos por ti en WhatsApp, las 24 horas, con IA.
+          </p>
+          <div className="p3-hero-acc p3-anim" style={{ "--d": ".8s" } as React.CSSProperties}>
+            <a href={WHATSAPP_URL} className="p3-btn p3-btn-acento p3-shine">Cotiza por WhatsApp</a>
+            <a href="#nodos" className="p3-btn p3-btn-outline">Ver cómo funciona</a>
+          </div>
         </div>
       </div>
       <ul className="p3-hero-datos p3-anim" style={{ "--d": ".95s" } as React.CSSProperties}>

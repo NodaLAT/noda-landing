@@ -4,11 +4,13 @@ import { useEffect, useRef } from "react";
 import { ISOTIPO_PUNTOS } from "@/lib/isotipo-puntos";
 import { montarLienzo, leerColores, reducirMovimiento, observarTema } from "./lienzo";
 
-// Isotipo hecho de partículas (canvas). Decorativo (aria-hidden).
-// Tamaño/posición calculados del espacio libre real entre la cabecera y la etiqueta del hero.
+// Isotipo hecho de partículas (canvas a todo el hero). Decorativo (aria-hidden).
+// Tamaño: ~55 % del ancho en computadora (máx. 820 px) y ~85 % en celular, sin deformar,
+// limitado al espacio libre entre la cabecera y el título (puede rozar la etiqueta, nunca el título).
 // Entrada escalonada con estelas, ciclo formado/disperso y dispersión por scroll.
 const ENTRADA_FIN = 5.5;           // s: a los 5.5 s el isotipo está completo
 const CICLO = 8.9;                 // formado 4 + transición 1.2 + disperso 2.5 + reforma 1.2
+const EXT_Y = Math.max(...ISOTIPO_PUNTOS.map((p) => Math.abs(p[1])));   // semialto normalizado (semiancho = 1)
 
 export default function IsotipoCanvas() {
   const ref = useRef<HTMLCanvasElement>(null);
@@ -41,23 +43,35 @@ export default function IsotipoCanvas() {
     let scrollS = 0;
     const mouse = { x: -9999, y: -9999, activo: false };
 
+    // casa de cada punto: espacio libre real entre la cabecera y el título (la etiqueta puede quedar debajo)
+    const colocar = () => {
+      if (!W) return;
+      const hero = canvas.parentElement;
+      // alto relativo al hero con offsetTop (ignora el desplazamiento de la animación de entrada)
+      const arriba = (sel: string) => {
+        let e = hero?.querySelector(sel) as HTMLElement | null, y = 0;
+        if (!e) return null;
+        while (e && e !== hero) { y += e.offsetTop; e = e.offsetParent as HTMLElement | null; }
+        return y;
+      };
+      const nav = document.querySelector(".p3-nav") as HTMLElement | null;
+      const navH = nav ? nav.getBoundingClientRect().height : 72;
+      const top = navH + 12;
+      const bottom = Math.max(top + 60, (arriba(".p3-hero-h1") ?? H * 0.55) - 22);
+      const anchoObjetivo = W > 760 ? Math.min(W * 0.55, 820) : W * 0.85;
+      R = Math.max(28, Math.min(anchoObjetivo / 2, (bottom - top) / (2 * EXT_Y)));
+      const alto = 2 * EXT_Y * R;
+      // si cabe sobre la etiqueta, se centra en ese espacio; si no, se pega arriba y solo roza la etiqueta
+      const sobreEtiqueta = (arriba(".p3-hero-eyebrow") ?? bottom + 14) - 14;
+      cx = W / 2; cy = sobreEtiqueta - top >= alto ? (top + sobreEtiqueta) / 2 : top + alto / 2;
+      for (const p of pts) { p.hx = cx + p.nx * R; p.hy = cy + p.ny * R; }
+      redibujar = true;
+    };
+
     const onResize = (w: number, h: number) => {
       W = w; H = h;
-      // espacio libre real entre la cabecera y la etiqueta "Automatización con IA"
-      const heroTop = canvas.getBoundingClientRect().top;
-      const nav = document.querySelector(".p3-nav") as HTMLElement | null;
-      const eb = document.querySelector(".p3-hero-eyebrow") as HTMLElement | null;
-      const navH = nav ? nav.getBoundingClientRect().height : 72;
-      const ebTop = eb ? eb.getBoundingClientRect().top - heroTop : h * 0.62;
-      const mT = 26, mB = 22;
-      let top = navH + mT, bottom = ebTop - mB;
-      if (bottom - top < 60) { top = navH + mT; bottom = Math.max(top + 60, h * 0.55); }
-      const bandH = bottom - top;
-      cx = w / 2; cy = (top + bottom) / 2;
-      const lado = Math.max(20, w * 0.04);
-      // extensión vertical del isotipo = 2*0.767*R; horizontal = 2*R
-      R = Math.max(28, Math.min(bandH / 1.54, (w - 2 * lado) / 2));
-      for (const p of pts) { p.hx = cx + p.nx * R; p.hy = cy + p.ny * R; p.sx = Math.random() * w; p.sy = Math.random() * h; }
+      colocar();
+      for (const p of pts) { p.sx = Math.random() * w; p.sy = Math.random() * h; }
       if (!iniciado) {
         for (const p of pts) { p.ex = Math.random() * w; p.ey = Math.random() * h; if (reduce) { p.x = p.hx; p.y = p.hy; } else { p.x = p.ex; p.y = p.ey; } p.px = p.x; p.py = p.y; }
         for (const d of polvo) { d.x = Math.random() * w; d.y = Math.random() * h; }
@@ -139,6 +153,10 @@ export default function IsotipoCanvas() {
     };
 
     const ctrl = montarLienzo(canvas, onResize, onFrame);
+    // si el texto cambia de alto (carga de fuente, saltos de línea) se recoloca el isotipo
+    const roTexto = new ResizeObserver(() => colocar());
+    const contenido = canvas.parentElement?.querySelector(".p3-hero-content");
+    if (contenido) roTexto.observe(contenido);
     const quitarTema = observarTema(() => { col = leerColores(); redibujar = true; });
     const onScroll = () => { if (!reduce) { scrollS = Math.min(1, Math.max(0, window.scrollY / Math.max(1, H))); redibujar = true; } };
     if (!reduce) window.addEventListener("scroll", onScroll, { passive: true });
@@ -148,7 +166,7 @@ export default function IsotipoCanvas() {
     if (!reduce) { canvas.addEventListener("pointermove", mv); canvas.addEventListener("pointerleave", ml); }
 
     return () => {
-      ctrl.destruir(); quitarTema();
+      ctrl.destruir(); quitarTema(); roTexto.disconnect();
       window.removeEventListener("scroll", onScroll);
       canvas.removeEventListener("pointermove", mv); canvas.removeEventListener("pointerleave", ml);
     };

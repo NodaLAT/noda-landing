@@ -63,23 +63,26 @@
 .p3-movil-nav .p3-pill{ font-size:18px; padding:12px 26px; }
 
 /* ---------- hero ---------- */
-.p3-hero{ position:relative; min-height:880px; display:flex; flex-direction:column; justify-content:flex-end;
-  padding:140px 0 44px; overflow:hidden; }
+/* 100vh (mín. 760 px). Texto alineado abajo; el isotipo (canvas a todo el hero) ocupa el espacio de arriba. */
+.p3-hero{ position:relative; min-height:max(100vh,760px); display:flex; flex-direction:column; justify-content:flex-end;
+  padding:120px 0 36px; overflow:hidden; }
 .p3-hero-canvas{ position:absolute; inset:0; width:100%; height:100%; z-index:0; }
-.p3-hero-content{ position:relative; z-index:2; max-width:1180px; margin:0 auto; padding:0 24px; width:100%; text-align:center; }
+.p3-hero-content{ position:relative; z-index:2; max-width:1180px; margin:0 auto; padding:0 24px; width:100%; text-align:left; }
 .p3-hero-eyebrow{ display:inline-flex; align-items:center; gap:8px; font-weight:600; font-size:13px; letter-spacing:.1em;
   text-transform:uppercase; color:var(--texto-2); padding:7px 15px; border-radius:999px;
   background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.12); margin-bottom:22px; }
 .p3-eb-star{ fill:var(--acento); stroke:none; }
 .p3-hero-h1{ font-family:var(--display); font-weight:700; font-size:clamp(40px,7.2vw,72px); line-height:1.03;
-  letter-spacing:-.04em; margin:0 auto 22px; max-width:none; }
+  letter-spacing:-.04em; margin:0 0 24px; max-width:none; }
 .p3-mask{ display:block; overflow:hidden; padding-bottom:.04em; }
 .p3-mask-in{ display:block; }
+.p3-hero-pie{ display:flex; align-items:center; justify-content:space-between; gap:24px 40px; flex-wrap:wrap; }
 .p3-hero-sub{ font-weight:600; font-size:clamp(16px,2vw,19px); line-height:1.45; color:var(--texto-2);
-  max-width:44ch; margin:0 auto 32px; }
-.p3-hero-acc{ display:flex; gap:14px; justify-content:center; flex-wrap:wrap; }
-.p3-hero-datos{ position:relative; z-index:2; list-style:none; margin:clamp(40px,6vw,64px) auto 0; padding:0 24px;
-  max-width:1180px; display:flex; gap:clamp(20px,5vw,56px); justify-content:center; flex-wrap:wrap; }
+  max-width:44ch; margin:0; }
+.p3-hero-acc{ display:flex; gap:14px; flex-wrap:wrap; }
+.p3-hero-datos{ position:relative; z-index:2; list-style:none; margin:clamp(28px,4vw,40px) auto 0; padding:20px 0 0;
+  width:calc(100% - 48px); max-width:1132px; border-top:1px solid var(--borde);
+  display:flex; gap:clamp(20px,5vw,56px); flex-wrap:wrap; }
 .p3-hero-datos li{ display:inline-flex; align-items:center; gap:10px; font-weight:400; font-size:15px; color:var(--texto-2); }
 .p3-hero-datos strong{ font-weight:600; color:var(--texto); }
 .p3-dato-ico{ fill:none; stroke:var(--acento); stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
@@ -218,8 +221,9 @@
   .p3-footer-marca{ grid-column:1/-1; }
 }
 @media(max-width:760px){
-  .p3-hero{ min-height:0; padding:120px 0 40px; }
-  .p3-hero-datos{ flex-direction:column; align-items:center; gap:14px; }
+  /* celular: se reserva arriba el alto del isotipo al 85 % del ancho (85vw / aspecto 1.42 ≈ 60vw) */
+  .p3-hero{ min-height:100svh; padding:calc(96px + 60vw) 0 32px; }
+  .p3-hero-datos{ flex-direction:column; gap:12px; }
   .p3-red-canvas{ height:760px; }
   .p3-pasos{ grid-template-columns:1fr; }
   .p3-footer-top{ grid-template-columns:1fr; }
