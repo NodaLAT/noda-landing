@@ -106,6 +106,18 @@ export default function RedNodos() {
       const lp = polyAt(luzIdx); ctx.lineTo(lp.x, lp.y);
       ctx.stroke(); ctx.restore();
 
+      // la luz que recorre + su estela (color "destacado")
+      ctx.save();
+      ctx.lineCap = "round"; ctx.strokeStyle = col.destacado; ctx.lineWidth = 3;
+      ctx.shadowColor = col.destacado; ctx.shadowBlur = 14; ctx.globalAlpha = 0.9;
+      const ini = Math.max(0, lim - 24);
+      ctx.beginPath(); ctx.moveTo(poly[ini].x, poly[ini].y);
+      for (let k = ini + 1; k <= lim && k < poly.length; k++) ctx.lineTo(poly[k].x, poly[k].y);
+      ctx.lineTo(lp.x, lp.y); ctx.stroke();
+      ctx.globalAlpha = 1;
+      ctx.beginPath(); ctx.arc(lp.x, lp.y, 5, 0, Math.PI * 2); ctx.fillStyle = col.destacado; ctx.fill();
+      ctx.restore();
+
       // nodos
       nodos.forEach((nd, k) => {
         const recorrido = k < i || (k === i);

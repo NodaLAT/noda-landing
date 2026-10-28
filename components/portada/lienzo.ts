@@ -68,6 +68,7 @@ export function leerColores() {
   return {
     fondo: v("--fondo", "#000"),
     acento: v("--acento", "#eee6d5"),
+    destacado: v("--destacado", "#eee6d5"),
     nodoActivo: v("--nodo-activo", "#eee6d5"),
     nodoRecorrido: v("--nodo-recorrido", "#b0b0b0"),
     texto: v("--texto", "#fff"),

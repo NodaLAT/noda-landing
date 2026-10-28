@@ -33,7 +33,7 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   // data-tema: tema de color de la PORTADA. Cambiar "neutro" por "teal" aquí cambia toda la paleta.
   return (
-    <html lang="es" data-scroll-behavior="smooth" data-tema="teal" className={poppins.variable}>
+    <html lang="es" data-scroll-behavior="smooth" data-tema="mixto" className={poppins.variable}>
       <body>
         <ChromeGlobal slot="header" />
         <main>{children}</main>

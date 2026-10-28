@@ -157,12 +157,18 @@
    (el canvas también, con getComputedStyle). Las variables --par-* son RGB
    sueltos (para componer colores con rgba() dentro del canvas).
    ===================================================================== */
+/* --acento = acento de marca (íconos, etiquetas, nº de nodo, tramo recorrido, nodos, checks).
+   --destacado = palabras destacadas ("vendas más", "tú"), botón principal y luz+estela de los nodos.
+   En "neutro" y "teal" ambos coinciden (misma apariencia de siempre); en "mixto" difieren. */
 :root[data-tema="neutro"]{
   --fondo:#000000; --fondo-2:#0a0a0a; --superficie:#111111; --borde:#262626;
   --texto:#ffffff; --texto-2:#d4d4d4; --texto-3:#a3a3a3;
-  --acento:#eee6d5; --acento-claro:#eee6d5; --etiquetas:#eee6d5;
-  --acento-contraste:#000000;          /* texto sobre fondo de acento */
-  --cierre-bg:#eee6d5; --cierre-tx:#000000;
+  --acento:#eee6d5; --acento-claro:#eee6d5; --destacado:#eee6d5;
+  --etiquetas:#a3a3a3;                 /* color de las etiquetas superiores (= texto-3) */
+  --check:#7fd0ff;                     /* doble check del teléfono */
+  --acento-contraste:#000000;          /* texto sobre el botón principal */
+  --cierre-bg:#eee6d5; --cierre-titulo:#000000; --cierre-tx:#000000;
+  --cierre-btn-bg:#000000; --cierre-btn-tx:#eee6d5;
   --par-principal:242,238,230; --par-circulo:176,176,176; --par-cinta:105,105,105;
   --par-polvo:242,238,230;
   --nodo-activo:#eee6d5; --nodo-recorrido:#b0b0b0;
@@ -170,9 +176,26 @@
 :root[data-tema="teal"]{
   --fondo:#0b1416; --fondo-2:#0b1416; --superficie:#15292c; --borde:#23403f;
   --texto:#ffffff; --texto-2:#c3cfcd; --texto-3:#a9bab8;
-  --acento:#2cb6af; --acento-claro:#8fd6d0; --etiquetas:#c9e3ca;
+  --acento:#2cb6af; --acento-claro:#8fd6d0; --destacado:#2cb6af;
+  --etiquetas:#a9bab8;
+  --check:#7fd0ff;
   --acento-contraste:#0b1416;
-  --cierre-bg:#1d4a4f; --cierre-tx:#ffffff;
+  --cierre-bg:#1d4a4f; --cierre-titulo:#ffffff; --cierre-tx:#ffffff;
+  --cierre-btn-bg:#0b1416; --cierre-btn-tx:#2cb6af;
+  --par-principal:44,182,175; --par-circulo:201,227,202; --par-cinta:58,138,134;
+  --par-polvo:44,182,175;
+  --nodo-activo:#2cb6af; --nodo-recorrido:#2cb6af;
+}
+/* MIXTO: negro + crema (destacado) + teal de firma (acento de marca). */
+:root[data-tema="mixto"]{
+  --fondo:#000000; --fondo-2:#0a0a0a; --superficie:#111111; --borde:#262626;
+  --texto:#ffffff; --texto-2:#d4d4d4; --texto-3:#a3a3a3;
+  --acento:#2cb6af; --acento-claro:#8fd6d0; --destacado:#eee6d5;
+  --etiquetas:#2cb6af;                 /* etiquetas superiores en teal */
+  --check:#2cb6af;                     /* checks en teal */
+  --acento-contraste:#000000;          /* texto negro sobre el botón crema */
+  --cierre-bg:#1d4a4f; --cierre-titulo:#ffffff; --cierre-tx:#eee6d5;
+  --cierre-btn-bg:#eee6d5; --cierre-btn-tx:#000000;
   --par-principal:44,182,175; --par-circulo:201,227,202; --par-cinta:58,138,134;
   --par-polvo:44,182,175;
   --nodo-activo:#2cb6af; --nodo-recorrido:#2cb6af;
