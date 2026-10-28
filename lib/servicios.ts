@@ -571,7 +571,6 @@ export const SERVICIOS: Servicio[] = [
   },
 ];
 
-export const numeroServicio = (i: number) => String(i + 1).padStart(2, "0");
 
 // Dólares con coma para miles y punto para decimales: 1500 → "$1,500"; 49.9 → "$49.90".
 const dolares = (n: number) =>

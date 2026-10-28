@@ -4,13 +4,12 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { WHATSAPP_URL } from "@/lib/site";
 
-// Cabecera de la portada oscura: logo blanco, menú central de 4 pastillas, botón WhatsApp.
+// Cabecera oscura (todas las páginas): logo blanco, menú central de 3 pastillas, botón WhatsApp.
 // En celular: hamburguesa -> menú a pantalla completa con fondo desenfocado.
 const LINKS = [
   { label: "Servicios", href: "/servicios" },
-  { label: "Cómo funciona", href: "/#nodos" },
   { label: "Casos", href: "/#casos" },
-  { label: "Preguntas", href: "/#preguntas" },
+  { label: "Proceso", href: "/#proceso" },
 ];
 
 function NavLink({ href, label, onClick }: { href: string; label: string; onClick?: () => void }) {

@@ -2,21 +2,22 @@ import { ImageResponse } from "next/og";
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 
-// Imagen que aparece al compartir un enlace (WhatsApp, LinkedIn, Facebook, X).
-// Paleta oficial de video de Noda: fondo #0A0A0A, teal #4FBDBD y #39A6A6.
+// Imagen que aparece al compartir un enlace (WhatsApp, LinkedIn, Facebook, X). 1200×630.
+// Usa el fondo del tema mixto del sitio: base #0b0b0d con luz crema arriba a la derecha,
+// luz cálida abajo a la izquierda y un toque teal; Poppins como en la web.
 export const OG_SIZE = { width: 1200, height: 630 };
 export const OG_CONTENT_TYPE = "image/png";
 
-const NEGRO = "#0A0A0A";
-const TEAL = "#4FBDBD";
-const TEAL_2 = "#39A6A6";
+const BASE = "#0b0b0d";
+const CREMA = "#eee6d5";
+const TEAL = "#2cb6af";
+const TEAL_CLARO = "#8fd6d0";
 
-// Tipografías de la marca, descargadas de Google Fonts al construir el sitio.
+// Poppins, descargada de Google Fonts al construir el sitio.
 // Si la descarga falla, la imagen se genera igual con la letra por defecto.
-async function fuente(familia: string, peso: number, opsz?: number) {
+async function fuente(familia: string, peso: number) {
   try {
-    const ejes = opsz ? `opsz,wght@${opsz},${peso}` : `wght@${peso}`;
-    const css = await (await fetch(`https://fonts.googleapis.com/css2?family=${familia}:${ejes}`)).text();
+    const css = await (await fetch(`https://fonts.googleapis.com/css2?family=${familia}:wght@${peso}`)).text();
     const url = css.match(/src: url\((.+?)\) format\('(?:opentype|truetype)'\)/)?.[1];
     return url ? await (await fetch(url)).arrayBuffer() : null;
   } catch {
@@ -24,60 +25,70 @@ async function fuente(familia: string, peso: number, opsz?: number) {
   }
 }
 
-export async function imagenCompartir({ etiqueta, titulo, destacado = false }: {
+export async function imagenCompartir({ etiqueta, titulo, segunda = "", destacado = "" }: {
   etiqueta: string;
   titulo: string;
-  destacado?: boolean;
+  segunda?: string;       // segunda línea del título, en blanco (ej. "para que")
+  destacado?: string;     // final de la segunda línea, en crema (ej. "vendas más.")
 }) {
-  const [logo, display, cuerpo] = await Promise.all([
+  const [logo, negrita, media] = await Promise.all([
     readFile(join(process.cwd(), "public/logo-noda.png")),
-    fuente("Bricolage+Grotesque", 600, 96),   // 96 = versión "de titular", como en el sitio
-    fuente("Manrope", 600),
+    fuente("Poppins", 700),
+    fuente("Poppins", 600),
   ]);
   const fonts = [
-    ...(display ? [{ name: "Display", data: display, weight: 600 as const }] : []),
-    ...(cuerpo ? [{ name: "Cuerpo", data: cuerpo, weight: 600 as const }] : []),
+    ...(negrita ? [{ name: "Poppins", data: negrita, weight: 700 as const }] : []),
+    ...(media ? [{ name: "Poppins", data: media, weight: 600 as const }] : []),
   ];
+  const largo = Math.max(titulo.length, (segunda + destacado).length);
 
   return new ImageResponse(
     (
       <div style={{ width: "100%", height: "100%", display: "flex", flexDirection: "column", justifyContent: "space-between",
-        backgroundColor: NEGRO, padding: "64px 76px", fontFamily: "Cuerpo", position: "relative" }}>
-        {/* Halo de luz teal arriba a la derecha, como en el sitio (dibujado en SVG para que no se recorte) */}
+        backgroundColor: BASE, padding: "64px 76px", fontFamily: "Poppins", position: "relative" }}>
+        {/* Fondo de "luz desenfocada" (mismas luces que el sitio, en SVG para que no se recorten) */}
         <svg width="1200" height="630" viewBox="0 0 1200 630" style={{ position: "absolute", top: 0, left: 0 }}>
           <defs>
-            <radialGradient id="halo" cx="1060" cy="40" r="620" gradientUnits="userSpaceOnUse">
-              <stop offset="0" stopColor={TEAL_2} stopOpacity="0.34" />
-              <stop offset="0.45" stopColor={TEAL_2} stopOpacity="0.10" />
-              <stop offset="1" stopColor={TEAL_2} stopOpacity="0" />
+            <radialGradient id="crema" cx="1030" cy="70" r="640" gradientUnits="userSpaceOnUse">
+              <stop offset="0" stopColor={CREMA} stopOpacity="0.30" />
+              <stop offset="1" stopColor={CREMA} stopOpacity="0" />
+            </radialGradient>
+            <radialGradient id="calida" cx="120" cy="600" r="520" gradientUnits="userSpaceOnUse">
+              <stop offset="0" stopColor="#f2f0ec" stopOpacity="0.14" />
+              <stop offset="1" stopColor="#f2f0ec" stopOpacity="0" />
+            </radialGradient>
+            <radialGradient id="teal" cx="820" cy="330" r="420" gradientUnits="userSpaceOnUse">
+              <stop offset="0" stopColor={TEAL} stopOpacity="0.12" />
+              <stop offset="1" stopColor={TEAL} stopOpacity="0" />
             </radialGradient>
           </defs>
-          <rect width="1200" height="630" fill="url(#halo)" />
+          <rect width="1200" height="630" fill="url(#crema)" />
+          <rect width="1200" height="630" fill="url(#calida)" />
+          <rect width="1200" height="630" fill="url(#teal)" />
         </svg>
 
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src={`data:image/png;base64,${logo.toString("base64")}`} width={234} height={80} alt="" />
 
         <div style={{ display: "flex", flexDirection: "column" }}>
-          <div style={{ display: "flex", gap: 14 }}>
-            <div style={{ display: "flex", fontSize: 26, color: TEAL, border: `2px solid rgba(79,189,189,0.45)`, borderRadius: 999, padding: "8px 22px" }}>
-              {etiqueta}
-            </div>
-            {destacado && (
-              <div style={{ display: "flex", fontSize: 26, color: NEGRO, background: TEAL, borderRadius: 999, padding: "10px 22px" }}>
-                Servicio estrella
+          <div style={{ display: "flex", fontSize: 24, fontWeight: 600, letterSpacing: 3, textTransform: "uppercase", color: TEAL_CLARO }}>
+            {etiqueta}
+          </div>
+          <div style={{ display: "flex", flexDirection: "column", marginTop: 26, maxWidth: 1040, fontSize: largo > 30 ? 60 : 72, fontWeight: 700,
+            lineHeight: 1.05, letterSpacing: -2, color: "#FFFFFF" }}>
+            <div style={{ display: "flex" }}>{titulo}</div>
+            {(segunda || destacado) && (
+              <div style={{ display: "flex", gap: 22 }}>
+                {segunda && <span>{segunda}</span>}
+                {destacado && <span style={{ color: CREMA }}>{destacado}</span>}
               </div>
             )}
-          </div>
-          <div style={{ display: "flex", marginTop: 30, maxWidth: 1040, fontFamily: "Display", fontSize: titulo.length > 42 ? 62 : 76,
-            lineHeight: 1.06, letterSpacing: -1.5, color: "#FFFFFF" }}>
-            {titulo}
           </div>
         </div>
 
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-          <div style={{ display: "flex", fontSize: 26, color: TEAL }}>www.noda.lat</div>
-          <div style={{ display: "flex", width: 240, height: 8, borderRadius: 8, background: `linear-gradient(90deg, ${TEAL_2}, ${TEAL})` }} />
+          <div style={{ display: "flex", fontSize: 26, fontWeight: 600, color: CREMA }}>www.noda.lat</div>
+          <div style={{ display: "flex", width: 240, height: 6, borderRadius: 6, background: `linear-gradient(90deg, ${TEAL}, ${CREMA})` }} />
         </div>
       </div>
     ),

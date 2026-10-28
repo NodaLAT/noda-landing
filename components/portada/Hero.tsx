@@ -26,7 +26,7 @@ export default function Hero() {
           </p>
           <div className="p3-hero-acc p3-anim" style={{ "--d": ".8s" } as React.CSSProperties}>
             <a href={WHATSAPP_URL} className="p3-btn p3-btn-acento p3-shine">Cotiza por WhatsApp</a>
-            <a href="#nodos" className="p3-btn p3-btn-outline">Ver cómo funciona</a>
+            <a href="#nodos" className="p3-btn p3-btn-outline">Ver servicios</a>
           </div>
         </div>
       </div>

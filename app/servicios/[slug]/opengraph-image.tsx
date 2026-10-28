@@ -1,5 +1,5 @@
 import { imagenCompartir, OG_CONTENT_TYPE, OG_SIZE } from "@/lib/og";
-import { SERVICIOS, numeroServicio } from "@/lib/servicios";
+import { SERVICIOS } from "@/lib/servicios";
 
 // Una imagen para compartir por cada servicio de lib/servicios.ts.
 export const alt = "Servicio de Noda";
@@ -12,7 +12,6 @@ export function generateStaticParams() {
 
 export default async function Image({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const indice = SERVICIOS.findIndex((s) => s.slug === slug);
-  const s = SERVICIOS[indice];
-  return imagenCompartir({ etiqueta: `Servicio ${numeroServicio(indice)}`, titulo: s.nombre, destacado: s.destacado });
+  const s = SERVICIOS.find((x) => x.slug === slug)!;
+  return imagenCompartir({ etiqueta: "Servicio", titulo: s.nombre });
 }

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Marco from "@/components/portada/Marco";
+import { WHATSAPP_URL } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Página no encontrada",
@@ -22,8 +23,8 @@ export default function NoEncontrada() {
             Te ayudamos a volver al camino.
           </p>
           <div className="p3-pag-acc">
-            <Link href="/" className="p3-btn p3-btn-acento">Ir al inicio</Link>
-            <Link href="/servicios" className="p3-btn p3-btn-outline">Ver servicios</Link>
+            <Link href="/" className="p3-btn p3-btn-acento">Volver al inicio</Link>
+            <a href={WHATSAPP_URL} className="p3-btn p3-btn-outline">Escríbenos por WhatsApp</a>
           </div>
         </div>
       </section>

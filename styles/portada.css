@@ -93,6 +93,38 @@
 .p3-mask-in.p3-anim{ animation-name:p3-mask-up; }
 @keyframes p3-mask-up{ from{ transform:translateY(105%) } to{ transform:translateY(0) } }
 
+/* solo para lectores de pantalla */
+.p3-sr{ position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
+
+/* ---------- cinta (desplazamiento continuo y lento) ---------- */
+.p3-cinta{ position:relative; overflow:hidden; padding:18px 0; border-top:1px solid var(--borde); border-bottom:1px solid var(--borde);
+  background:color-mix(in srgb, var(--superficie) 60%, transparent);
+  -webkit-mask-image:linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); mask-image:linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); }
+.p3-cinta-pista{ display:flex; width:max-content; animation:p3-cinta 48s linear infinite; }
+.p3-cinta-grupo{ list-style:none; margin:0; padding:0; display:flex; flex:0 0 auto; }
+.p3-cinta-grupo li{ display:inline-flex; align-items:center; gap:12px; padding:0 34px; white-space:nowrap;
+  font-weight:600; font-size:clamp(15px,1.6vw,18px); color:var(--texto); }
+.p3-cinta-ico{ display:grid; place-items:center; color:var(--acento); }
+.p3-cinta-ico svg{ fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
+@keyframes p3-cinta{ to{ transform:translateX(-50%) } }
+
+/* ---------- el problema: 4 cifras con fuente ---------- */
+.p3-cifras{ list-style:none; margin:clamp(36px,5vw,56px) 0 0; padding:0; display:grid; grid-template-columns:repeat(4,1fr); gap:16px; }
+.p3-cifra{ display:flex; flex-direction:column; padding:26px 22px; border-radius:18px; background:var(--superficie); border:1px solid var(--borde); }
+.p3-cifra-num{ font-family:var(--display); font-weight:600; font-size:clamp(40px,5vw,60px); line-height:1; letter-spacing:-.04em;
+  color:var(--destacado); font-variant-numeric:tabular-nums; }
+.p3-cifra-txt{ font-weight:400; font-size:15px; line-height:1.5; color:var(--texto-2); margin:14px 0 0; flex:1; }
+.p3-cifra-fuente{ font-weight:400; font-size:13px; line-height:1.4; color:var(--texto-3); margin:14px 0 0; }
+.p3-pendiente-t{ color:var(--destacado); }
+
+/* ---------- por qué Noda ---------- */
+.p3-porque{ list-style:none; margin:8px 0 0; padding:0; display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
+.p3-porque-card{ padding:28px 24px; border-radius:18px; background:var(--superficie); border:1px solid var(--borde); }
+.p3-porque-ico{ width:52px; height:52px; border-radius:14px; display:grid; place-items:center; color:var(--acento);
+  background:color-mix(in srgb, var(--acento) 12%, transparent); border:1px solid color-mix(in srgb, var(--acento) 30%, transparent); }
+.p3-porque-t{ font-family:var(--display); font-weight:600; font-size:19px; line-height:1.25; color:var(--texto); margin:20px 0 8px; }
+.p3-porque-d{ font-weight:400; font-size:15px; line-height:1.55; color:var(--texto-2); margin:0; }
+
 /* ---------- red de servicios (centro + 8 nodos en óvalo) ---------- */
 .p3-red{ position:relative; height:580px; margin:clamp(30px,5vw,56px) 0 clamp(26px,4vw,44px); }
 .p3-red-canvas{ position:absolute; inset:0; width:100%; height:100%; display:block; }
@@ -236,6 +268,8 @@
   .p3-nav-cta{ padding:11px 16px; font-size:14px; }
 }
 @media(max-width:980px){
+  .p3-cifras{ grid-template-columns:repeat(2,1fr); }
+  .p3-porque{ grid-template-columns:1fr; }
   .p3-pills, .p3-nav-cta{ display:none; }
   .p3-burger{ display:flex; }
   .p3-caso{ grid-template-columns:1fr; gap:30px; }
@@ -244,6 +278,8 @@
   .p3-footer-marca{ grid-column:1/-1; }
 }
 @media(max-width:760px){
+  .p3-cifra{ padding:20px 16px; }
+  .p3-caso-cifras{ gap:10px; }
   /* celular: se reserva arriba el alto del isotipo al 85 % del ancho (85vw / aspecto 1.42 ≈ 60vw) */
   .p3-hero{ min-height:100svh; padding:calc(96px + 60vw) 0 32px; }
   .p3-hero-datos{ flex-direction:column; gap:12px; }
@@ -266,6 +302,10 @@
    ===================================================================== */
 @media(prefers-reduced-motion:reduce){
   .p3-anim{ animation:none !important; }
+  /* cinta quieta: una sola vuelta de frases, centrada y en varias líneas si hace falta */
+  .p3-cinta-pista{ animation:none; width:auto; justify-content:center; }
+  .p3-cinta-grupo{ flex-wrap:wrap; justify-content:center; row-gap:10px; }
+  .p3-cinta-grupo li:nth-child(n+5), .p3-cinta-grupo[aria-hidden]{ display:none; }
   .p3-shine::after{ display:none; }
   .p3-btn, .p3-pill, .p3-srv-circ, .p3-srv-nombre, .p3-faq-ico::before, .p3-faq-ico::after{ transition:none; }
   .p3-srv.on .p3-srv-circ::after{ animation:none; opacity:.5; }     /* anillo fijo, sin pulso */
