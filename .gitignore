@@ -24,3 +24,4 @@ npm-debug.log*
 /assets-v3-originales/
 /revision-assets-v3.png
 /capturas-v3/
+/.playwright-mcp/

@@ -1,31 +1,23 @@
 import type { Metadata, Viewport } from "next";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
+import ChromeGlobal from "@/components/ChromeGlobal";
 import ScrollEffects from "@/components/ScrollEffects";
 import DatosEstructurados from "@/components/DatosEstructurados";
 import { Analytics } from "@vercel/analytics/next";
-import { Bricolage_Grotesque, JetBrains_Mono, Manrope } from "next/font/google";
+import { Poppins } from "next/font/google";
 import { ES_PRODUCCION, SITE_URL } from "@/lib/seo";
-// El orden importa: igual que en el index.html original.
 import "@/styles/design-system.css";
 import "@/styles/globals.css";
 import "@/styles/noda-hero.css";
 import "@/styles/servicios.css";
 import "@/styles/legal.css";
-import "@/styles/home-v3.css";
+import "@/styles/portada.css";
 
-// Las mismas tipografías de siempre (Google Fonts), pero servidas desde nuestro propio sitio:
-// el celular no tiene que conectarse a otro servidor y la página aparece antes.
-// design-system.css las usa a través de --font-display, --font-body y --font-mono.
-const fuenteDisplay = Bricolage_Grotesque({ subsets: ["latin", "latin-ext"], axes: ["opsz"], display: "swap", variable: "--font-display" });
-const fuenteBody = Manrope({ subsets: ["latin", "latin-ext"], display: "swap", variable: "--font-body" });
-const fuenteMono = JetBrains_Mono({ subsets: ["latin", "latin-ext"], weight: ["400", "500"], display: "swap", variable: "--font-mono" });
+// Tipografía única del sitio: Poppins (Google Fonts), servida desde nuestro propio sitio.
+// design-system.css la usa a través de --font-poppins.
+const poppins = Poppins({ subsets: ["latin", "latin-ext"], weight: ["400", "600", "700"], display: "swap", variable: "--font-poppins" });
 
 export const metadata: Metadata = {
-  // Dirección base para enlaces e imágenes al compartir: www.noda.lat en producción,
-  // la dirección de la vista previa en Vercel, o la de tu computadora.
   metadataBase: new URL(ES_PRODUCCION ? SITE_URL : process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3000"),
-  // La portada usa "default"; las demás páginas, "Título | Noda".
   title: { default: "Noda — Automatización con IA para tu negocio", template: "%s | Noda" },
   description:
     "Noda automatiza la atención al cliente, agendamiento, cotizaciones, seguimiento de leads, reportes y procesos internos de tu negocio con IA. Si lo repites todos los días, lo automatizamos.",
@@ -35,16 +27,17 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  themeColor: "#FAF7F1",
+  themeColor: "#000000",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
+  // data-tema: tema de color de la PORTADA. Cambiar "neutro" por "teal" aquí cambia toda la paleta.
   return (
-    <html lang="es" data-scroll-behavior="smooth" className={`${fuenteDisplay.variable} ${fuenteBody.variable} ${fuenteMono.variable}`}>
+    <html lang="es" data-scroll-behavior="smooth" data-tema="neutro" className={poppins.variable}>
       <body>
-        <Header />
+        <ChromeGlobal slot="header" />
         <main>{children}</main>
-        <Footer />
+        <ChromeGlobal slot="footer" />
         <ScrollEffects />
         <DatosEstructurados />
         {/* Medición de visitas de Vercel: sin cookies y sin datos que identifiquen a la persona */}
