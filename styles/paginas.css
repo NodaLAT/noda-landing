@@ -66,7 +66,6 @@
   padding:12px 14px; border-left:3px solid var(--acento); background:var(--superficie); border-radius:0 10px 10px 0; }
 /* chat interactivo en el teléfono oscuro */
 .p3-fono--demo{ height:600px; }
-.p3-fono--demo .p3-fono-cab{ padding-top:40px; }   /* la isla queda arriba y no tapa el nombre del negocio */
 .p3-fono--demo .p3-fono-chat{ overflow-y:auto; overscroll-behavior:contain; scrollbar-width:thin; }
 .p3-msg-in{ animation:p3-msg-in .4s cubic-bezier(.16,1,.3,1) both; }
 @keyframes p3-msg-in{ from{ opacity:0; transform:translateY(8px) } to{ opacity:1; transform:none } }

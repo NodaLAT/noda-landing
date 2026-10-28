@@ -43,20 +43,6 @@ export type DemoChat = {
 export type DemoWeb = { tipo: "web"; titulo: string; intro: string; nota: string };
 export type DemoPanel = { tipo: "panel"; titulo: string; intro: string };
 
-export type CasoReal = {
-  negocio: string;
-  iniciales: string;
-  sector: string;
-  ciudad: string;
-  descripcion: string;
-  puntos?: string[];
-  etiquetas?: string[];
-  conversacion?: { de: "cliente" | "bot"; texto: string }[];
-  // Video del flujo real: dirección de YouTube o archivo en /public (ej. "/videos/vyr.mp4").
-  // Mientras esté vacío, el bloque de video no se muestra.
-  video?: string;
-};
-
 // Cifra destacada con su fuente. Solo cifras con fuente aprobada (ver CIFRAS más abajo).
 export type Dato = { cifra: string; texto: string; fuente: string };
 
@@ -79,7 +65,7 @@ export type Servicio = {
   demo: DemoChat | DemoWeb | DemoPanel;
   faq: { pregunta: string; respuesta: string }[];   // vacío = PENDIENTE
   relacionados: string[];   // slugs de servicios que se combinan bien con este
-  caso?: CasoReal;          // guardado para usarlo después; la plantilla actual no lo muestra
+  casoVyR?: boolean;        // muestra el bloque "Caso en marcha" (VyR) en la página del servicio
 };
 
 const SIN_PRECIO: Precio = { setup: null, mensual: null, mostrarPrecio: false };
@@ -92,13 +78,6 @@ export const CIFRAS = {
   horas: { cifra: "6 h", texto: "por semana que un trabajador estima recuperar automatizando tareas repetitivas.", fuente: "Smartsheet, Automation in the Workplace" },
   inasistencias: { cifra: "−25 %", texto: "de inasistencias cuando tus clientes reciben recordatorios.", fuente: "BMJ Open, metaanálisis 2016" },
 } satisfies Record<string, Dato>;
-
-const VYR = {
-  negocio: "Laboratorios VyR San Rafael",
-  iniciales: "VR",
-  sector: "Salud · Laboratorios clínicos",
-  ciudad: "Quito",
-};
 
 export const SERVICIOS: Servicio[] = [
   // ------------------------------------------------------------------ 1
@@ -166,15 +145,7 @@ export const SERVICIOS: Servicio[] = [
     dato: CIFRAS.respuesta,
     faq: [],
     relacionados: ["agendamiento-y-recordatorios", "cotizaciones-al-instante", "crm-y-seguimiento-de-leads"],
-    caso: {
-      ...VYR,
-      descripcion: "En Laboratorios VyR San Rafael, el asistente atiende a los pacientes las 24 horas por WhatsApp: precios, horarios, servicios y estado de sus resultados. Cuando el resultado está listo, se lo envía automáticamente, y si el paciente necesita hablar con una persona, la secretaria toma la conversación.",
-      puntos: [
-        "Atención 24/7 por WhatsApp",
-        "Entrega automática de resultados",
-        "Paso a la secretaria cuando hace falta",
-      ],
-    },
+    casoVyR: true,
   },
 
   // ------------------------------------------------------------------ 2
@@ -382,11 +353,7 @@ export const SERVICIOS: Servicio[] = [
     idealPara: [],
     faq: [],
     relacionados: ["atencion-y-ventas-whatsapp", "cotizaciones-al-instante", "apps-y-sistemas-a-medida"],
-    caso: {
-      ...VYR,
-      descripcion: "Cuando un resultado está listo, el paciente lo recibe por WhatsApp junto con una explicación clara, generada por IA, de lo que significan sus valores, siempre con la recomendación de revisarlo con su médico. En funcionamiento desde julio de 2026.",
-      video: "",   // pega aquí el enlace del video cuando esté listo
-    },
+    casoVyR: true,
   },
 
   // ------------------------------------------------------------------ 5

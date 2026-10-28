@@ -131,14 +131,22 @@
 
 /* ---------- caso real ---------- */
 .p3-caso{ display:grid; grid-template-columns:1.1fr .9fr; gap:40px; margin-top:44px; align-items:center; }
-.p3-caso-card{ background:var(--superficie); border:1px solid var(--borde); border-radius:20px; padding:32px; }
+.p3-caso-card{ background:var(--superficie); border:1px solid var(--borde); border-radius:20px; padding:clamp(24px,3vw,36px); }
+.p3-caso-cab{ display:flex; align-items:center; gap:18px; margin-bottom:24px; }
+/* logo del cliente: tarjeta blanca, sin tocar colores ni proporciones del archivo */
+.p3-caso-logo{ flex:0 0 auto; display:grid; place-items:center; background:#ffffff; border-radius:14px; padding:10px 14px;
+  box-shadow:0 10px 30px -18px rgba(0,0,0,.8); }
+.p3-caso-logo img{ display:block; height:52px; width:auto; max-width:160px; object-fit:contain; }
 .p3-caso-sector{ font-weight:600; font-size:12px; letter-spacing:.06em; text-transform:uppercase; color:var(--acento-texto, var(--acento)); }
-.p3-caso-nombre{ font-family:var(--display); font-weight:700; font-size:26px; letter-spacing:-.03em; margin:8px 0 18px; color:var(--texto); }
-.p3-caso-puntos{ list-style:none; margin:0 0 20px; padding:0; display:flex; flex-direction:column; gap:12px; }
-.p3-caso-puntos li{ position:relative; padding-left:26px; font-weight:400; font-size:15px; line-height:1.5; color:var(--texto-2); }
-.p3-caso-puntos li::before{ content:""; position:absolute; left:0; top:7px; width:12px; height:12px; border-radius:50%;
-  border:2px solid var(--acento); }
-.p3-caso-chips{ display:flex; flex-wrap:wrap; gap:8px; }
+.p3-caso-nombre{ font-family:var(--display); font-weight:700; font-size:clamp(22px,2.4vw,26px); line-height:1.15; letter-spacing:-.03em; margin:6px 0 0; color:var(--texto); }
+.p3-caso-puntos{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:14px; }
+.p3-caso-puntos li{ display:flex; align-items:flex-start; gap:14px; font-weight:400; font-size:15px; line-height:1.5; color:var(--texto-2); }
+.p3-caso-ico{ flex:0 0 auto; width:36px; height:36px; border-radius:10px; display:grid; place-items:center; color:var(--acento);
+  background:color-mix(in srgb, var(--acento) 12%, transparent); border:1px solid color-mix(in srgb, var(--acento) 30%, transparent); }
+.p3-caso-puntos li > span:last-child{ padding-top:7px; }
+.p3-caso-cifras{ display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:28px 0 0; padding-top:24px; border-top:1px solid var(--borde); }
+.p3-caso-cifras dt{ font-family:var(--display); font-weight:600; font-size:clamp(24px,3vw,32px); line-height:1; letter-spacing:-.03em; color:var(--destacado); }
+.p3-caso-cifras dd{ margin:6px 0 0; font-weight:400; font-size:13.5px; line-height:1.35; color:var(--texto-2); }
 .p3-chip{ font-weight:600; font-size:12px; color:var(--texto-2); background:rgba(255,255,255,.05);
   border:1px solid var(--borde); padding:5px 12px; border-radius:999px; }
 .p3-caso-fono{ display:flex; flex-direction:column; align-items:center; gap:14px; }
@@ -150,7 +158,7 @@
   display:flex; flex-direction:column; overflow:hidden; }
 .p3-fono-isla{ position:absolute; top:16px; left:50%; transform:translateX(-50%); width:86px; height:22px; border-radius:999px;
   background:#000; z-index:3; }
-.p3-fono-cab{ display:flex; align-items:center; gap:10px; padding:16px 14px 12px; background:#0b3b36; color:#fff; border-radius:30px 30px 0 0; }
+.p3-fono-cab{ display:flex; align-items:center; gap:10px; padding:40px 14px 12px; background:#0b3b36; color:#fff; border-radius:30px 30px 0 0; }
 .p3-fono-atras{ font-size:20px; opacity:.85; }
 .p3-fono-av{ width:36px; height:36px; border-radius:50%; background:rgba(255,255,255,.2); display:grid; place-items:center; font-weight:600; font-size:15px; }
 .p3-fono-id{ flex:1; min-width:0; display:flex; flex-direction:column; line-height:1.15; }

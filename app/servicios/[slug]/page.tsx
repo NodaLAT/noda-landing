@@ -6,6 +6,7 @@ import { whatsappLink } from "@/lib/site";
 import { metadataPagina } from "@/lib/seo";
 import Marco from "@/components/portada/Marco";
 import Faq from "@/components/portada/Faq";
+import Caso from "@/components/portada/Caso";
 import Cierre from "@/components/portada/Cierre";
 import { IconoServicio } from "@/components/portada/Iconos";
 import ChatDemo from "@/components/servicios/ChatDemo";
@@ -13,7 +14,7 @@ import { MaquetaPanel, MaquetaWeb } from "@/components/servicios/Maquetas";
 
 // Plantilla única para todas las páginas /servicios/[slug]. Todo el contenido sale de lib/servicios.ts.
 // Orden: hero, problema, cómo funciona (3 pasos), qué incluye, ideal para, dato con fuente,
-// demo, preguntas frecuentes, servicios relacionados y cierre "Cotiza a medida".
+// demo, caso en marcha (si aplica), preguntas frecuentes, servicios relacionados y cierre "Cotiza a medida".
 export const dynamicParams = false;
 
 export function generateStaticParams() {
@@ -140,6 +141,9 @@ export default async function ServicioPage({ params }: Props) {
           {s.demo.tipo === "panel" && <MaquetaPanel />}
         </div>
       </section>
+
+      {/* Caso en marcha (VyR), solo en los servicios que el laboratorio usa */}
+      {s.casoVyR && <Caso id="caso" compacto />}
 
       {/* 8. Preguntas frecuentes */}
       <Faq preguntas={s.faq} titulo="Preguntas sobre este servicio." pendiente="[PENDIENTE: preguntas frecuentes de este servicio]" />
