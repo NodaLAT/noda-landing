@@ -1,16 +1,13 @@
 import type { Metadata, Viewport } from "next";
-import ChromeGlobal from "@/components/ChromeGlobal";
-import ScrollEffects from "@/components/ScrollEffects";
 import DatosEstructurados from "@/components/DatosEstructurados";
 import { Analytics } from "@vercel/analytics/next";
 import { Poppins } from "next/font/google";
 import { ES_PRODUCCION, SITE_URL } from "@/lib/seo";
 import "@/styles/design-system.css";
 import "@/styles/globals.css";
-import "@/styles/noda-hero.css";
 import "@/styles/servicios.css";
-import "@/styles/legal.css";
 import "@/styles/portada.css";
+import "@/styles/paginas.css";
 
 // Tipografía única del sitio: Poppins (Google Fonts), servida desde nuestro propio sitio.
 // design-system.css la usa a través de --font-poppins.
@@ -37,10 +34,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         {/* Fondo "luz desenfocada": solo se ve con el tema mixto en la portada (ver design-system.css) */}
         <div className="fondo-luz" aria-hidden="true"><span className="fondo-luz-a" /><span className="fondo-luz-b" /></div>
-        <ChromeGlobal slot="header" />
+        {/* Cabecera y pie: los pone cada página con el Marco oscuro (components/portada/Marco.tsx) */}
         <main>{children}</main>
-        <ChromeGlobal slot="footer" />
-        <ScrollEffects />
         <DatosEstructurados />
         {/* Medición de visitas de Vercel: sin cookies y sin datos que identifiquen a la persona */}
         <Analytics />

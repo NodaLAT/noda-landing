@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Flecha } from "@/components/servicios/Iconos";
+import { Flecha } from "@/components/portada/Iconos";
 
 export const metadata: Metadata = {
   title: "Página no encontrada",

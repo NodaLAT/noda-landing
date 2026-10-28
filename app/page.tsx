@@ -1,13 +1,12 @@
 import type { Metadata } from "next";
 import { metadataPagina } from "@/lib/seo";
-import HeaderPortada from "@/components/portada/HeaderPortada";
+import Marco from "@/components/portada/Marco";
 import Hero from "@/components/portada/Hero";
 import RedNodos from "@/components/portada/RedNodos";
 import Caso from "@/components/portada/Caso";
 import Proceso from "@/components/portada/Proceso";
 import Faq from "@/components/portada/Faq";
 import Cierre from "@/components/portada/Cierre";
-import FooterPortada from "@/components/portada/FooterPortada";
 
 export const metadata: Metadata = metadataPagina({
   titulo: "Noda — Automatización con IA para tu negocio",
@@ -17,18 +16,16 @@ export const metadata: Metadata = metadataPagina({
   tituloCompleto: true,
 });
 
-// Portada v3 (oscura, cinematográfica). Header y Footer propios (los globales se ocultan en "/").
+// Portada v3 (oscura, cinematográfica). Cabecera y pie vienen del Marco común.
 export default function Home() {
   return (
-    <div className="p3">
-      <HeaderPortada />
+    <Marco>
       <Hero />
       <RedNodos />
       <Caso />
       <Proceso />
       <Faq />
       <Cierre />
-      <FooterPortada />
-    </div>
+    </Marco>
   );
 }

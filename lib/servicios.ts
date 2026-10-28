@@ -1,14 +1,17 @@
 // =====================================================================
 // SERVICIOS DE NODA — fuente única de datos
 // ---------------------------------------------------------------------
-// La cartelera (/servicios) y cada página (/servicios/[slug]) se arman
-// solas a partir de esta lista. Para agregar un servicio nuevo:
+// La red de la portada, la cartelera (/servicios) y cada página
+// (/servicios/[slug]) se arman solas a partir de esta lista.
+// Para agregar un servicio nuevo:
 //   1. Copia una entrada de SERVICIOS y cambia sus textos.
 //   2. Dale un "slug" único (será la dirección: /servicios/tu-slug).
-// El número de cada servicio sale de su posición en la lista.
+//
+// PENDIENTES: las listas vacías (incluye, idealPara, faq) se muestran en la
+// página como "[PENDIENTE: …]" hasta que tengan contenido aprobado.
 //
 // PRECIOS: no están aprobados. Mientras "mostrarPrecio" sea false,
-// la tarjeta y la página muestran "Cotiza a medida".
+// la página muestra "Cotiza a medida".
 // =====================================================================
 
 export type Precio = {
@@ -17,9 +20,8 @@ export type Precio = {
   mostrarPrecio: boolean;
 };
 
-export type Icono =
-  | "chat" | "calendario" | "cotizacion" | "documento" | "contactos"
-  | "reportes" | "web" | "panel" | "a-medida";
+// Íconos de línea (components/portada/Iconos.tsx), los mismos de la red de la portada.
+export type Icono = "chat" | "calendario" | "calculadora" | "documento" | "personas" | "barras" | "navegador" | "bloques";
 
 // Mensajes que el asistente puede mostrar en un chat de ejemplo.
 export type Mensaje =
@@ -36,6 +38,7 @@ export type DemoChat = {
   negocio: string;        // nombre que aparece arriba del chat (rubro, nunca un cliente real)
   saludo: string;
   preguntas: { pregunta: string; respuesta: Mensaje[] }[];
+  aviso?: string;         // nota fija bajo la demo (obligatoria en demos de salud)
 };
 export type DemoWeb = { tipo: "web"; titulo: string; intro: string; nota: string };
 export type DemoPanel = { tipo: "panel"; titulo: string; intro: string };
@@ -54,27 +57,41 @@ export type CasoReal = {
   video?: string;
 };
 
+// Cifra destacada con su fuente. Solo cifras con fuente aprobada (ver CIFRAS más abajo).
+export type Dato = { cifra: string; texto: string; fuente: string };
+
 export type Servicio = {
   slug: string;
   nombre: string;
+  corto: string;            // nombre corto (nodo de la red de la portada)
+  linea: string;            // una línea de descripción (red de la portada y tarjeta de /servicios)
   promesa: string;          // la promesa en una frase (encabezado de la página)
-  resumen: string;          // texto corto de la tarjeta en la cartelera
+  resumen: string;          // descripción más larga
   icono: Icono;
-  destacado?: boolean;      // servicio estrella: se resalta en la cartelera
+  destacado?: boolean;      // servicio estrella
   precio: Precio;
   seo: { titulo: string; descripcion: string };
-  problema: {
-    titulo: string;
-    texto: string;
-    puntos: string[];
-    dato?: { texto: string; fuente: string };   // cifra con fuente (opcional)
-  };
+  problema: { titulo: string; texto: string; puntos: string[] };
+  pasos: { titulo: string; texto: string }[];   // "Cómo funciona": siempre 3
+  incluye: string[];        // "Qué incluye" (vacío = PENDIENTE)
+  idealPara: string[];      // "Ideal para" (vacío = PENDIENTE)
+  dato: Dato;
   demo: DemoChat | DemoWeb | DemoPanel;
-  pasos: { titulo: string; texto: string }[];   // siempre 4
-  caso?: CasoReal;
+  faq: { pregunta: string; respuesta: string }[];   // vacío = PENDIENTE
+  relacionados: string[];   // slugs de servicios que se combinan bien con este
+  caso?: CasoReal;          // guardado para usarlo después; la plantilla actual no lo muestra
 };
 
 const SIN_PRECIO: Precio = { setup: null, mensual: null, mostrarPrecio: false };
+
+// Cifras aprobadas, cada una con su fuente (textos tomados del sitio anterior).
+const CIFRAS = {
+  whatsapp: { cifra: "12,6 M", texto: "de personas usan WhatsApp cada semana en Ecuador.", fuente: "Sensor Tower, 2025" },
+  respuesta: { cifra: "7×", texto: "más probabilidad de concretar una venta si respondes en la primera hora.", fuente: "Harvard Business Review" },
+  repetitivas: { cifra: "40 %+", texto: "de los trabajadores dedica al menos un cuarto de su semana a tareas repetitivas.", fuente: "Smartsheet, Automation in the Workplace" },
+  horas: { cifra: "6 h", texto: "por semana que un trabajador estima recuperar automatizando tareas repetitivas.", fuente: "Smartsheet, Automation in the Workplace" },
+  inasistencias: { cifra: "−25 %", texto: "de inasistencias cuando tus clientes reciben recordatorios.", fuente: "BMJ Open, 2016" },
+} satisfies Record<string, Dato>;
 
 const VYR = {
   negocio: "Laboratorios VyR San Rafael",
@@ -88,6 +105,8 @@ export const SERVICIOS: Servicio[] = [
   {
     slug: "atencion-y-ventas-whatsapp",
     nombre: "Atención y ventas 24/7 por WhatsApp",
+    corto: "Atención 24/7",
+    linea: "Responde al instante, a cualquier hora, y le pasa a tu equipo al cliente listo para comprar.",
     promesa: "Tu negocio responde al instante, a cualquier hora, y no deja escapar ninguna venta.",
     resumen: "Un asistente que contesta en WhatsApp, resuelve dudas y le pasa la conversación a tu equipo cuando el cliente está listo para comprar.",
     icono: "chat",
@@ -104,7 +123,6 @@ export const SERVICIOS: Servicio[] = [
         "Las mismas preguntas de precios, horarios y ubicación, todos los días.",
         "Clientes interesados que se enfrían mientras esperan una respuesta.",
       ],
-      dato: { texto: "12,6 millones de personas en Ecuador usan WhatsApp cada semana.", fuente: "Sensor Tower, 2025" },
     },
     demo: {
       tipo: "chat",
@@ -139,11 +157,15 @@ export const SERVICIOS: Servicio[] = [
       ],
     },
     pasos: [
-      { titulo: "Conocemos tu negocio", texto: "Reunimos tus preguntas frecuentes, precios, horarios y la forma en que vendes." },
       { titulo: "Preparamos tu asistente", texto: "Aprende a responder con la información de tu negocio y con el tono de tu marca." },
       { titulo: "Lo activamos en tu WhatsApp", texto: "Empieza a atender en tu número de siempre, sin que tus clientes tengan que hacer nada distinto." },
       { titulo: "Tu equipo cierra la venta", texto: "Cuando un cliente quiere comprar o pide hablar con una persona, el asistente le pasa la conversación a tu equipo." },
     ],
+    incluye: [],
+    idealPara: [],
+    dato: CIFRAS.whatsapp,
+    faq: [],
+    relacionados: ["agendamiento-y-recordatorios", "cotizaciones-al-instante", "crm-y-seguimiento-de-leads"],
     caso: {
       ...VYR,
       descripcion: "En Laboratorios VyR San Rafael, el asistente atiende a los pacientes las 24 horas por WhatsApp: precios, horarios, servicios y estado de sus resultados. Cuando el resultado está listo, se lo envía automáticamente, y si el paciente necesita hablar con una persona, la secretaria toma la conversación.",
@@ -159,6 +181,8 @@ export const SERVICIOS: Servicio[] = [
   {
     slug: "agendamiento-y-recordatorios",
     nombre: "Agendamiento y recordatorios",
+    corto: "Agendamiento",
+    linea: "Tus clientes reservan solos y reciben un recordatorio para que no falten.",
     promesa: "Tus clientes reservan solos, a cualquier hora, y llegan a su cita.",
     resumen: "Citas que se reservan desde WhatsApp, confirmaciones automáticas y recordatorios para que nadie se olvide.",
     icono: "calendario",
@@ -211,20 +235,26 @@ export const SERVICIOS: Servicio[] = [
       ],
     },
     pasos: [
-      { titulo: "Definimos tu agenda", texto: "Horarios, servicios, duración de cada cita y quién atiende cada una." },
       { titulo: "Conectamos tu calendario", texto: "Las citas quedan en el calendario que ya usas, sin cruces de horario." },
       { titulo: "Tus clientes reservan solos", texto: "Eligen fecha y hora desde WhatsApp, a cualquier hora del día." },
       { titulo: "Recordatorios automáticos", texto: "Cada cliente recibe su confirmación y un recordatorio antes de su cita." },
     ],
+    incluye: [],
+    idealPara: [],
+    dato: CIFRAS.inasistencias,
+    faq: [],
+    relacionados: ["atencion-y-ventas-whatsapp", "crm-y-seguimiento-de-leads", "reportes-y-dashboards"],
   },
 
   // ------------------------------------------------------------------ 3
   {
     slug: "cotizaciones-al-instante",
     nombre: "Cotizaciones al instante",
+    corto: "Cotizaciones",
+    linea: "Precio en segundos, con tus tarifas y tu formato.",
     promesa: "Tus clientes piden precio y reciben su cotización en segundos, con tu formato.",
     resumen: "Cotizaciones completas en segundos, con tus precios, tus márgenes y tu formato, directo en WhatsApp.",
-    icono: "cotizacion",
+    icono: "calculadora",
     precio: SIN_PRECIO,
     seo: {
       titulo: "Cotizaciones al instante por WhatsApp",
@@ -273,17 +303,23 @@ export const SERVICIOS: Servicio[] = [
       ],
     },
     pasos: [
-      { titulo: "Ordenamos tus precios", texto: "Tomamos tu lista de productos o servicios, tus márgenes y tus reglas de descuento." },
       { titulo: "Diseñamos tu formato", texto: "La cotización sale con tu logo, tus datos y las condiciones que tú definas." },
       { titulo: "Cotiza en segundos", texto: "El cliente pide precio por WhatsApp y recibe su cotización completa al instante." },
       { titulo: "Tú das seguimiento", texto: "Cada cotización queda registrada para que tu equipo sepa a quién llamar." },
     ],
+    incluye: [],
+    idealPara: [],
+    dato: CIFRAS.respuesta,
+    faq: [],
+    relacionados: ["atencion-y-ventas-whatsapp", "crm-y-seguimiento-de-leads", "interpretacion-de-documentos"],
   },
 
   // ------------------------------------------------------------------ 4 (servicio estrella)
   {
     slug: "interpretacion-de-documentos",
     nombre: "Interpretación de documentos con IA",
+    corto: "Interpretación con IA",
+    linea: "Lee resultados, facturas u órdenes y los explica en palabras simples.",
     promesa: "La IA lee tus documentos y los explica en palabras simples, al instante.",
     resumen: "Resultados, informes, facturas u órdenes: la IA los lee, extrae lo importante y se lo explica a tu cliente o a tu equipo en lenguaje claro.",
     icono: "documento",
@@ -336,13 +372,18 @@ export const SERVICIOS: Servicio[] = [
           ],
         },
       ],
+      aviso: "Esta explicación es orientativa y no reemplaza la consulta con tu médico.",
     },
     pasos: [
-      { titulo: "Identificamos tus documentos", texto: "Vemos qué documentos manejas y qué necesita entender cada persona que los recibe." },
       { titulo: "Preparamos la lectura con tus formatos", texto: "La IA aprende a reconocer tus documentos, incluso fotos o documentos escritos a mano." },
       { titulo: "Llega el documento", texto: "Por WhatsApp, por tu web o desde tu propio sistema, y se lee en segundos." },
       { titulo: "Tu cliente o tu equipo recibe la explicación", texto: "En palabras simples y con lo importante ordenado, sin copiar nada a mano." },
     ],
+    incluye: [],
+    idealPara: [],
+    dato: CIFRAS.repetitivas,
+    faq: [],
+    relacionados: ["atencion-y-ventas-whatsapp", "cotizaciones-al-instante", "apps-y-sistemas-a-medida"],
     caso: {
       ...VYR,
       descripcion: "Cuando un resultado está listo, el paciente lo recibe por WhatsApp junto con una explicación clara, generada por IA, de lo que significan sus valores, siempre con la recomendación de revisarlo con su médico. En funcionamiento desde julio de 2026.",
@@ -354,9 +395,11 @@ export const SERVICIOS: Servicio[] = [
   {
     slug: "crm-y-seguimiento-de-leads",
     nombre: "CRM y seguimiento de leads",
+    corto: "CRM y leads",
+    linea: "Cada cliente registrado y con seguimiento, para que ninguno se enfríe.",
     promesa: "Cada cliente interesado queda registrado y recibe seguimiento, sin que tengas que acordarte.",
     resumen: "Cada persona que te escribe queda registrada con lo que busca y recibe seguimiento automático hasta que decide.",
-    icono: "contactos",
+    icono: "personas",
     precio: SIN_PRECIO,
     seo: {
       titulo: "CRM y seguimiento de clientes potenciales",
@@ -404,20 +447,26 @@ export const SERVICIOS: Servicio[] = [
       ],
     },
     pasos: [
-      { titulo: "Ordenamos tu proceso de venta", texto: "Definimos las etapas por las que pasa un cliente, desde que pregunta hasta que compra." },
       { titulo: "Registro automático", texto: "Cada conversación de WhatsApp o de tu web crea o actualiza la ficha del cliente." },
       { titulo: "Seguimiento sin olvidos", texto: "Los mensajes de seguimiento salen solos, en el momento indicado." },
       { titulo: "Avisos a tu equipo", texto: "Cuando alguien quiere comprar, tu equipo recibe un aviso para cerrar la venta." },
     ],
+    incluye: [],
+    idealPara: [],
+    dato: CIFRAS.respuesta,
+    faq: [],
+    relacionados: ["atencion-y-ventas-whatsapp", "cotizaciones-al-instante", "reportes-y-dashboards"],
   },
 
   // ------------------------------------------------------------------ 6
   {
     slug: "reportes-y-dashboards",
     nombre: "Reportes y dashboards",
+    corto: "Reportes",
+    linea: "Los números de tu negocio, claros, en tu correo o WhatsApp.",
     promesa: "Sabes cómo va tu negocio sin armar un solo reporte.",
     resumen: "Los datos que tu negocio ya genera se convierten en reportes claros que llegan a tu WhatsApp o a tu correo.",
-    icono: "reportes",
+    icono: "barras",
     precio: SIN_PRECIO,
     seo: {
       titulo: "Reportes y dashboards automáticos",
@@ -465,20 +514,26 @@ export const SERVICIOS: Servicio[] = [
       ],
     },
     pasos: [
-      { titulo: "Reunimos tus datos", texto: "Conectamos las fuentes que ya usas: ventas, citas, chats u hojas de cálculo." },
       { titulo: "Elegimos qué medir", texto: "Definimos contigo los números que de verdad importan para tu negocio." },
       { titulo: "Diseñamos tus reportes", texto: "Paneles claros y resúmenes fáciles de leer, sin tablas confusas." },
       { titulo: "Te llegan solos", texto: "Recibes tus reportes por WhatsApp o por correo, cada día o cada semana." },
     ],
+    incluye: [],
+    idealPara: [],
+    dato: CIFRAS.repetitivas,
+    faq: [],
+    relacionados: ["crm-y-seguimiento-de-leads", "agendamiento-y-recordatorios", "apps-y-sistemas-a-medida"],
   },
 
   // ------------------------------------------------------------------ 7
   {
     slug: "webs-con-ia",
     nombre: "Webs con IA integrada",
+    corto: "Webs con IA",
+    linea: "Una web que no solo se ve bien: responde y te trae clientes.",
     promesa: "Una web que no solo se ve bien: atiende, registra a cada interesado y lo conecta con tu equipo.",
     resumen: "Webs modernas que vienen con WhatsApp, formularios conectados a tu registro de clientes y, si quieres, un asistente con IA.",
-    icono: "web",
+    icono: "navegador",
     precio: SIN_PRECIO,
     seo: {
       titulo: "Webs con IA integrada para tu negocio",
@@ -500,20 +555,26 @@ export const SERVICIOS: Servicio[] = [
       nota: "Este mismo sitio es un ejemplo de nuestro trabajo: se ve bien en el celular y en la computadora, carga rápido y cada botón te lleva directo a WhatsApp.",
     },
     pasos: [
-      { titulo: "Entendemos tu negocio", texto: "Definimos a quién le habla tu web y qué quieres que haga cada visitante." },
       { titulo: "Diseñamos y construimos", texto: "Una web a la medida de tu marca, rápida y pensada primero para el celular." },
       { titulo: "Conectamos todo", texto: "WhatsApp, formularios que guardan cada contacto y, si lo quieres, un asistente con IA." },
       { titulo: "Publicamos y acompañamos", texto: "Tu web queda en línea y seguimos contigo para ajustes y mejoras." },
     ],
+    incluye: [],
+    idealPara: [],
+    dato: CIFRAS.whatsapp,
+    faq: [],
+    relacionados: ["atencion-y-ventas-whatsapp", "crm-y-seguimiento-de-leads", "apps-y-sistemas-a-medida"],
   },
 
   // ------------------------------------------------------------------ 8
   {
     slug: "apps-y-sistemas-a-medida",
     nombre: "Apps y sistemas a medida",
+    corto: "Apps a medida",
+    linea: "Herramientas que funcionan en el navegador, hechas para cómo trabaja tu negocio.",
     promesa: "Herramientas hechas para la forma en que trabaja tu negocio, no al revés.",
     resumen: "Portales para tus clientes, paneles internos y herramientas que funcionan desde el navegador, sin instalar nada.",
-    icono: "panel",
+    icono: "bloques",
     precio: SIN_PRECIO,
     seo: {
       titulo: "Apps y sistemas a medida para tu negocio",
@@ -534,21 +595,17 @@ export const SERVICIOS: Servicio[] = [
       intro: "Un portal donde tus clientes ven el estado de sus pedidos y tu equipo lo maneja todo desde un solo lugar, en la computadora o en el celular.",
     },
     pasos: [
-      { titulo: "Mapeamos tu proceso", texto: "Entendemos cómo trabaja tu equipo hoy y dónde se pierde tiempo." },
       { titulo: "Diseñamos la herramienta", texto: "Te mostramos cómo se verá antes de construirla, para ajustarla contigo." },
       { titulo: "La construimos por etapas", texto: "Empezamos por lo más importante para que la uses lo antes posible." },
       { titulo: "Funciona desde el navegador", texto: "Tu equipo y tus clientes entran desde la computadora o el celular, sin instalar nada." },
     ],
+    incluye: [],
+    idealPara: [],
+    dato: CIFRAS.horas,
+    faq: [],
+    relacionados: ["webs-con-ia", "reportes-y-dashboards", "interpretacion-de-documentos"],
   },
 ];
-
-// Tarjeta final de la cartelera: no tiene página propia, abre WhatsApp.
-export const SERVICIO_A_MEDIDA = {
-  nombre: "¿Tu proceso no está aquí? Lo diseñamos contigo",
-  resumen: "Si es repetitivo y le quita tiempo a tu equipo, hay forma de automatizarlo. Agenda un diagnóstico gratis y lo vemos juntos.",
-  cta: "Agendar diagnóstico",
-  mensajeWhatsApp: "Hola Noda, quiero agendar un diagnóstico para automatizar un proceso de mi negocio",
-};
 
 export const numeroServicio = (i: number) => String(i + 1).padStart(2, "0");
 

@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import { SERVICIOS, mensajeInteres, numeroServicio, textoPrecio, type CasoReal } from "@/lib/servicios";
 import { whatsappLink } from "@/lib/site";
 import { metadataPagina } from "@/lib/seo";
-import { Flecha } from "@/components/servicios/Iconos";
+import { Flecha } from "@/components/portada/Iconos";
 import ChatDemo from "@/components/servicios/ChatDemo";
 import { MaquetaPanel, MaquetaWeb } from "@/components/servicios/Maquetas";
 
@@ -62,12 +62,6 @@ export default async function ServicioPage({ params }: Props) {
               <span className="section-eyebrow">El problema</span>
               <h2>{s.problema.titulo}</h2>
               <p className="section-sub">{s.problema.texto}</p>
-              {s.problema.dato && (
-                <div className="svc-dato">
-                  <p>{s.problema.dato.texto}</p>
-                  <p className="source-note">Fuente: {s.problema.dato.fuente}</p>
-                </div>
-              )}
             </div>
             <div className="case-card-large">
               <div className="list-title">¿Te suena familiar?</div>
