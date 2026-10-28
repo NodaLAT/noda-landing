@@ -1,9 +1,9 @@
 import Link from "next/link";
-import { EMAIL, INSTAGRAM_URL, TIKTOK_URL, WHATSAPP_URL } from "@/lib/site";
+import { EMAIL, INSTAGRAM_URL, INSTAGRAM_USUARIO, LINKEDIN_URL, TIKTOK_URL, WHATSAPP_NUMERO, WHATSAPP_URL } from "@/lib/site";
 import { SERVICIOS } from "@/lib/servicios";
 
-// 3.7 Pie de página de la portada oscura.
-// Nota: lib/site.ts no tiene URL de LinkedIn, así que no se incluye (ver resumen).
+// 3.7 Pie de página oscuro (el mismo en todas las páginas, vía Marco).
+// LinkedIn: mientras LINKEDIN_URL esté vacío en lib/site.ts se muestra un marcador [PENDIENTE].
 export default function FooterPortada() {
   return (
     <footer className="p3-footer">
@@ -31,9 +31,12 @@ export default function FooterPortada() {
           <div className="p3-footer-col">
             <h3>Contacto</h3>
             <a href={`mailto:${EMAIL}`}>{EMAIL}</a>
-            <a href={WHATSAPP_URL} target="_blank" rel="noopener">WhatsApp</a>
-            <a href={INSTAGRAM_URL} target="_blank" rel="noopener">Instagram</a>
+            <a href={WHATSAPP_URL} target="_blank" rel="noopener">WhatsApp {WHATSAPP_NUMERO}</a>
+            <a href={INSTAGRAM_URL} target="_blank" rel="noopener">Instagram {INSTAGRAM_USUARIO}</a>
             <a href={TIKTOK_URL} target="_blank" rel="noopener">TikTok</a>
+            {LINKEDIN_URL
+              ? <a href={LINKEDIN_URL} target="_blank" rel="noopener">LinkedIn</a>
+              : <span className="p3-footer-pendiente">LinkedIn [PENDIENTE: URL]</span>}
           </div>
         </div>
         <div className="p3-footer-bottom">© 2026 NODA S.A.S. · Quito, Ecuador</div>

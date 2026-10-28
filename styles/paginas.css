@@ -126,8 +126,11 @@
 .p3-legal-txt strong{ font-weight:600; color:var(--texto); }
 .p3-legal-txt a{ color:var(--etiquetas); text-decoration:underline; text-underline-offset:3px; }
 .p3-legal-fecha{ font-weight:400; font-size:14px; color:var(--texto-3); margin:16px 0 0; }
-.p3-borrador{ display:inline-flex; align-items:center; gap:10px; margin-bottom:24px; padding:10px 14px; border-radius:10px;
+.p3-borrador{ display:flex; width:fit-content; align-items:center; gap:10px; margin-bottom:24px; padding:10px 14px; border-radius:10px;
   font-weight:600; font-size:14px; color:var(--destacado); border:1px dashed var(--destacado); background:var(--superficie); }
+
+/* marcador en el pie mientras no exista la URL de LinkedIn */
+.p3-footer-pendiente{ display:block; padding:5px 0; font-weight:600; font-size:14px; color:var(--destacado); }
 
 /* ---------- 404 ---------- */
 .p3-404{ min-height:max(100vh,640px); display:flex; align-items:center; padding:130px 0 80px; }

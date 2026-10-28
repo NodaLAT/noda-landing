@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Flecha } from "@/components/portada/Iconos";
+import Marco from "@/components/portada/Marco";
 
 export const metadata: Metadata = {
   title: "Página no encontrada",
@@ -11,19 +11,22 @@ export const metadata: Metadata = {
 // Página 404: se muestra cuando alguien entra a una dirección que no existe.
 export default function NoEncontrada() {
   return (
-    <section className="page-head not-found">
-      <div className="container">
-        <span className="section-eyebrow hero-anim hero-d1">Error 404</span>
-        <h1 className="hero-anim hero-d2">Esta página <em>no existe</em>.</h1>
-        <p className="hero-sub hero-anim hero-d3">
-          Puede que el enlace esté mal escrito o que la página haya cambiado de dirección.
-          Te ayudamos a volver al camino.
-        </p>
-        <div className="hero-actions hero-anim hero-d4">
-          <Link href="/" className="btn btn-primary">Ir al inicio <Flecha /></Link>
-          <Link href="/servicios" className="btn btn-ghost">Ver servicios</Link>
+    <Marco>
+      <section className="p3-404">
+        <div className="p3-wrap">
+          <img src="/isotipo-noda.png" alt="" width={160} height={160} className="p3-404-iso" />
+          <span className="p3-eyebrow">Error 404</span>
+          <h1 className="p3-pag-h1">Esta página no existe.</h1>
+          <p className="p3-pag-sub">
+            Puede que el enlace esté mal escrito o que la página haya cambiado de dirección.
+            Te ayudamos a volver al camino.
+          </p>
+          <div className="p3-pag-acc">
+            <Link href="/" className="p3-btn p3-btn-acento">Ir al inicio</Link>
+            <Link href="/servicios" className="p3-btn p3-btn-outline">Ver servicios</Link>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </Marco>
   );
 }
