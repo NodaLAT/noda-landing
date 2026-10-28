@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 
-// Cifra que cuenta desde 0 al entrar en pantalla (ej. "12,6 M", "40 %+", "7×").
+// Cifra que cuenta desde 0 al entrar en pantalla (ej. "12,6 M", "40 %+", "7x").
 // El HTML trae la cifra final: sin JS o con "reducir movimiento" se ve directo el valor real.
 export default function Contador({ valor }: { valor: string }) {
   const m = valor.match(/^([^\d]*)(\d+(?:,\d+)?)(.*)$/);

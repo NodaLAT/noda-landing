@@ -71,9 +71,11 @@ export async function imagenCompartir({ etiqueta, titulo, segunda = "", destacad
         <img src={`data:image/png;base64,${logo.toString("base64")}`} width={234} height={80} alt="" />
 
         <div style={{ display: "flex", flexDirection: "column" }}>
-          <div style={{ display: "flex", fontSize: 24, fontWeight: 600, letterSpacing: 3, textTransform: "uppercase", color: TEAL_CLARO }}>
-            {etiqueta}
-          </div>
+          {etiqueta && (
+            <div style={{ display: "flex", fontSize: 24, fontWeight: 600, letterSpacing: 3, textTransform: "uppercase", color: TEAL_CLARO }}>
+              {etiqueta}
+            </div>
+          )}
           <div style={{ display: "flex", flexDirection: "column", marginTop: 26, maxWidth: 1040, fontSize: largo > 30 ? 60 : 72, fontWeight: 700,
             lineHeight: 1.05, letterSpacing: -2, color: "#FFFFFF" }}>
             <div style={{ display: "flex" }}>{titulo}</div>

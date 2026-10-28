@@ -6,5 +6,5 @@ export const contentType = OG_CONTENT_TYPE;
 
 // Imagen para compartir la portada: logo + tagline sobre el fondo del tema.
 export default function Image() {
-  return imagenCompartir({ etiqueta: "Automatización con IA · Quito, Ecuador", titulo: "Automatizamos tu negocio", segunda: "para que", destacado: "vendas más." });
+  return imagenCompartir({ etiqueta: "", titulo: "Automatizamos tu negocio", segunda: "para que", destacado: "vendas más." });
 }

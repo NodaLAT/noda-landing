@@ -118,7 +118,7 @@
 .p3-pendiente-t{ color:var(--destacado); }
 
 /* ---------- por qué Noda ---------- */
-.p3-porque{ list-style:none; margin:8px 0 0; padding:0; display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
+.p3-porque{ list-style:none; margin:clamp(32px,4vw,48px) 0 0; padding:0; display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
 .p3-porque-card{ padding:28px 24px; border-radius:18px; background:var(--superficie); border:1px solid var(--borde); }
 .p3-porque-ico{ width:52px; height:52px; border-radius:14px; display:grid; place-items:center; color:var(--acento);
   background:color-mix(in srgb, var(--acento) 12%, transparent); border:1px solid color-mix(in srgb, var(--acento) 30%, transparent); }
@@ -166,9 +166,9 @@
 .p3-caso-card{ background:var(--superficie); border:1px solid var(--borde); border-radius:20px; padding:clamp(24px,3vw,36px); }
 .p3-caso-cab{ display:flex; align-items:center; gap:18px; margin-bottom:24px; }
 /* logo del cliente: tarjeta blanca, sin tocar colores ni proporciones del archivo */
-.p3-caso-logo{ flex:0 0 auto; display:grid; place-items:center; background:#ffffff; border-radius:14px; padding:10px 14px;
+.p3-caso-logo{ flex:0 0 auto; display:grid; place-items:center; background:#ffffff; border-radius:16px; padding:12px 14px;
   box-shadow:0 10px 30px -18px rgba(0,0,0,.8); }
-.p3-caso-logo img{ display:block; height:52px; width:auto; max-width:160px; object-fit:contain; }
+.p3-caso-logo img{ display:block; height:52px; width:auto; }
 .p3-caso-sector{ font-weight:600; font-size:12px; letter-spacing:.06em; text-transform:uppercase; color:var(--acento-texto, var(--acento)); }
 .p3-caso-nombre{ font-family:var(--display); font-weight:700; font-size:clamp(22px,2.4vw,26px); line-height:1.15; letter-spacing:-.03em; margin:6px 0 0; color:var(--texto); }
 .p3-caso-puntos{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:14px; }
@@ -241,11 +241,16 @@
 /* ---------- cierre ---------- */
 .p3-cierre{ background:var(--cierre-bg); color:var(--cierre-tx); text-align:center; padding:clamp(72px,10vw,120px) 0; }
 .p3-cierre-t{ font-family:var(--display); font-weight:700; font-size:clamp(30px,4.6vw,46px); line-height:1.05; letter-spacing:-.04em;
-  margin:0 auto; max-width:20ch; color:var(--cierre-titulo); }
+  margin:0 auto; max-width:24ch; color:var(--cierre-titulo); }
+.p3-cierre-palabra{ font-weight:600; font-size:13px; letter-spacing:.16em; text-transform:uppercase; color:var(--cierre-tx); margin:0 0 18px; }
 .p3-cierre-s{ font-weight:600; font-size:clamp(17px,2vw,20px); margin:18px auto 2px; color:var(--cierre-tx); }
-.p3-cierre-p{ font-weight:400; font-size:16px; margin:0 auto 28px; color:var(--cierre-tx); opacity:.85; }
+.p3-cierre-p{ font-weight:400; font-size:16px; margin:0 auto; color:var(--cierre-tx); opacity:.85; }
+.p3-cierre-acc{ display:flex; gap:12px; justify-content:center; flex-wrap:wrap; margin-top:28px; }
 .p3-btn-cierre{ background:var(--cierre-btn-bg); color:var(--cierre-btn-tx); }
 .p3-btn-cierre:hover{ transform:translateY(-2px); opacity:.92; }
+/* segundo botón del cierre (correo): contorno sobre el bloque #1d4a4f */
+.p3-btn-cierre-2{ background:transparent; color:var(--cierre-titulo); border-color:color-mix(in srgb, var(--cierre-titulo) 45%, transparent); }
+.p3-btn-cierre-2:hover{ transform:translateY(-2px); border-color:var(--cierre-titulo); }
 
 /* ---------- pie ---------- */
 .p3-footer{ background:var(--fondo-pie, var(--fondo-2)); border-top:1px solid var(--borde); padding:70px 0 34px; }

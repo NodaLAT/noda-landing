@@ -1,12 +1,12 @@
-import { existsSync } from "node:fs";
-import { join } from "node:path";
-import Telefono, { type Msg } from "./Telefono";
+import { CONVERSACIONES } from "@/lib/conversaciones";
+import Telefono from "./Telefono";
 
 // "Caso en marcha" — bloque reutilizable (portada, Atención 24/7 e Interpretación con IA).
-// Solo lo que VyR usa de verdad: nada de agendamiento, recordatorios ni reportes junto a VyR.
-// Logo: public/assets/v3/clientes/vyr-logo.png, en una tarjeta blanca y sin cambiar colores ni proporciones.
-// Si el archivo todavía no está, la tarjeta del logo no se muestra (el resto del bloque sí).
-const LOGO = "/assets/v3/clientes/vyr-logo.png";
+// Textos de docs/contenido-web-v3.md (sección 5). Solo lo que VyR usa de verdad:
+// nada de agendamiento, recordatorios ni reportes junto a VyR.
+// Logo: vyr-logo.webp es una copia liviana de vyr-logo.png (mismos colores y proporciones,
+// sin el margen transparente), dentro de una tarjeta blanca.
+const LOGO = { src: "/assets/v3/clientes/vyr-logo.webp", ancho: 212, alto: 240 };
 
 const trazo = { fill: "none", stroke: "currentColor", strokeWidth: 1.7, strokeLinecap: "round", strokeLinejoin: "round" } as const;
 const PUNTOS: { texto: string; icono: React.ReactNode }[] = [
@@ -27,29 +27,19 @@ const CIFRAS = [
   { cifra: "7 días", texto: "de implementación" },
 ];
 
-const CONVER: Msg[] = [
-  { de: "cliente", texto: "¿Ya están mis resultados?", hora: "9:41" },
-  { de: "bot", texto: "Sí, aquí los tienes.", hora: "9:41" },
-  { de: "bot", archivo: { nombre: "Resultados.pdf", detalle: "1 página · 212 KB" }, hora: "9:41" },
-  { de: "cliente", texto: "¿Me explicas qué significan?", hora: "9:42" },
-  { de: "bot", texto: "Claro. Tus valores están dentro del rango esperado. Te explico cada uno en palabras simples.", hora: "9:42" },
-];
-
 export default function Caso({ id = "casos", compacto = false }: { id?: string; compacto?: boolean }) {
-  const hayLogo = existsSync(join(process.cwd(), "public", LOGO));
   return (
     <section className={`p3-sec${compacto ? " p3-sec-c" : ""}`} id={id}>
       <div className="p3-wrap">
         <span className="p3-eyebrow">Caso en marcha</span>
-        <h2 className="p3-h2">Negocios reales que ya están moviendo sus procesos a Noda.</h2>
+        <h2 className="p3-h2">Un caso real, funcionando hoy.</h2>
+        <p className="p3-p">Cada implementación se diseña sobre el flujo real del cliente. No usamos plantillas.</p>
         <div className="p3-caso">
           <div className="p3-caso-card">
             <div className="p3-caso-cab">
-              {hayLogo && (
-                <span className="p3-caso-logo">
-                  <img src={LOGO} alt="Logo de Laboratorios VyR San Rafael" />
-                </span>
-              )}
+              <span className="p3-caso-logo">
+                <img src={LOGO.src} alt="Logo de Laboratorios VyR San Rafael" width={LOGO.ancho} height={LOGO.alto} loading="lazy" />
+              </span>
               <div>
                 <span className="p3-caso-sector">Salud · Laboratorio clínico · Quito</span>
                 <h3 className="p3-caso-nombre">Laboratorios VyR San Rafael</h3>
@@ -70,8 +60,8 @@ export default function Caso({ id = "casos", compacto = false }: { id?: string; 
             </dl>
           </div>
           <div className="p3-caso-fono">
-            <Telefono nombre="Laboratorio" mensajes={CONVER} />
-            <p className="p3-caso-aviso">Esta explicación es orientativa y no reemplaza la consulta con tu médico.</p>
+            <Telefono nombre={CONVERSACIONES.interpreta.negocio} mensajes={CONVERSACIONES.interpreta.mensajes} />
+            <p className="p3-caso-aviso">{CONVERSACIONES.interpreta.aviso}</p>
           </div>
         </div>
       </div>

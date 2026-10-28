@@ -3,9 +3,9 @@
 import { SERVICIOS, type Icono } from "@/lib/servicios";
 
 export type Nodo = {
-  corto: string; nombre: string; desc: string; slug: string; icono: Icono;
+  corto: string; nombre: string; desc: string; slug: string; icono: Icono; destacado?: boolean;
 };
 
 export const NODOS: Nodo[] = SERVICIOS.map((s) => ({
-  corto: s.corto, nombre: s.nombre, desc: s.linea, slug: s.slug, icono: s.icono,
+  corto: s.corto, nombre: s.nombre, desc: s.linea, slug: s.slug, icono: s.icono, destacado: s.destacado,
 }));

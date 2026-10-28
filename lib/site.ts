@@ -13,7 +13,6 @@ export const whatsappLink = (mensaje: string) =>
   `https://wa.me/593979938457?text=${encodeURIComponent(mensaje)}`;
 export const EMAIL = "contacto@noda.lat";
 export const WHATSAPP_NUMERO = "+593 97 993 8457";
-export const INSTAGRAM_USUARIO = "@noda.lat";
 export const INSTAGRAM_URL = "https://instagram.com/noda.lat";
 export const TIKTOK_URL = "https://tiktok.com/@noda.lat";
 // PENDIENTE: la página de LinkedIn todavía no existe. Mientras esté vacía, el pie muestra un marcador.

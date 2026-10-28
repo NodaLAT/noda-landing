@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { whatsappLink } from "@/lib/site";
+import { EXTRA_A_MEDIDA } from "@/lib/servicios";
 import { NODOS } from "./datos";
 import { IconoServicio } from "./Iconos";
 import { montarLienzo, leerColores, reducirMovimiento, observarTema } from "./lienzo";
@@ -128,9 +129,8 @@ export default function RedNodos() {
     <section className="p3-sec" id="nodos">
       <div className="p3-wrap">
         <span className="p3-eyebrow">Servicios</span>
-        <h2 className="p3-h2">Cada nodo, un proceso que ya no tienes que hacer <em className="p3-acento">tú.</em></h2>
-        <p className="p3-sub">Una red de automatizaciones conectadas.</p>
-        <p className="p3-p">Empieza por uno y suma los que necesites. Cada uno funcionando de verdad.</p>
+        <h2 className="p3-h2">Si tu negocio lo repite, lo automatizamos.</h2>
+        <p className="p3-p">Diagnosticamos qué te consume más tiempo y diseñamos la solución. Cada uno funcionando de verdad.</p>
 
         <div className="p3-red">
           <canvas ref={ref} className="p3-red-canvas" aria-hidden="true" />
@@ -158,13 +158,19 @@ export default function RedNodos() {
         </div>
 
         <div className="p3-nodo-panel" id="p3-srv-panel" aria-live={porUsuario ? "polite" : "off"}>
-          <span className="p3-nodo-n">Servicio</span>
+          <span className="p3-nodo-n">Servicio{n.destacado && <span className="p3-estrella">Servicio estrella</span>}</span>
           <h3 className="p3-nodo-nombre">{n.nombre}</h3>
           <p className="p3-nodo-desc">{n.desc}</p>
           <div className="p3-nodo-acc">
             <a href={whatsappLink(`Hola Noda, me interesa ${n.nombre}`)} className="p3-btn p3-btn-acento p3-btn-sm">Cotiza a medida</a>
             <Link href={`/servicios/${n.slug}`} className="p3-nodo-link">Ver servicio →</Link>
           </div>
+        </div>
+
+        {/* Extra: ¿Tu proceso no está aquí? */}
+        <div className="p3-tarjeta-extra p3-red-extra">
+          <p className="p3-tarjeta-extra-t">{EXTRA_A_MEDIDA.titulo}</p>
+          <a href={whatsappLink(EXTRA_A_MEDIDA.mensaje)} className="p3-btn p3-btn-outline">{EXTRA_A_MEDIDA.boton}</a>
         </div>
       </div>
     </section>

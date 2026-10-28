@@ -1,9 +1,19 @@
 import Link from "next/link";
-import { EMAIL, INSTAGRAM_URL, INSTAGRAM_USUARIO, LINKEDIN_URL, TIKTOK_URL, WHATSAPP_NUMERO, WHATSAPP_URL } from "@/lib/site";
+import { EMAIL, INSTAGRAM_URL, LINKEDIN_URL, TIKTOK_URL, WHATSAPP_NUMERO, WHATSAPP_URL } from "@/lib/site";
 import { SERVICIOS } from "@/lib/servicios";
 
-// 3.7 Pie de página oscuro (el mismo en todas las páginas, vía Marco).
+// 3.7 Pie de página oscuro (el mismo en todas las páginas, vía Marco). Textos de docs/contenido-web-v3.md.
 // LinkedIn: mientras LINKEDIN_URL esté vacío en lib/site.ts se muestra un marcador [PENDIENTE].
+const EN_PIE: Record<string, string> = {
+  "atencion-y-ventas-whatsapp": "Atención 24/7",
+  "agendamiento-y-recordatorios": "Agendamiento",
+  "cotizaciones-al-instante": "Cotizaciones",
+  "interpretacion-de-documentos": "Interpretación con IA",
+  "crm-y-seguimiento-de-leads": "CRM",
+  "reportes-y-dashboards": "Reportes",
+  "webs-con-ia": "Webs",
+  "apps-y-sistemas-a-medida": "Apps a medida",
+};
 export default function FooterPortada() {
   return (
     <footer className="p3-footer">
@@ -18,7 +28,7 @@ export default function FooterPortada() {
           <div className="p3-footer-col">
             <h3>Servicios</h3>
             {SERVICIOS.map((s) => (
-              <Link key={s.slug} href={`/servicios/${s.slug}`}>{s.nombre}</Link>
+              <Link key={s.slug} href={`/servicios/${s.slug}`}>{EN_PIE[s.slug] ?? s.corto}</Link>
             ))}
           </div>
           <div className="p3-footer-col">
@@ -31,8 +41,8 @@ export default function FooterPortada() {
           <div className="p3-footer-col">
             <h3>Contacto</h3>
             <a href={`mailto:${EMAIL}`}>{EMAIL}</a>
-            <a href={WHATSAPP_URL} target="_blank" rel="noopener">WhatsApp {WHATSAPP_NUMERO}</a>
-            <a href={INSTAGRAM_URL} target="_blank" rel="noopener">Instagram {INSTAGRAM_USUARIO}</a>
+            <a href={WHATSAPP_URL} target="_blank" rel="noopener" aria-label={`WhatsApp ${WHATSAPP_NUMERO}`}>{WHATSAPP_NUMERO}</a>
+            <a href={INSTAGRAM_URL} target="_blank" rel="noopener">Instagram</a>
             <a href={TIKTOK_URL} target="_blank" rel="noopener">TikTok</a>
             {LINKEDIN_URL
               ? <a href={LINKEDIN_URL} target="_blank" rel="noopener">LinkedIn</a>
