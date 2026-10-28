@@ -1,15 +1,19 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { SERVICIOS, mensajeInteres, numeroServicio, textoPrecio, type CasoReal } from "@/lib/servicios";
+import { SERVICIOS, mensajeInteres, textoPrecio, type Servicio } from "@/lib/servicios";
 import { whatsappLink } from "@/lib/site";
 import { metadataPagina } from "@/lib/seo";
-import { Flecha } from "@/components/portada/Iconos";
+import Marco from "@/components/portada/Marco";
+import Faq from "@/components/portada/Faq";
+import Cierre from "@/components/portada/Cierre";
+import { IconoServicio } from "@/components/portada/Iconos";
 import ChatDemo from "@/components/servicios/ChatDemo";
 import { MaquetaPanel, MaquetaWeb } from "@/components/servicios/Maquetas";
 
-// Plantilla única para todas las páginas /servicios/[slug].
-// Solo existen las direcciones de los servicios en lib/servicios.ts.
+// Plantilla única para todas las páginas /servicios/[slug]. Todo el contenido sale de lib/servicios.ts.
+// Orden: hero, problema, cómo funciona (3 pasos), qué incluye, ideal para, dato con fuente,
+// demo, preguntas frecuentes, servicios relacionados y cierre "Cotiza a medida".
 export const dynamicParams = false;
 
 export function generateStaticParams() {
@@ -25,182 +29,149 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return metadataPagina({ titulo: s.seo.titulo, descripcion: s.seo.descripcion, ruta: `/servicios/${s.slug}` });
 }
 
+// Lista con viñetas o, si todavía no hay contenido aprobado, el marcador visible.
+function ListaOPendiente({ items, pendiente }: { items: string[]; pendiente: string }) {
+  return items.length
+    ? <ul className="p3-lista">{items.map((t) => <li key={t}>{t}</li>)}</ul>
+    : <p className="p3-pendiente">[PENDIENTE: {pendiente}]</p>;
+}
+
 export default async function ServicioPage({ params }: Props) {
   const { slug } = await params;
-  const indice = SERVICIOS.findIndex((x) => x.slug === slug);
-  if (indice < 0) notFound();
-  const s = SERVICIOS[indice];
+  const s = SERVICIOS.find((x) => x.slug === slug);
+  if (!s) notFound();
   const whatsapp = whatsappLink(mensajeInteres(s));
+  const relacionados = s.relacionados.map((r) => SERVICIOS.find((x) => x.slug === r)).filter((x): x is Servicio => !!x);
 
   return (
-    <>
-      {/* 1. Encabezado */}
-      <section className="page-head">
-        <div className="container">
-          <nav className="breadcrumb hero-anim hero-d1" aria-label="Ruta de navegación">
-            <Link href="/servicios">Servicios</Link><span aria-hidden="true">/</span><span>{s.nombre}</span>
+    <Marco>
+      {/* 1. Hero del servicio */}
+      <section className="p3-pag-head">
+        <div className="p3-wrap">
+          <nav className="p3-miga" aria-label="Ruta de navegación">
+            <Link href="/servicios">Servicios</Link><span aria-hidden="true">/</span><span aria-current="page">{s.corto}</span>
           </nav>
-          <div className="head-tags hero-anim hero-d1">
-            <span className="section-eyebrow">Servicio {numeroServicio(indice)}</span>
-            {s.destacado && <span className="svc-badge">★ Servicio estrella</span>}
-          </div>
-          <h1 className="hero-anim hero-d2">{s.nombre}</h1>
-          <p className="hero-sub hero-anim hero-d3">{s.promesa}</p>
-          <div className="hero-actions hero-anim hero-d4">
-            <a href={whatsapp} className="btn btn-primary">Quiero este servicio <Flecha /></a>
-            <a href="#ejemplo" className="btn btn-ghost">Ver el ejemplo</a>
-          </div>
-          <span className="price-pill hero-anim hero-d4">{textoPrecio(s.precio)}</span>
-        </div>
-      </section>
-
-      {/* 2. El problema */}
-      <section>
-        <div className="container reveal">
-          <div className="svc-split">
-            <div>
-              <span className="section-eyebrow">El problema</span>
-              <h2>{s.problema.titulo}</h2>
-              <p className="section-sub">{s.problema.texto}</p>
-            </div>
-            <div className="case-card-large">
-              <div className="list-title">¿Te suena familiar?</div>
-              <ul className="case-impact">
-                {s.problema.puntos.map((p) => <li key={p}>{p}</li>)}
-              </ul>
-            </div>
+          <span className="p3-srv-head-ico p3-ico-linea"><IconoServicio icono={s.icono} size={28} /></span>
+          <span className="p3-eyebrow">Servicio</span>
+          <h1 className="p3-pag-h1">{s.nombre}</h1>
+          <p className="p3-pag-sub">{s.promesa}</p>
+          <div className="p3-pag-acc">
+            <a href={whatsapp} className="p3-btn p3-btn-acento p3-shine">{textoPrecio(s.precio)}</a>
+            <a href="#demo" className="p3-btn p3-btn-outline">Ver la demo</a>
           </div>
         </div>
       </section>
 
-      {/* 3. Ejemplo interactivo */}
-      <section id="ejemplo" className="band-beige">
-        <div className="container reveal">
-          <div className={s.demo.tipo === "chat" ? "demo-grid" : "demo-grid demo-grid--wide"}>
-            <div>
-              <div className="head-tags">
-                <span className="section-eyebrow">Ejemplo</span>
-                <span className="demo-tag">Demo</span>
-              </div>
-              <h2>{s.demo.titulo}</h2>
-              <p className="section-sub">{s.demo.intro}</p>
-              {s.demo.tipo === "web" && <p className="demo-note"><strong>Mira a tu alrededor.</strong> {s.demo.nota}</p>}
-              {s.demo.tipo === "chat" && <p className="demo-note">Es una simulación: las respuestas son de ejemplo y no se envía ningún mensaje real.</p>}
-              {s.demo.tipo === "panel" && <p className="demo-note">Imagen de ejemplo: cada panel se diseña según los procesos de tu negocio.</p>}
-            </div>
-            {s.demo.tipo === "chat" && <ChatDemo demo={s.demo} />}
-            {s.demo.tipo === "web" && <MaquetaWeb />}
-            {s.demo.tipo === "panel" && <MaquetaPanel />}
+      {/* 2. Problema */}
+      <section className="p3-sec p3-sec-c">
+        <div className="p3-wrap p3-dos">
+          <div>
+            <span className="p3-eyebrow">El problema</span>
+            <h2 className="p3-h2">{s.problema.titulo}</h2>
+            <p className="p3-p">{s.problema.texto}</p>
+          </div>
+          <div className="p3-caja">
+            <h3 className="p3-caja-t">¿Te suena familiar?</h3>
+            <ListaOPendiente items={s.problema.puntos} pendiente="puntos del problema" />
           </div>
         </div>
       </section>
 
-      {/* 4. Cómo funciona */}
-      <section>
-        <div className="container reveal">
-          <span className="section-eyebrow">Cómo funciona</span>
-          <h2>Así lo ponemos en marcha, en <em>4 pasos</em>.</h2>
-          <div className="steps">
+      {/* 3. Cómo funciona, en 3 pasos */}
+      <section className="p3-sec p3-sec-c">
+        <div className="p3-wrap">
+          <span className="p3-eyebrow">Cómo funciona</span>
+          <h2 className="p3-h2">Así lo ponemos en marcha, en 3 pasos.</h2>
+          <div className="p3-pasos p3-pasos-3">
             {s.pasos.map((p, k) => (
-              <div className="step" key={p.titulo}>
-                <div className="step-num">{numeroServicio(k)}</div>
-                <h3 className="step-title">{p.titulo}</h3>
-                <p className="step-desc">{p.texto}</p>
+              <div key={p.titulo} className="p3-paso">
+                <span className="p3-paso-num">{String(k + 1).padStart(2, "0")}</span>
+                <h3 className="p3-paso-t">{p.titulo}</h3>
+                <p className="p3-paso-d">{p.texto}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* 5. Caso real (solo si el servicio tiene uno) */}
-      {s.caso && <Caso caso={s.caso} />}
-
-      {/* 6. Cierre con WhatsApp */}
-      <section className="band-dark">
-        <div className="container reveal">
-          <div className="close-head">
-            <span className="section-eyebrow">Hablemos</span>
-            <h2>¿Lo quieres para tu negocio?</h2>
-            <p className="section-sub">
-              Escríbenos por WhatsApp y cuéntanos cómo trabajas hoy. Te mostramos cómo funcionaría en tu negocio, sin compromiso.
-            </p>
+      {/* 4. Qué incluye · 5. Ideal para */}
+      <section className="p3-sec p3-sec-c">
+        <div className="p3-wrap p3-dos">
+          <div className="p3-caja">
+            <h2 className="p3-caja-t">Qué incluye</h2>
+            <ListaOPendiente items={s.incluye} pendiente="qué incluye este servicio" />
           </div>
-          <div className="close-actions">
-            <a href={whatsapp} className="btn btn-light">Escribir por WhatsApp <Flecha /></a>
-            <Link href="/servicios" className="contact-link">Ver todos los servicios <Flecha size={15} /></Link>
+          <div className="p3-caja">
+            <h2 className="p3-caja-t">Ideal para</h2>
+            <ListaOPendiente items={s.idealPara} pendiente="para qué negocios es ideal" />
           </div>
         </div>
       </section>
-    </>
-  );
-}
 
-function Caso({ caso }: { caso: CasoReal }) {
-  const tieneLateral = !!caso.video || !!caso.conversacion;
-  return (
-    <section className="band-beige">
-      <div className="container reveal">
-        <span className="section-eyebrow">Caso real</span>
-        <h2>Ya funciona en un negocio <em>real</em>.</h2>
-        <div className={tieneLateral ? "case-spotlight" : "case-spotlight case-spotlight--single"}>
-          <div className="case-card-large">
-            <div className="case-header">
-              <div className="case-mark">{caso.iniciales}</div>
-              <div>
-                <div className="case-sector">{caso.sector} · {caso.ciudad}</div>
-                <div className="case-name">{caso.negocio}</div>
-              </div>
-            </div>
-            <p className="case-desc">{caso.descripcion}</p>
-            {caso.puntos && (
-              <ul className="case-impact">
-                {caso.puntos.map((p) => <li key={p}>{p}</li>)}
-              </ul>
-            )}
-            {caso.etiquetas && (
-              <div className="case-tags">
-                {caso.etiquetas.map((t) => <span className="case-tag" key={t}>{t}</span>)}
-              </div>
-            )}
-          </div>
-
-          {caso.video ? (
-            <VideoCaso url={caso.video} negocio={caso.negocio} />
-          ) : caso.conversacion && (
-            <div className="chat-mockup">
-              <div className="chat-header">
-                <div className="chat-avatar">{caso.iniciales}</div>
-                <div><div className="chat-name">VyR San Rafael · Bot Noda</div><div className="chat-status">en línea</div></div>
-              </div>
-              <div className="messages">
-                {caso.conversacion.map((m) => (
-                  <div key={m.texto} className={m.de === "cliente" ? "msg msg-user" : "msg msg-bot"}>{m.texto}</div>
-                ))}
-              </div>
-            </div>
-          )}
+      {/* 6. Dato con fuente */}
+      <section className="p3-sec p3-sec-c">
+        <div className="p3-wrap">
+          <figure className="p3-dato">
+            <span className="p3-dato-cifra">{s.dato.cifra}</span>
+            <figcaption>
+              <p className="p3-dato-texto">{s.dato.texto}</p>
+              <p className="p3-dato-fuente">Fuente: {s.dato.fuente}</p>
+            </figcaption>
+          </figure>
         </div>
-      </div>
-    </section>
-  );
-}
+      </section>
 
-// Video del caso real: acepta un enlace de YouTube o un archivo de video en /public.
-function VideoCaso({ url, negocio }: { url: string; negocio: string }) {
-  const youtube = url.match(/(?:youtube\.com\/(?:watch\?v=|shorts\/|embed\/)|youtu\.be\/)([\w-]{11})/);
-  return (
-    <div className="video-frame">
-      {youtube ? (
-        <iframe
-          src={`https://www.youtube-nocookie.com/embed/${youtube[1]}`}
-          title={`Video: el flujo real en ${negocio}`}
-          allow="accelerometer; encrypted-media; gyroscope; picture-in-picture"
-          allowFullScreen
-          loading="lazy"
-        />
-      ) : (
-        <video src={url} controls preload="metadata" playsInline aria-label={`Video: el flujo real en ${negocio}`} />
+      {/* 7. Demo */}
+      <section className="p3-sec p3-sec-c" id="demo">
+        <div className={`p3-wrap p3-demo${s.demo.tipo === "chat" ? "" : " p3-demo--ancha"}`}>
+          <div>
+            <span className="p3-eyebrow">Ejemplo <span className="p3-demo-tag">Demo</span></span>
+            <h2 className="p3-h2">{s.demo.titulo}</h2>
+            <p className="p3-p">{s.demo.intro}</p>
+            {s.demo.tipo === "chat" && <p className="p3-demo-nota">Es una simulación: las respuestas son de ejemplo y no se envía ningún mensaje real.</p>}
+            {s.demo.tipo === "web" && <p className="p3-demo-nota">{s.demo.nota}</p>}
+            {s.demo.tipo === "panel" && <p className="p3-demo-nota">Imagen de ejemplo: cada panel se diseña según los procesos de tu negocio.</p>}
+            {s.demo.tipo === "chat" && s.demo.aviso && <p className="p3-demo-aviso">{s.demo.aviso}</p>}
+          </div>
+          {s.demo.tipo === "chat" && <ChatDemo demo={s.demo} />}
+          {s.demo.tipo === "web" && <MaquetaWeb />}
+          {s.demo.tipo === "panel" && <MaquetaPanel />}
+        </div>
+      </section>
+
+      {/* 8. Preguntas frecuentes */}
+      <Faq preguntas={s.faq} titulo="Preguntas sobre este servicio." pendiente="[PENDIENTE: preguntas frecuentes de este servicio]" />
+
+      {/* Servicios relacionados */}
+      {relacionados.length > 0 && (
+        <section className="p3-sec p3-sec-c">
+          <div className="p3-wrap">
+            <span className="p3-eyebrow">Se combina con</span>
+            <h2 className="p3-h2">Servicios que funcionan bien juntos.</h2>
+            <ul className="p3-tarjetas p3-relacionados">
+              {relacionados.map((r) => (
+                <li key={r.slug}>
+                  <Link href={`/servicios/${r.slug}`} className="p3-tarjeta">
+                    <span className="p3-tarjeta-ico"><IconoServicio icono={r.icono} /></span>
+                    <h3 className="p3-tarjeta-t">{r.nombre}</h3>
+                    <p className="p3-tarjeta-d">{r.linea}</p>
+                    <span className="p3-tarjeta-link">Ver servicio <span aria-hidden="true">→</span></span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
       )}
-    </div>
+
+      {/* 9. Cierre */}
+      <Cierre
+        titulo="¿Lo quieres para tu negocio?"
+        sub="Escríbenos por WhatsApp y cuéntanos cómo trabajas hoy."
+        texto="Te mostramos cómo funcionaría en tu negocio, sin compromiso."
+        boton="Cotiza a medida"
+        href={whatsapp}
+      />
+    </Marco>
   );
 }

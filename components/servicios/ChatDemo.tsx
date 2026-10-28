@@ -5,8 +5,8 @@ import type { DemoChat, Mensaje } from "@/lib/servicios";
 
 type Item = { id: number; de: "cliente" | "bot"; mensaje: Mensaje };
 
-// Chat simulado tipo WhatsApp. Las respuestas están escritas en lib/servicios.ts:
-// no hay IA real ni llamadas a ningún servicio externo.
+// Chat simulado en el teléfono oscuro de la portada (.p3-fono). Las respuestas están escritas
+// en lib/servicios.ts: no hay IA real ni llamadas a ningún servicio externo.
 export default function ChatDemo({ demo }: { demo: DemoChat }) {
   const inicial: Item[] = [{ id: 0, de: "bot", mensaje: { tipo: "texto", texto: demo.saludo } }];
   const [items, setItems] = useState<Item[]>(inicial);
@@ -18,7 +18,7 @@ export default function ChatDemo({ demo }: { demo: DemoChat }) {
 
   useEffect(() => () => timers.current.forEach(clearTimeout), []);
 
-  // Baja el chat (solo dentro de la caja, sin mover la página) cuando llega un mensaje.
+  // Baja el chat (solo dentro del teléfono, sin mover la página) cuando llega un mensaje.
   useEffect(() => {
     const caja = cajaRef.current;
     if (caja) caja.scrollTo({ top: caja.scrollHeight, behavior: "smooth" });
@@ -58,30 +58,35 @@ export default function ChatDemo({ demo }: { demo: DemoChat }) {
   }
 
   return (
-    <div className="chat-mockup chat-demo">
-      <div className="chat-header">
-        <div className="chat-avatar" aria-hidden="true">{demo.negocio.charAt(0)}</div>
-        <div>
-          <div className="chat-name">{demo.negocio}</div>
-          <div className="chat-status">{botEscribe ? "escribiendo…" : "en línea"}</div>
+    <div className="p3-demo-fono">
+      <div className="p3-fono p3-fono--demo">
+        <div className="p3-fono-isla" aria-hidden="true" />
+        <div className="p3-fono-cab">
+          <span className="p3-fono-atras" aria-hidden="true">‹</span>
+          <span className="p3-fono-av" aria-hidden="true">{demo.negocio.charAt(0)}</span>
+          <span className="p3-fono-id">
+            <span className="p3-fono-nombre">{demo.negocio}</span>
+            <span className="p3-fono-estado">{botEscribe ? "escribiendo…" : "en línea"}</span>
+          </span>
+          <span className="p3-fono-demo">DEMO</span>
         </div>
-        <span className="demo-tag">Demo</span>
+        <div className="p3-fono-chat" ref={cajaRef} aria-live="polite">
+          {items.map((it) => <Burbuja key={it.id} item={it} />)}
+          {botEscribe && <div className="p3-escribe p3-msg-in" aria-label="El asistente está escribiendo"><i /><i /><i /></div>}
+        </div>
+        <div className="p3-fono-barra" aria-hidden="true">
+          <span className="p3-fono-input">Escribe un mensaje</span>
+          <span className="p3-fono-send">➤</span>
+        </div>
       </div>
 
-      <div className="messages" ref={cajaRef} aria-live="polite">
-        {items.map((it) => <Burbuja key={it.id} item={it} />)}
-        {botEscribe && (
-          <div className="typing msg-in" aria-label="El asistente está escribiendo"><i /><i /><i /></div>
-        )}
-      </div>
-
-      <div className="chat-replies">
-        <div className="chat-replies-head">
-          <span className="chat-replies-label">Toca una pregunta</span>
-          {items.length > 1 && <button type="button" className="chat-reset" onClick={reiniciar}>Reiniciar</button>}
+      <div className="p3-opciones">
+        <div className="p3-opciones-cab">
+          <span>Toca una pregunta</span>
+          {items.length > 1 && <button type="button" className="p3-opciones-reset" onClick={reiniciar}>Reiniciar</button>}
         </div>
         {demo.preguntas.map((p, i) => (
-          <button key={p.pregunta} type="button" className="chat-reply" disabled={escribiendo} onClick={() => preguntar(i)}>
+          <button key={p.pregunta} type="button" className="p3-opcion" disabled={escribiendo} onClick={() => preguntar(i)}>
             {p.pregunta}
           </button>
         ))}
@@ -92,17 +97,16 @@ export default function ChatDemo({ demo }: { demo: DemoChat }) {
 
 function Burbuja({ item }: { item: Item }) {
   const m = item.mensaje;
+  const lado = item.de === "cliente" ? "cliente" : "bot";
   if (m.tipo === "texto") {
-    return <div className={`msg ${item.de === "cliente" ? "msg-user" : "msg-bot"} msg-in`}>{m.texto}</div>;
+    return <div className={`p3-msg ${lado} p3-msg-in`}><span className="p3-msg-tx">{m.texto}</span></div>;
   }
   if (m.tipo === "confirmacion") {
     return (
-      <div className="msg-card confirm msg-in">
-        <span className="confirm-ico">✓</span>
-        <span>
-          <span className="confirm-t">{m.titulo}</span><br />
-          <span className="confirm-s">{m.detalle}</span><br />
-          <span className="confirm-badge">{m.etiqueta}</span>
+      <div className="p3-msg bot p3-msg-ficha p3-msg-in">
+        <span className="p3-ficha-ok">
+          <span className="p3-ficha-ok-ico" aria-hidden="true">✓</span>
+          <span><strong>{m.titulo}</strong><br />{m.detalle}<br /><span className="p3-ficha-chip">{m.etiqueta}</span></span>
         </span>
       </div>
     );
@@ -110,32 +114,24 @@ function Burbuja({ item }: { item: Item }) {
   if (m.tipo === "indicadores") {
     const max = Math.max(...m.barras);
     return (
-      <div className="msg-card msg-in">
-        <div className="pf-head">{m.titulo}</div>
-        <div className="dk-row">
-          {m.items.map(([valor, etiqueta]) => (
-            <div className="dk-kpi" key={etiqueta}><div className="dk-num">{valor}</div><div className="dk-label">{etiqueta}</div></div>
-          ))}
+      <div className="p3-msg bot p3-msg-ficha p3-msg-in">
+        <span className="p3-ficha-t">{m.titulo}</span>
+        <div className="p3-kpis">
+          {m.items.map(([valor, etiqueta]) => <div className="p3-kpi" key={etiqueta}><b>{valor}</b><span>{etiqueta}</span></div>)}
         </div>
-        <div className="dk-bars">
-          {m.barras.map((b, i) => (
-            <div key={i} className={b === max ? "dk-bar pk" : "dk-bar"} style={{ height: `${b}%` }} />
-          ))}
+        <div className="p3-barras" aria-hidden="true">
+          {m.barras.map((b, i) => <i key={i} className={b === max ? "pk" : undefined} style={{ height: `${b}%` }} />)}
         </div>
       </div>
     );
   }
-  // "ficha" y "cotizacion" usan el mismo formato de proforma de la portada (.pf)
+  // "ficha" y "cotizacion": filas con valor a la derecha
   return (
-    <div className="msg-card msg-in">
-      <div className="pf">
-        <div className="pf-head">{m.titulo}</div>
-        {m.filas.map(([a, b]) => (
-          <div className="pf-row" key={a}><span>{a}</span><b>{b}</b></div>
-        ))}
-        {m.tipo === "cotizacion" && <div className="pf-total"><span>Total</span><b>{m.total}</b></div>}
-        {m.tipo === "cotizacion" && m.nota && <div className="pf-note">{m.nota}</div>}
-      </div>
+    <div className="p3-msg bot p3-msg-ficha p3-msg-in">
+      <span className="p3-ficha-t">{m.titulo}</span>
+      {m.filas.map(([a, b]) => <div className="p3-ficha-fila" key={a}><span>{a}</span><b>{b}</b></div>)}
+      {m.tipo === "cotizacion" && <div className="p3-ficha-total"><span>Total</span><b>{m.total}</b></div>}
+      {m.tipo === "cotizacion" && m.nota && <span className="p3-ficha-nota">{m.nota}</span>}
     </div>
   );
 }
