@@ -6,7 +6,7 @@ import { whatsappLink } from "@/lib/site";
 import { NODOS } from "./datos";
 import { montarLienzo, leerColores, reducirMovimiento, observarTema } from "./lienzo";
 
-const DWELL = 1.1, MOVE = 1.5, HOLD = 1.7;
+const DWELL = 0.7, MOVE = 0.9, HOLD = 1.2;
 const perBlock = DWELL + MOVE;
 const CICLO = 7 * perBlock + DWELL + HOLD;            // ~21 s
 const tInicioNodo = (i: number) => (i < 7 ? i * perBlock : 7 * perBlock);
@@ -154,7 +154,13 @@ export default function RedNodos() {
 
     const ctrl = montarLienzo(canvas, onResize, onFrame);
     const quitarTema = observarTema(() => { col = leerColores(); });
-    return () => { ctrl.destruir(); quitarTema(); };
+    // el recorrido empieza desde el nodo 01 cada vez que la sección entra en pantalla
+    let ioReset: IntersectionObserver | null = null;
+    if (!reduce) {
+      ioReset = new IntersectionObserver((e) => { if (e[0].isIntersecting) saltarRef.current = 0; }, { threshold: 0.2 });
+      ioReset.observe(canvas);
+    }
+    return () => { ctrl.destruir(); quitarTema(); ioReset?.disconnect(); };
   }, []);
 
   const n = NODOS[activo];
