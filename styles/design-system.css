@@ -186,12 +186,17 @@
   --par-polvo:44,182,175;
   --nodo-activo:#2cb6af; --nodo-recorrido:#2cb6af;
 }
-/* MIXTO: negro + crema (destacado) + teal de firma (acento de marca). */
+/* MIXTO: negro + crema (destacado) + teal de firma (acento de marca).
+   Fondo global "luz desenfocada" (.fondo-luz, más abajo): las secciones son transparentes
+   y las tarjetas, #111 al 85 %. Los textos pequeños usan tonos más claros para seguir en AA
+   aun sobre la zona más clara (centro de la luz crema ≈ #4f4d49). */
 :root[data-tema="mixto"]{
-  --fondo:#000000; --fondo-2:#0a0a0a; --superficie:#111111; --borde:#262626;
-  --texto:#ffffff; --texto-2:#d4d4d4; --texto-3:#a3a3a3;
+  --fondo:#0b0b0d; --fondo-2:#0a0a0a; --superficie:rgb(17 17 17 / .85); --borde:#262626;
+  --fondo-seccion:transparent; --fondo-pie:transparent; --chip-fondo:var(--superficie);
+  --texto:#ffffff; --texto-2:#d4d4d4; --texto-3:#c4c4c4;
   --acento:#2cb6af; --acento-claro:#8fd6d0; --destacado:#eee6d5;
-  --etiquetas:#2cb6af;                 /* etiquetas superiores en teal */
+  --acento-texto:#8fd6d0;              /* teal claro para texto pequeño (el teal de firma queda en íconos y nodos) */
+  --etiquetas:#8fd6d0;                 /* etiquetas superiores en teal claro */
   --check:#2cb6af;                     /* checks en teal */
   --acento-contraste:#000000;          /* texto negro sobre el botón crema */
   --cierre-bg:#1d4a4f; --cierre-titulo:#ffffff; --cierre-tx:#eee6d5;
@@ -199,4 +204,42 @@
   --par-principal:44,182,175; --par-circulo:201,227,202; --par-cinta:58,138,134;
   --par-polvo:44,182,175;
   --nodo-activo:#2cb6af; --nodo-recorrido:#2cb6af;
+  /* luces del fondo: color con opacidad + forma (las posiciones son del lienzo 120 %, ver .fondo-luz-a/b) */
+  --luz-base:#0b0b0d;
+  --luz-crema:rgb(238 230 213 / .30);   --luz-crema-forma:ellipse 46% 33% at 79% 18%;    /* arriba a la derecha */
+  --luz-blanca:rgb(242 240 236 / .15);  --luz-blanca-forma:ellipse 42% 36% at 17% 83%;   /* abajo a la izquierda */
+  --luz-teal:rgb(44 182 175 / .10);     --luz-teal-forma:ellipse 34% 30% at 65% 46%;     /* centro-derecha */
+  --luz-profunda:rgb(29 74 79 / .25);   --luz-profunda-forma:ellipse 42% 38% at 46% 54%; /* zona oscura central */
+  --luz-grano:.04;                      /* opacidad del ruido que evita bandas */
+  --luz-deriva:45s;                     /* ciclo de la deriva lenta */
 }
+
+/* =====================================================================
+   FONDO "LUZ DESENFOCADA" (capa fija montada en app/layout.tsx)
+   Solo con data-tema="mixto" y solo en la portada (body:has(.p3)): /servicios y
+   las páginas legales mantienen su fondo claro. Sin filter: blur, solo degradados.
+   ===================================================================== */
+.fondo-luz{ display:none; }
+:root[data-tema="mixto"] body:has(.p3){ background:var(--luz-base); }
+:root[data-tema="mixto"] body:has(.p3) .fondo-luz{ display:block; position:fixed; inset:0; z-index:-1;
+  pointer-events:none; overflow:hidden; background:var(--luz-base); }
+/* dos capas 20 % más grandes que la pantalla, para que la deriva nunca muestre un borde */
+.fondo-luz-a, .fondo-luz-b{ position:absolute; inset:-10%; will-change:transform;
+  animation:luz-deriva-a var(--luz-deriva) ease-in-out infinite; }
+.fondo-luz-a{ background:
+  radial-gradient(var(--luz-crema-forma), var(--luz-crema), transparent 70%),
+  radial-gradient(var(--luz-teal-forma), var(--luz-teal), transparent 70%); }
+.fondo-luz-b{ animation-name:luz-deriva-b; background:
+  radial-gradient(var(--luz-blanca-forma), var(--luz-blanca), transparent 70%),
+  radial-gradient(var(--luz-profunda-forma), var(--luz-profunda), transparent 70%); }
+/* grano muy leve (ruido SVG en escala de grises) */
+.fondo-luz::after{ content:""; position:absolute; inset:0; opacity:var(--luz-grano); background-size:220px 220px;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E"); }
+@keyframes luz-deriva-a{
+  0%,100%{ transform:translate3d(0,0,0) scale(1) }
+  33%{ transform:translate3d(-3%,2%,0) scale(1.04) }
+  66%{ transform:translate3d(2%,-1.5%,0) scale(.98) } }
+@keyframes luz-deriva-b{
+  0%,100%{ transform:translate3d(0,0,0) scale(1) }
+  50%{ transform:translate3d(3%,-2.5%,0) scale(1.05) } }
+@media(prefers-reduced-motion:reduce){ .fondo-luz-a, .fondo-luz-b{ animation:none; } }

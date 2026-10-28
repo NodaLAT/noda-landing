@@ -35,6 +35,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="es" data-scroll-behavior="smooth" data-tema="mixto" className={poppins.variable}>
       <body>
+        {/* Fondo "luz desenfocada": solo se ve con el tema mixto en la portada (ver design-system.css) */}
+        <div className="fondo-luz" aria-hidden="true"><span className="fondo-luz-a" /><span className="fondo-luz-b" /></div>
         <ChromeGlobal slot="header" />
         <main>{children}</main>
         <ChromeGlobal slot="footer" />
