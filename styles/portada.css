@@ -93,25 +93,41 @@
 .p3-mask-in.p3-anim{ animation-name:p3-mask-up; }
 @keyframes p3-mask-up{ from{ transform:translateY(105%) } to{ transform:translateY(0) } }
 
-/* ---------- red de nodos ---------- */
-.p3-red{ width:100%; margin:clamp(30px,5vw,56px) 0 clamp(26px,4vw,44px); }
-.p3-red-canvas{ display:block; width:100%; height:400px; }
+/* ---------- red de servicios (centro + 8 nodos en óvalo) ---------- */
+.p3-red{ position:relative; height:580px; margin:clamp(30px,5vw,56px) 0 clamp(26px,4vw,44px); }
+.p3-red-canvas{ position:absolute; inset:0; width:100%; height:100%; display:block; }
+.p3-red-centro{ position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); z-index:1;
+  width:112px; height:112px; border-radius:50%; display:grid; place-items:center;
+  background:var(--superficie); border:1px solid var(--borde);
+  box-shadow:0 0 0 10px var(--fondo), 0 0 60px -10px color-mix(in srgb, var(--acento) 45%, transparent); }
+.p3-red-centro img{ width:70%; height:auto; display:block; }
+/* nodo de servicio: botón con ícono y nombre; el círculo queda centrado en (--x, --y) */
+.p3-srv{ position:absolute; left:var(--x); top:var(--y); transform:translate(-50%,-32px); z-index:1;
+  display:flex; flex-direction:column; align-items:center; gap:10px; padding:0; background:none; border:0;
+  font-family:var(--body); color:var(--texto-2); cursor:pointer; -webkit-tap-highlight-color:transparent; }
+.p3-srv-circ{ position:relative; width:64px; height:64px; border-radius:50%; display:grid; place-items:center;
+  background:var(--superficie); border:1px solid var(--borde); color:var(--texto-2);
+  transition:transform .4s cubic-bezier(.16,1,.3,1), border-color .3s, background .3s, color .3s; }
+.p3-srv-circ svg{ fill:none; stroke:currentColor; stroke-width:1.6; stroke-linecap:round; stroke-linejoin:round; }
+.p3-srv-circ::after{ content:""; position:absolute; inset:-7px; border-radius:50%; border:1.5px solid var(--acento); opacity:0; }
+.p3-srv-nombre{ font-weight:600; font-size:13px; line-height:1.3; white-space:nowrap; padding:3px 10px; border-radius:999px;
+  background:var(--fondo); transition:color .3s; }
+.p3-srv:hover .p3-srv-circ{ border-color:var(--texto-3); }
+.p3-srv:focus-visible{ outline:none; }
+.p3-srv:focus-visible .p3-srv-circ{ outline:2px solid var(--acento); outline-offset:5px; }
+.p3-srv.on .p3-srv-circ{ transform:scale(1.1); border-color:var(--acento); color:var(--acento);
+  background:color-mix(in srgb, var(--acento) 14%, var(--superficie)); }
+.p3-srv.on .p3-srv-circ::after{ animation:p3-anillo 1.6s cubic-bezier(.16,1,.3,1) infinite; }
+.p3-srv.on .p3-srv-nombre{ color:var(--texto); }
+@keyframes p3-anillo{ from{ opacity:.75; transform:scale(.92) } to{ opacity:0; transform:scale(1.35) } }
 .p3-nodo-panel{ background:var(--superficie); border:1px solid var(--borde); border-radius:18px; padding:26px 28px;
-  max-width:640px; }
+  max-width:640px; margin:0 auto; }
 .p3-nodo-n{ font-weight:600; font-size:13px; letter-spacing:.08em; text-transform:uppercase; color:var(--acento); }
 .p3-nodo-nombre{ font-family:var(--display); font-weight:600; font-size:22px; line-height:1.15; margin:6px 0 8px; color:var(--texto); }
 .p3-nodo-desc{ font-weight:400; font-size:15px; line-height:1.55; color:var(--texto-2); margin:0 0 18px; max-width:52ch; }
 .p3-nodo-acc{ display:flex; align-items:center; gap:18px; flex-wrap:wrap; }
 .p3-nodo-link{ font-weight:600; font-size:14px; color:var(--texto); text-decoration:none; }
 .p3-nodo-link:hover{ color:var(--acento); }
-.p3-nodo-botones{ list-style:none; margin:26px 0 0; padding:0; display:grid; grid-template-columns:repeat(4,1fr); gap:10px; }
-.p3-nodo-btn{ width:100%; text-align:left; display:flex; flex-direction:column; gap:3px; cursor:pointer;
-  background:var(--superficie); border:1px solid var(--borde); border-radius:12px; padding:11px 13px; color:var(--texto-2);
-  transition:border-color .25s, background .25s, transform .25s; font-family:var(--body); }
-.p3-nodo-btn:hover{ transform:translateY(-2px); border-color:var(--texto-3); }
-.p3-nodo-btn.activo{ border-color:var(--acento); background:color-mix(in srgb, var(--acento) 12%, var(--superficie)); }
-.p3-nodo-btn-n{ font-weight:600; font-size:12px; color:var(--acento); }
-.p3-nodo-btn-c{ font-weight:600; font-size:13px; color:var(--texto); }
 
 /* ---------- caso real ---------- */
 .p3-caso{ display:grid; grid-template-columns:1.1fr .9fr; gap:40px; margin-top:44px; align-items:center; }
@@ -216,7 +232,6 @@
   .p3-burger{ display:flex; }
   .p3-caso{ grid-template-columns:1fr; gap:30px; }
   .p3-pasos{ grid-template-columns:repeat(2,1fr); }
-  .p3-nodo-botones{ grid-template-columns:repeat(2,1fr); }
   .p3-footer-top{ grid-template-columns:1fr 1fr; gap:30px; }
   .p3-footer-marca{ grid-column:1/-1; }
 }
@@ -224,12 +239,16 @@
   /* celular: se reserva arriba el alto del isotipo al 85 % del ancho (85vw / aspecto 1.42 ≈ 60vw) */
   .p3-hero{ min-height:100svh; padding:calc(96px + 60vw) 0 32px; }
   .p3-hero-datos{ flex-direction:column; gap:12px; }
-  .p3-red-canvas{ height:760px; }
+  /* celular: centro arriba y los 8 servicios en dos columnas; las líneas siguen saliendo del centro */
+  .p3-red{ height:auto; display:grid; grid-template-columns:1fr 1fr; gap:30px 12px; }
+  .p3-red-centro{ position:relative; left:auto; top:auto; transform:none; grid-column:1/-1; justify-self:center;
+    width:96px; height:96px; margin-bottom:22px; }
+  .p3-srv{ position:relative; left:auto; top:auto; transform:none; min-width:0; }
+  .p3-srv-nombre{ white-space:normal; text-align:center; max-width:100%; }
   .p3-pasos{ grid-template-columns:1fr; }
   .p3-footer-top{ grid-template-columns:1fr; }
 }
 @media(max-width:420px){
-  .p3-nodo-botones{ grid-template-columns:1fr; }
   .p3-fono{ width:280px; height:576px; }
 }
 
@@ -240,5 +259,6 @@
 @media(prefers-reduced-motion:reduce){
   .p3-anim{ animation:none !important; }
   .p3-shine::after{ display:none; }
-  .p3-btn, .p3-pill, .p3-nodo-btn, .p3-faq-ico::before, .p3-faq-ico::after{ transition:none; }
+  .p3-btn, .p3-pill, .p3-srv-circ, .p3-srv-nombre, .p3-faq-ico::before, .p3-faq-ico::after{ transition:none; }
+  .p3-srv.on .p3-srv-circ::after{ animation:none; opacity:.5; }     /* anillo fijo, sin pulso */
 }

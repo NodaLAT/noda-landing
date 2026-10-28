@@ -27,7 +27,7 @@ export function montarLienzo(
     onResize(w, h);
   };
 
-  let raf = 0, prev = 0, enVista = true, visible = !document.hidden, corriendo = false;
+  let raf = 0, prev = 0, enVista = true, visible = !document.hidden, corriendo = false, destruido = false;
   const loop = (t: number) => {
     raf = requestAnimationFrame(loop);
     const dt = prev ? Math.min(0.05, (t - prev) / 1000) : 0.016;
@@ -35,7 +35,7 @@ export function montarLienzo(
     onFrame(t / 1000, dt);
   };
   const actualizar = () => {
-    const debe = enVista && visible;
+    const debe = enVista && visible && !destruido;   // el arranque diferido no debe revivir un lienzo ya destruido
     if (debe && !corriendo) { corriendo = true; prev = 0; raf = requestAnimationFrame(loop); }
     else if (!debe && corriendo) { corriendo = false; cancelAnimationFrame(raf); }
   };
@@ -53,6 +53,7 @@ export function montarLienzo(
 
   return {
     destruir() {
+      destruido = true;
       cancelAnimationFrame(raf);
       ro.disconnect();
       io.disconnect();
