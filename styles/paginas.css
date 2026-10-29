@@ -778,3 +778,98 @@ article.p3-tarjeta:has(.p3-tarjeta-enlace:focus-visible){ outline:2px solid var(
   .p3-bc, .p3-bc::before, .p3-bc-ico, .p3-filtro, .bv-wa{ transition:none; }
   .p3-bc:hover, .p3-bc:has(:focus-visible){ transform:none; }
 }
+
+/* =====================================================================
+   PILOTO de "Atención y ventas 24/7 por WhatsApp" (components/servicios/Atencion.tsx).
+   Solo en ese servicio. Reutiliza el chat WhatsApp (.bv-wa) y las variables de tema.
+   Animaciones solo en pantalla; con "reducir movimiento" quedan en su estado final.
+   ===================================================================== */
+/* marco de teléfono para el chat (cabecera y demo) */
+.pa-fono{ width:min(340px,100%); padding:8px; border-radius:36px; background:linear-gradient(160deg,#1b1b1f,#0b0b0d);
+  border:1px solid rgba(255,255,255,.08); box-shadow:0 30px 70px -32px rgba(0,0,0,.85), 0 2px 10px -4px rgba(0,0,0,.5); }
+.pa-fono .bv-wa{ height:560px; border-radius:28px; overflow:hidden; font-size:14px; }
+.pa-fono .bv-wa-cab{ padding:12px 14px; }
+.pa-fono .bv-wa-av{ width:38px; height:38px; font-size:13px; }
+.pa-fono .bv-wa-quien b{ font-size:15px; }
+.pa-fono .bv-wa-m{ font-size:14.5px; max-width:82%; }
+
+/* 1) cabecera con el chat al lado */
+.pa-head{ display:grid; grid-template-columns:minmax(0,1fr) auto; gap:clamp(28px,5vw,64px); align-items:center; }
+.pa-head-col{ min-width:0; }
+.pa-head-demo{ display:flex; justify-content:center; }
+
+/* 2) "Cómo funciona": 3 pasos con línea que se ilumina */
+.pa-pasos{ list-style:none; margin:28px 0 0; padding:0; position:relative;
+  display:grid; grid-template-columns:repeat(3,1fr); gap:clamp(20px,4vw,40px); }
+.pa-pasos-linea{ position:absolute; top:32px; left:16.667%; right:16.667%; height:2px; z-index:0; border-radius:2px; background:var(--borde); overflow:hidden; }
+.pa-pasos-linea i{ display:block; width:100%; height:100%; background:var(--acento); transform-origin:left center; transform:scaleX(var(--avance,0)); transition:transform .6s var(--ease); }
+.pa-paso{ position:relative; z-index:1; display:flex; flex-direction:column; align-items:center; text-align:center; gap:12px; }
+.pa-paso-ico{ width:64px; height:64px; border-radius:50%; display:grid; place-items:center; color:var(--texto-3);
+  background:var(--superficie); border:1px solid var(--borde); transition:color .4s, background .4s, border-color .4s, box-shadow .4s; }
+.pa-paso-ico svg{ fill:none; stroke:currentColor; }
+.pa-paso.is-on .pa-paso-ico{ color:var(--acento-contraste); background:var(--acento); border-color:var(--acento);
+  box-shadow:0 0 0 6px color-mix(in srgb, var(--acento) 14%, transparent), 0 0 26px color-mix(in srgb, var(--acento) 45%, transparent); }
+.pa-paso-num{ font-weight:600; font-size:12px; letter-spacing:.08em; color:var(--texto-3); transition:color .4s; }
+.pa-paso.is-on .pa-paso-num{ color:var(--acento-claro); }
+.pa-paso-txt{ font-weight:400; font-size:15.5px; line-height:1.5; color:var(--texto-2); margin:0; max-width:30ch; }
+
+/* 3) demo interactiva grande */
+.pa-demo{ display:grid; grid-template-columns:auto minmax(0,1fr); gap:clamp(28px,5vw,56px); align-items:center; margin-top:28px; }
+.pa-fono--demo .bv-wa-chat{ justify-content:flex-start; overflow-y:auto; overscroll-behavior:contain; scrollbar-width:thin; }
+.pa-fono--demo .bv-wa-m{ animation:p3-msg-in .4s cubic-bezier(.16,1,.3,1) both; }
+.bv-wa-prod-nota{ padding:0 6px 4px; font-size:12px; color:#8696a0; }
+.pa-opciones{ display:flex; flex-direction:column; gap:10px; max-width:430px; }
+.pa-opciones-cab{ display:flex; justify-content:space-between; align-items:center; font-weight:600; font-size:12px; letter-spacing:.08em; text-transform:uppercase; color:var(--texto-3); }
+.pa-reset{ background:none; border:0; font:inherit; font-size:12px; letter-spacing:0; text-transform:none; color:var(--texto-2); text-decoration:underline; text-underline-offset:3px; cursor:pointer; padding:4px; }
+.pa-opcion{ text-align:left; font-family:var(--body); font-weight:600; font-size:14.5px; line-height:1.35; color:var(--texto);
+  background:var(--superficie); border:1px solid var(--borde); border-radius:14px; padding:13px 16px; cursor:pointer;
+  transition:border-color .25s, transform .25s, background .25s; }
+.pa-opcion:hover:not(:disabled){ border-color:var(--acento); transform:translateY(-1px); }
+.pa-opcion:disabled{ opacity:.45; cursor:default; }
+.pa-opciones .p3-demo-nota{ margin-top:6px; }
+
+/* 4) antes y con Noda */
+.pa-antes{ display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:28px; }
+.pa-antes-col{ border-radius:18px; padding:clamp(22px,3vw,30px); border:1px solid var(--borde); background:var(--superficie); }
+.pa-antes-col--con{ border-color:color-mix(in srgb, var(--acento) 40%, var(--borde)); background:color-mix(in srgb, var(--acento) 7%, var(--superficie)); }
+.pa-antes-t{ font-weight:600; font-size:13px; letter-spacing:.08em; text-transform:uppercase; margin:0 0 16px; }
+.pa-antes-col--antes .pa-antes-t{ color:var(--texto-3); }
+.pa-antes-col--con .pa-antes-t{ color:var(--destacado); }
+.pa-antes-lista{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:14px; }
+.pa-antes-lista li{ position:relative; padding-left:28px; font-weight:400; font-size:15px; line-height:1.5; color:var(--texto-2); }
+.pa-antes-col--antes .pa-antes-lista li::before{ content:""; position:absolute; left:3px; top:10px; width:13px; height:2px; border-radius:2px; background:var(--texto-3); }
+.pa-antes-col--con .pa-antes-lista li::before{ content:"✓"; position:absolute; left:0; top:-1px; font-size:15px; font-weight:700; color:var(--acento); }
+
+/* 5) qué incluye con íconos y entrada suave */
+.pa-incluye{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:12px; }
+.pa-incluye-item{ display:flex; align-items:center; gap:14px; padding:12px 14px; border-radius:14px; border:1px solid var(--borde);
+  background:rgba(255,255,255,.02); opacity:0; transform:translateY(10px); }
+.pa-incluye.is-on .pa-incluye-item{ opacity:1; transform:none; transition:opacity .5s var(--ease), transform .5s var(--ease); transition-delay:var(--d,0ms); }
+.pa-incluye-ico{ flex:0 0 auto; width:40px; height:40px; border-radius:11px; display:grid; place-items:center; color:var(--acento);
+  background:color-mix(in srgb, var(--acento) 12%, transparent); border:1px solid color-mix(in srgb, var(--acento) 30%, var(--borde)); }
+.pa-incluye-ico svg{ fill:none; stroke:currentColor; }
+.pa-incluye-tx{ font-weight:600; font-size:15px; line-height:1.4; color:var(--texto); }
+.pa-incluye-tx::first-letter{ text-transform:uppercase; }
+
+/* responsive del piloto */
+@media(max-width:900px){
+  .pa-head{ grid-template-columns:1fr; }
+  .pa-head-demo{ justify-content:flex-start; }
+  .pa-demo{ grid-template-columns:1fr; }
+  .pa-opciones{ max-width:100%; }
+}
+@media(max-width:720px){
+  .pa-pasos{ grid-template-columns:1fr; gap:22px; max-width:460px; }
+  .pa-paso{ display:grid; grid-template-columns:auto 1fr; column-gap:16px; align-items:center; text-align:left; }
+  .pa-paso-ico{ grid-row:1 / span 2; align-self:start; }
+  .pa-paso-num{ grid-column:2; align-self:end; }
+  .pa-paso-txt{ grid-column:2; align-self:start; }
+  .pa-pasos-linea{ top:32px; bottom:32px; left:31px; right:auto; width:2px; height:auto; }
+  .pa-pasos-linea i{ transform-origin:top center; transform:scaleY(var(--avance,0)); }
+  .pa-antes{ grid-template-columns:1fr; }
+}
+@media(prefers-reduced-motion:reduce){
+  .pa-pasos-linea i, .pa-paso-ico, .pa-paso-num, .pa-opcion{ transition:none; }
+  .pa-incluye-item{ opacity:1; transform:none; transition:none; }
+  .pa-fono--demo .bv-wa-m{ animation:none; }
+}

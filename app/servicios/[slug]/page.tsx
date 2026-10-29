@@ -14,6 +14,15 @@ import Telefono from "@/components/portada/Telefono";
 import { IconoServicio } from "@/components/portada/Iconos";
 import ChatDemo from "@/components/servicios/ChatDemo";
 import { MaquetaPanel, MaquetaWeb } from "@/components/servicios/Maquetas";
+import { ChatCabecera, ComoFunciona, DemoWhatsApp, QueIncluye } from "@/components/servicios/Atencion";
+
+// Piloto: pares "Antes / Con Noda" (frases del día a día, sin cifras). Textos nuevos: docs/textos-nuevos-atencion.md.
+const ANTES_CON_NODA: { antes: string; con: string }[] = [
+  { antes: "Un cliente escribe a las 11 de la noche y no hay nadie para responder.", con: "Recibe una respuesta al instante, de día, de noche o en feriado." },
+  { antes: "Tu equipo frena lo que está haciendo para contestar lo mismo de siempre.", con: "La IA responde las preguntas repetidas y tu equipo se enfoca en vender." },
+  { antes: "El mensaje del sábado se contesta el lunes… si alguien se acuerda.", con: "Los fines de semana también quedan atendidos y nada se pierde." },
+  { antes: "La misma duda de precio, horario y stock, una y otra vez.", con: "Precios, horarios y disponibilidad respondidos al toque, con tu información." },
+];
 
 // Plantilla única para todas las páginas /servicios/[slug]. Todo el contenido sale de lib/servicios.ts
 // (textos de docs/contenido-web-v3.md). Orden del documento: título · subtítulo · el problema ·
@@ -42,6 +51,142 @@ export default async function ServicioPage({ params }: Props) {
   const relacionados = s.relacionados.map((r) => SERVICIOS.find((x) => x.slug === r)).filter((x): x is Servicio => !!x);
   const d = s.demo;
   const precio = precioDe(s.slug);
+
+  // ---------------------------------------------------------------------
+  // PILOTO: página especial de "Atención y ventas 24/7 por WhatsApp".
+  // Las otras 7 páginas usan la plantilla compartida de más abajo, sin cambios.
+  // ---------------------------------------------------------------------
+  if (s.slug === "atencion-y-ventas-whatsapp") {
+    return (
+      <Marco>
+        {/* Cabecera con el chat de WhatsApp al lado (debajo en celular) */}
+        <section className="p3-pag-head">
+          <div className="p3-wrap pa-head">
+            <div className="pa-head-col">
+              <nav className="p3-miga" aria-label="Ruta de navegación">
+                <Link href="/servicios">Servicios</Link><span aria-hidden="true">/</span><span aria-current="page">{s.corto}</span>
+              </nav>
+              <span className="p3-srv-head-ico p3-ico-linea"><IconoServicio icono={s.icono} size={28} /></span>
+              <span className="p3-eyebrow">Servicio<span className="p3-estrella">Servicio estrella</span></span>
+              <h1 className="p3-pag-h1">{s.nombre}</h1>
+              <p className="p3-pag-sub">{s.subtitulo}</p>
+              <div className="p3-pag-acc">
+                <a href="#precio" className="p3-btn p3-btn-acento p3-shine">Ver precio</a>
+                <Link href={RUTA_COTIZADOR} className="p3-btn p3-btn-outline">Cotiza el tuyo</Link>
+              </div>
+              {precio && <p className="p3-precio-cab"><LineaPrecio slug={s.slug} /></p>}
+            </div>
+            <div className="pa-head-demo"><ChatCabecera /></div>
+          </div>
+        </section>
+
+        {/* El problema */}
+        <section className="p3-sec p3-sec-c">
+          <div className="p3-wrap">
+            <h2 className="p3-eyebrow">El problema</h2>
+            <p className="p3-problema-txt">{s.problema}</p>
+          </div>
+        </section>
+
+        {/* Cómo funciona (3 pasos con línea que se ilumina al bajar) */}
+        <section className="p3-sec p3-sec-c">
+          <div className="p3-wrap">
+            <h2 className="p3-eyebrow">Cómo funciona</h2>
+            <ComoFunciona pasos={s.pasos} />
+          </div>
+        </section>
+
+        {/* Demo interactiva grande */}
+        <section className="p3-sec p3-sec-c" id="ejemplo">
+          <div className="p3-wrap">
+            <h2 className="p3-eyebrow">Pruébalo tú mismo <span className="p3-demo-tag">Demo</span></h2>
+            <p className="p3-p">Toca una pregunta, como lo haría un cliente, y mira cómo responde el asistente de una ferretería de ejemplo.</p>
+            <DemoWhatsApp />
+          </div>
+        </section>
+
+        {/* Antes y con Noda */}
+        <section className="p3-sec p3-sec-c">
+          <div className="p3-wrap">
+            <h2 className="p3-eyebrow">Antes y con Noda</h2>
+            <div className="pa-antes">
+              <div className="pa-antes-col pa-antes-col--antes">
+                <h3 className="pa-antes-t">Antes</h3>
+                <ul className="pa-antes-lista">
+                  {ANTES_CON_NODA.map((x) => <li key={x.antes}>{x.antes}</li>)}
+                </ul>
+              </div>
+              <div className="pa-antes-col pa-antes-col--con">
+                <h3 className="pa-antes-t">Con Noda</h3>
+                <ul className="pa-antes-lista">
+                  {ANTES_CON_NODA.map((x) => <li key={x.con}>{x.con}</li>)}
+                </ul>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Qué incluye (con íconos) · Ideal para */}
+        <section className="p3-sec p3-sec-c">
+          <div className="p3-wrap p3-dos">
+            <div className="p3-caja">
+              <h2 className="p3-caja-t">Qué incluye</h2>
+              <QueIncluye items={s.incluye} />
+            </div>
+            <div className="p3-caja">
+              <h2 className="p3-caja-t">Ideal para</h2>
+              <p className="p3-ideal p3-mayus">{s.idealPara}</p>
+            </div>
+          </div>
+        </section>
+
+        {/* Dato con fuente (7x) */}
+        {s.dato && (
+          <section className="p3-sec p3-sec-c">
+            <div className="p3-wrap">
+              <figure className="p3-dato">
+                <span className="p3-dato-cifra">{s.dato.cifra}</span>
+                <figcaption>
+                  <p className="p3-dato-texto">{s.dato.texto}</p>
+                  <p className="p3-dato-fuente">Fuente: {s.dato.fuente}</p>
+                </figcaption>
+              </figure>
+            </div>
+          </section>
+        )}
+
+        {/* Caso real (VyR) */}
+        {s.casoVyR && <Caso id="caso" compacto />}
+
+        {/* Preguntas frecuentes */}
+        <Faq preguntas={s.faq} titulo="Preguntas frecuentes" />
+
+        {/* Precio */}
+        {precio && <BloquePrecio slug={s.slug} whatsapp={whatsapp} />}
+
+        {/* Se combina con */}
+        {relacionados.length > 0 && (
+          <section className="p3-sec p3-sec-c">
+            <div className="p3-wrap">
+              <h2 className="p3-eyebrow">Se combina con</h2>
+              <ul className="p3-tarjetas p3-relacionados">
+                {relacionados.map((r) => (
+                  <li key={r.slug}>
+                    <Link href={`/servicios/${r.slug}`} className="p3-tarjeta">
+                      <span className="p3-tarjeta-ico"><IconoServicio icono={r.icono} /></span>
+                      <h3 className="p3-tarjeta-t">{r.nombre}</h3>
+                      <p className="p3-tarjeta-d">{r.linea}</p>
+                      <span className="p3-tarjeta-link">Ver servicio <span aria-hidden="true">→</span></span>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </section>
+        )}
+      </Marco>
+    );
+  }
 
   return (
     <Marco>
