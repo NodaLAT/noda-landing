@@ -63,7 +63,11 @@ export default function HeaderPortada({ vigente }: { vigente: boolean }) {
   // Abierto con el mouse: un clic lo "fija" abierto en vez de cerrarlo; si se abrió con clic o teclado, el clic lo alterna.
   const porHover = useRef(false);
   const abrirHover = () => { window.clearTimeout(cierreRef.current); if (!panel) porHover.current = true; setPanel(true); };
-  const cerrarHover = () => { cierreRef.current = window.setTimeout(() => { porHover.current = false; setPanel(false); }, 180); };
+  // Al salir el mouse solo se cierra si se abrió con el mouse; abierto con clic o teclado, se cierra con Esc o clic afuera.
+  const cerrarHover = () => {
+    if (!porHover.current) return;
+    cierreRef.current = window.setTimeout(() => { porHover.current = false; setPanel(false); }, 180);
+  };
   const alternar = () => {
     if (porHover.current) { porHover.current = false; setPanel(true); return; }
     porHover.current = false;
