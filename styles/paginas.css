@@ -594,7 +594,7 @@ article.p3-tarjeta:has(.p3-tarjeta-enlace:focus-visible){ outline:2px solid var(
   .is-ancho .p3-bv{ order:0; flex:0 0 auto; height:124px; min-height:0; }
   .is-grande .p3-bv{ min-height:220px; }
   /* filtros: se deslizan en horizontal */
-  .p3-filtros{ overflow-x:auto; margin:0 -24px 18px; padding:2px 24px 8px; scroll-snap-type:x proximity; scrollbar-width:none; }
+  .p3-filtros{ overflow-x:auto; margin:0 -24px 18px; padding:2px 24px 8px; scroll-snap-type:x proximity; scroll-padding-inline:24px; scrollbar-width:none; }
   .p3-filtros::-webkit-scrollbar{ display:none; }
   .p3-filtro{ scroll-snap-align:start; }
 }

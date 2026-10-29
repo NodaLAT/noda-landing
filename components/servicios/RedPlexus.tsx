@@ -284,15 +284,15 @@ export default function RedPlexus() {
           p.u = Math.min(1, p.u + (dt * VEL_PULSO) / largo);
           p.px = p.ax + (bx - p.ax) * p.u; p.py = p.ay + (by - p.ay) * p.u;
           // tramo encendido detrás del pulso
-          const cola = Math.max(0, p.u - 70 / largo);
+          const cola = Math.max(0, p.u - 110 / largo);
           ctx.globalAlpha = 1;
           const gr = ctx.createLinearGradient(p.ax + (bx - p.ax) * cola, p.ay + (by - p.ay) * cola, p.px, p.py);
           gr.addColorStop(0, `rgba(${tr},${tg},${tb},0)`);
           gr.addColorStop(1, `rgba(${tr},${tg},${tb},0.95)`);
-          ctx.strokeStyle = gr; ctx.lineWidth = 2;
+          ctx.strokeStyle = gr; ctx.lineWidth = 2.4;
           ctx.beginPath(); ctx.moveTo(p.ax + (bx - p.ax) * cola, p.ay + (by - p.ay) * cola); ctx.lineTo(p.px, p.py); ctx.stroke();
-          ctx.drawImage(brillo, p.px - 15, p.py - 15, 30, 30);
-          ctx.drawImage(sprites[0], p.px - 4, p.py - 4, 8, 8);
+          ctx.drawImage(brillo, p.px - 22, p.py - 22, 44, 44);
+          ctx.drawImage(sprites[0], p.px - 5, p.py - 5, 10, 10);
         }
         for (let i = destellos.length - 1; i >= 0; i--) {
           const d = destellos[i];
