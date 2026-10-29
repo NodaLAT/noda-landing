@@ -6,6 +6,7 @@ import Marco from "@/components/portada/Marco";
 import Cierre from "@/components/portada/Cierre";
 import TarjetaServicio from "@/components/servicios/TarjetaServicio";
 import RedPlexus from "@/components/servicios/RedPlexus";
+import Bento from "@/components/servicios/Bento";
 
 const descripcion =
   "Atención por WhatsApp, agendamiento, cotizaciones, lectura de documentos con IA, seguimiento de clientes, reportes, webs y sistemas a medida para tu negocio.";
@@ -14,6 +15,7 @@ export const metadata: Metadata = metadataPagina({ titulo: "Servicios de automat
 
 // Cartelera de servicios (textos de docs/contenido-web-v3.md). Las 8 tarjetas salen de lib/servicios.ts.
 // Detrás del encabezado y la grilla corre la red de nodos (RedPlexus); cada tarjeta con data-pulso recibe pulsos.
+// Grilla bento con filtros: components/servicios/Bento.tsx.
 export default function ServiciosPage() {
   return (
     <Marco>
@@ -29,13 +31,17 @@ export default function ServiciosPage() {
 
       <section className="p3-sec p3-sec-pegada">
         <div className="p3-wrap">
-          <ul className="p3-tarjetas">
-            {SERVICIOS.map((s, i) => <li key={s.slug}><TarjetaServicio servicio={s} indice={i} /></li>)}
-            <li className="p3-tarjeta-extra">
-              <p className="p3-tarjeta-extra-t">{EXTRA_A_MEDIDA.titulo}</p>
-              <a href={whatsappLink(EXTRA_A_MEDIDA.mensaje)} className="p3-btn p3-btn-outline">{EXTRA_A_MEDIDA.boton}</a>
-            </li>
-          </ul>
+          <Bento
+            slugs={SERVICIOS.map((s) => s.slug)}
+            extra={
+              <div className="p3-tarjeta-extra">
+                <p className="p3-tarjeta-extra-t">{EXTRA_A_MEDIDA.titulo}</p>
+                <a href={whatsappLink(EXTRA_A_MEDIDA.mensaje)} className="p3-btn p3-btn-outline">{EXTRA_A_MEDIDA.boton}</a>
+              </div>
+            }
+          >
+            {SERVICIOS.map((s, i) => <TarjetaServicio key={s.slug} servicio={s} indice={i} />)}
+          </Bento>
         </div>
       </section>
       </div>

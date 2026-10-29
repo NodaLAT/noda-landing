@@ -418,3 +418,11 @@ export const EXTRA_A_MEDIDA = {
 export const numeroServicio = (i: number) => String(i + 1).padStart(2, "0");
 
 export const mensajeInteres = (s: Servicio) => `Hola Noda, me interesa ${s.nombre}`;
+
+// Filtros de /servicios (un servicio puede estar en varios grupos). "todos" no lleva lista.
+export const FILTROS_SERVICIOS: { id: string; nombre: string; servicios?: string[] }[] = [
+  { id: "todos", nombre: "Todos" },
+  { id: "vender", nombre: "Vender más", servicios: ["atencion-y-ventas-whatsapp", "cotizaciones-al-instante", "crm-y-seguimiento-de-leads", "webs-con-ia"] },
+  { id: "ahorrar", nombre: "Ahorrar tiempo", servicios: ["agendamiento-y-recordatorios", "interpretacion-de-documentos", "reportes-y-dashboards"] },
+  { id: "ordenar", nombre: "Ordenar mi negocio", servicios: ["crm-y-seguimiento-de-leads", "reportes-y-dashboards", "apps-y-sistemas-a-medida"] },
+];
