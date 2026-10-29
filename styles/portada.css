@@ -6,6 +6,13 @@
 
 .p3{ background:var(--fondo-seccion, var(--fondo)); color:var(--texto); min-height:100vh;
   font-family:var(--body); font-weight:400; overflow-x:clip; }   /* clip (no hidden): no rompe position:sticky */
+/* Respaldo para navegadores sin overflow:clip (Safari < 16, Chrome < 90): el recorte horizontal va en <body>,
+   que lo pasa a la ventana sin crear un contenedor de scroll; así el resumen fijo del cotizador y la red
+   de /servicios siguen pegados (con overflow-x:hidden en .p3 dejarían de funcionar). */
+@supports not (overflow: clip){
+  body{ overflow-x:hidden; }
+  .p3{ overflow-x:visible; }
+}
 .p3 *{ box-sizing:border-box; }
 .p3-wrap{ max-width:1180px; margin:0 auto; padding:0 24px; position:relative; }
 .p3-sec{ padding:clamp(72px,10vw,120px) 0; position:relative; background:var(--fondo-seccion, var(--fondo)); }

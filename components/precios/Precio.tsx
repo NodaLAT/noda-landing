@@ -11,25 +11,37 @@ import { SERVICIOS } from "@/lib/servicios";
 // app/layout.tsx marca <html data-oferta="fin"> y el CSS cambia de versión solo.
 
 // Monto: con oferta, el normal tachado (gris) y el de oferta (crema); sin oferta, solo el normal.
-// "meses": es una mensualidad y la oferta dura solo los primeros meses ("~~$89~~ $70/mes los primeros 3 meses").
+// "meses": es una mensualidad y la oferta dura solo los primeros meses ("~~$89~~ $70/mes · primeros 3 meses").
 export function Par({ m, conOferta, sufijo = "", meses = false }: { m: Monto; conOferta: boolean; sufijo?: string; meses?: boolean }) {
   if (!conOferta || m.oferta === undefined) return <span className="p3-monto">{dolares(m.normal)}{sufijo}</span>;
   return (
     <>
-      <s className="p3-tachado"><span className="p3-sr">Antes </span>{dolares(m.normal)}</s>{" "}
+      <Tachado valor={m.normal} />{" "}
       <span className="p3-monto"><span className="p3-sr">ahora </span>{dolares(m.oferta)}{sufijo}</span>
-      {meses && <>{" "}<span className="p3-meses">{TEXTO_MESES}</span></>}
+      {meses && <>{" "}<span className="p3-meses">· {TEXTO_MESES}</span></>}
     </>
   );
 }
 
-function Linea({ p, conOferta }: { p: PrecioServicio; conOferta: boolean }) {
+export function Tachado({ valor }: { valor: number }) {
+  return <s className="p3-tachado"><span className="p3-sr">Antes </span>{dolares(valor)}</s>;
+}
+
+// BLOQUE DE PRECIO ÚNICO (tarjetas, páginas de servicio, red de la portada): dos filas con la etiqueta
+// pequeña a la izquierda y los montos alineados, y "+ IVA" aparte, discreto.
+//   Implementación desde  ~~$350~~ $250
+//   Mensualidad           ~~$89~~ $70/mes · primeros 3 meses
+//   + IVA
+function Filas({ p, conOferta, grande }: { p: PrecioServicio; conOferta: boolean; grande?: boolean }) {
   return (
-    <span className="p3-precio-linea">
-      Desde <Par m={p.implementacion} conOferta={conOferta} />
-      {p.mensual && <> + <Par m={p.mensual} conOferta={conOferta} sufijo="/mes" meses /></>}
-      {p.extra && <> + {p.extra}</>}
-      <span className="p3-iva"> + IVA</span>
+    <span className={`p3-pf${grande ? " p3-pf--grande" : ""}`}>
+      <span className="p3-pf-etq">Implementación desde</span>
+      <span className="p3-pf-val"><Par m={p.implementacion} conOferta={conOferta} /></span>
+      {p.mensual && <>
+        <span className="p3-pf-etq">{p.mensualNombre ?? "Mensualidad"}</span>
+        <span className="p3-pf-val"><Par m={p.mensual} conOferta={conOferta} sufijo="/mes" meses /></span>
+      </>}
+      <span className="p3-pf-iva">+ IVA</span>
     </span>
   );
 }
@@ -45,7 +57,7 @@ function Versiones({ conOferta, children }: { conOferta: boolean; children: (o: 
   );
 }
 
-// Una línea de precio (tarjetas de /servicios, panel de la portada, encabezado del servicio).
+// Precio de un servicio (tarjetas de /servicios, panel de la portada, encabezado del servicio).
 // "vigente" lo decide el servidor; los componentes de cliente lo reciben como prop para no desincronizarse.
 export function LineaPrecio({ slug, etiqueta = true, vigente = ofertaVigente() }: { slug: string; etiqueta?: boolean; vigente?: boolean }) {
   const p = precioDe(slug);
@@ -54,7 +66,7 @@ export function LineaPrecio({ slug, etiqueta = true, vigente = ofertaVigente() }
   return (
     <span className="p3-precio">
       {etiqueta && conOferta && <span className="p3-precio-etq p3-con-oferta">Precio de lanzamiento</span>}
-      <Versiones conOferta={conOferta}>{(o) => <Linea p={p} conOferta={o} />}</Versiones>
+      <Versiones conOferta={conOferta}>{(o) => <Filas p={p} conOferta={o} />}</Versiones>
     </span>
   );
 }
@@ -72,7 +84,7 @@ export function BloquePrecio({ slug, whatsapp }: { slug: string; whatsapp: strin
             <h2 className="p3-eyebrow">Precio</h2>
             {conOferta && <span className="p3-precio-etq p3-con-oferta">Precio de lanzamiento</span>}
             <p className="p3-precio-grande">
-              <Versiones conOferta={conOferta}>{(o) => <Linea p={p} conOferta={o} />}</Versiones>
+              <Versiones conOferta={conOferta}>{(o) => <Filas p={p} conOferta={o} grande />}</Versiones>
             </p>
             {p.incluye && <p className="p3-precio-incluye">{p.incluye}</p>}
             <ul className="p3-precio-notas">
@@ -118,7 +130,7 @@ export function BloquePrecio({ slug, whatsapp }: { slug: string; whatsapp: strin
                   <h3 className="p3-caja-t">Si la combinas</h3>
                   <p className="p3-precio-incluye">
                     <Versiones conOferta={conOferta}>
-                      {(o) => <>{p.combo!.porcentaje} % menos ({dolares((o ? p.implementacion.oferta! : p.implementacion.normal) * (1 - p.combo!.porcentaje / 100))}) si se contrata con {p.combo!.con.map(corto).join(", ").replace(/, ([^,]*)$/, " o $1")}.</>}
+                      {(o) => <>{p.combo!.porcentaje} % menos ({dolares((o ? p.implementacion.oferta! : p.implementacion.normal) * (1 - p.combo!.porcentaje / 100))}) si se contrata con {p.combo!.con.map(corto).join(", ").replace(/, ([^,]*)$/, " o $1")}. Este descuento no vence.</>}
                     </Versiones>
                   </p>
                 </>

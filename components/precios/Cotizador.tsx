@@ -4,10 +4,11 @@ import { useEffect, useRef, useState } from "react";
 import { MESES_OFERTA, NOTA_PAGO_UNICO, NOTA_REFERENCIAL, TEXTO_DESDE_MES, TEXTO_MESES, VIGENCIA, dolares, ofertaVigente } from "@/lib/precios";
 import { BASE, BASE_INCLUYE, MODULOS, NEGOCIOS, SISTEMA, TRAMOS, calcular, mensajeWhatsApp, type Eleccion, type Sistema } from "@/lib/cotizador";
 import { whatsappLink } from "@/lib/site";
+import { Tachado } from "./Precio";
 
 // Cotizador de Atención 24/7: 4 pasos con controles nativos (radios y casillas, accesibles con teclado)
-// y un resumen fijo (al costado en computadora, abajo y pegajoso en celular). Sin formulario de datos:
-// el botón abre WhatsApp con lo elegido.
+// y un resumen fijo (al costado en computadora; en celular, una barra compacta abajo que al tocarla
+// despliega el detalle). Sin formulario de datos: el botón abre WhatsApp con lo elegido.
 
 // Número que pasa suavemente de un valor a otro (sin animación con "reducir movimiento").
 function Numero({ valor }: { valor: number }) {
@@ -31,15 +32,12 @@ function Numero({ valor }: { valor: number }) {
   return <>{dolares(mostrado)}</>;
 }
 
-function Tachado({ valor }: { valor: number }) {
-  return <s className="p3-tachado"><span className="p3-sr">Antes </span>{dolares(valor)}</s>;
-}
-
 export default function Cotizador({ vigente }: { vigente: boolean }) {
   // La oferta la decide el servidor al dibujar; en el navegador se vuelve a comprobar con la hora real.
   const [conOferta, setConOferta] = useState(vigente);
   useEffect(() => { setConOferta(vigente && ofertaVigente()); }, [vigente]);
 
+  const [detalle, setDetalle] = useState(false);     // celular: detalle del resumen desplegado
   const [e, setE] = useState<Eleccion>({ negocio: null, modulos: [], tramo: TRAMOS[0].id, sistema: null });
   const r = calcular(e, conOferta);
   const enlace = whatsappLink(mensajeWhatsApp(e, conOferta));
@@ -127,7 +125,20 @@ export default function Cotizador({ vigente }: { vigente: boolean }) {
         <div className="p3-cot-notas-movil">{notas}</div>
       </form>
 
-      <aside className="p3-cot-resumen" aria-labelledby="p3-cot-resumen-t">
+      <aside className={`p3-cot-resumen${detalle ? " is-abierto" : ""}`} aria-labelledby="p3-cot-resumen-t">
+        {/* celular: barra compacta (máx. 76 px); tocarla despliega el detalle */}
+        <div className="p3-cot-barra">
+          <button type="button" className="p3-cot-barra-btn" aria-expanded={detalle} aria-controls="p3-cot-detalle" onClick={() => setDetalle((d) => !d)}>
+            <span className="p3-cot-barra-txt">
+              <span>Implementación <b>{dolares(r.impl)}</b></span>{" "}
+              <span><span aria-hidden="true">· </span><b>{r.mensual === null ? "mensualidad a cotizar" : `${dolares(r.mensual)}/mes`}</b></span>
+              <span className="p3-sr"> Ver el detalle</span>
+            </span>
+            <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="m6 15 6-6 6 6" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
+          </button>
+          <a href={enlace} className="p3-btn p3-btn-acento p3-btn-sm p3-cot-barra-cta" target="_blank" rel="noopener">Pedir propuesta</a>
+        </div>
+        <div id="p3-cot-detalle" className="p3-cot-detalle">
         <h2 id="p3-cot-resumen-t" className="p3-caja-t">Tu cotización</h2>
         {conOferta && <span className="p3-precio-etq">Precio de lanzamiento</span>}
         <dl className="p3-cot-totales">
@@ -160,15 +171,16 @@ export default function Cotizador({ vigente }: { vigente: boolean }) {
         </dl>
         {conOferta && r.ahorro > 0 && <p className="p3-cot-ahorro">Ahorras {dolares(r.ahorro)} en la implementación</p>}
         {r.integracion && <p className="p3-cot-integra">Integración: se cotiza aparte</p>}
+        <div className="p3-cot-notas-escritorio">{notas}</div>
+        <a href={enlace} className="p3-btn p3-btn-acento p3-shine p3-cot-boton" target="_blank" rel="noopener">
+          Pedir mi propuesta por WhatsApp
+        </a>
+        </div>
         <p className="p3-sr" aria-live="polite">
           {`Implementación ${dolares(r.impl)}. Mensualidad ${r.mensual === null ? "a cotizar"
             : r.mesesOferta ? `${dolares(r.mensual)} al mes los primeros ${MESES_OFERTA} meses y ${dolares(r.mensualNormal!)} al mes desde el mes ${MESES_OFERTA + 1}`
             : `${dolares(r.mensual)} al mes`}.`}
         </p>
-        <div className="p3-cot-notas-escritorio">{notas}</div>
-        <a href={enlace} className="p3-btn p3-btn-acento p3-shine p3-cot-boton" target="_blank" rel="noopener">
-          Pedir mi propuesta por WhatsApp
-        </a>
       </aside>
     </div>
   );

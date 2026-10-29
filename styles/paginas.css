@@ -191,12 +191,29 @@ ol.p3-pasos{ list-style:none; padding:0; margin-top:8px; }
 .p3-precio{ display:flex; flex-direction:column; align-items:flex-start; gap:6px; }
 .p3-precio-etq{ display:inline-block; font-weight:600; font-size:11px; letter-spacing:.08em; text-transform:uppercase;
   color:var(--destacado); border:1px solid color-mix(in srgb, var(--destacado) 55%, transparent); border-radius:999px; padding:3px 9px; }
-.p3-precio-linea{ font-weight:600; font-size:15px; line-height:1.4; color:var(--texto); }
+/* bloque único en dos filas: etiqueta pequeña a la izquierda, montos alineados en la segunda columna, "+ IVA" aparte */
+.p3-pf{ display:inline-grid; grid-template-columns:auto minmax(0,auto); column-gap:14px; row-gap:6px; align-items:baseline; }
+.p3-pf-etq{ font-weight:400; font-size:12.5px; line-height:1.35; color:var(--texto-2); white-space:nowrap; }
+.p3-pf-val{ font-weight:600; font-size:15px; line-height:1.35; color:var(--texto); }
+.p3-pf-val .p3-meses{ white-space:nowrap; }
+.p3-pf-iva{ grid-column:1 / -1; font-weight:400; font-size:12px; line-height:1.3; color:var(--texto-3); }
+/* lugares angostos (tarjetas de 1 columna): la etiqueta puede partirse y "primeros 3 meses" baja a su propia línea */
+.p3-bc-pie, .p3-precio-cab, .p3-nodo-precio{ container-type:inline-size; }
+@container (max-width:330px){
+  .p3-pf{ display:grid; grid-template-columns:minmax(0,1fr) max-content; column-gap:10px; }
+  .p3-pf-etq{ white-space:normal; font-size:12px; }
+  .p3-pf-val{ white-space:nowrap; }
+  .p3-pf-val .p3-meses{ display:block; font-size:12px; font-weight:400; }
+}
+.p3-pf--grande{ column-gap:20px; row-gap:10px; }
+.p3-pf--grande .p3-pf-etq{ font-size:14px; }
+.p3-pf--grande .p3-pf-val{ font-family:var(--display); font-size:clamp(22px,2.8vw,30px); line-height:1.2; letter-spacing:-.02em; }
+.p3-pf--grande .p3-meses{ font-family:var(--body); font-size:14px; letter-spacing:0; }
+.p3-pf--grande .p3-pf-iva{ font-size:13px; margin-top:2px; }
 .p3-tachado{ font-weight:600; color:var(--texto-3); text-decoration:line-through; text-decoration-thickness:1.5px; }
 .p3-monto{ font-weight:600; color:var(--destacado); }
-.p3-iva{ font-weight:400; font-size:.85em; color:var(--texto-2); white-space:nowrap; }
 .p3-precio-medida{ font-weight:600; font-size:14px; color:var(--texto-2); }
-.p3-precio-cab{ margin:18px 0 0; }
+.p3-precio-cab{ margin:22px 0 0; }
 .p3-nodo-precio{ margin:-6px 0 18px; }
 
 /* bloque de precio en la página de servicio */
@@ -205,7 +222,6 @@ ol.p3-pasos{ list-style:none; padding:0; margin-top:8px; }
 .p3-precio-principal .p3-eyebrow{ display:flex; }
 .p3-precio-principal .p3-precio-etq{ margin-bottom:12px; }
 .p3-precio-grande{ margin:0; }
-.p3-precio-grande .p3-precio-linea{ font-family:var(--display); font-size:clamp(24px,3.2vw,34px); line-height:1.25; letter-spacing:-.02em; }
 .p3-precio-incluye{ font-weight:400; font-size:15px; line-height:1.55; color:var(--texto-2); margin:14px 0 0; max-width:52ch; }
 .p3-precio-notas{ list-style:none; margin:16px 0 0; padding:0; display:flex; flex-direction:column; gap:4px;
   font-weight:400; font-size:13.5px; line-height:1.45; color:var(--texto-3); }
@@ -305,15 +321,30 @@ article.p3-tarjeta:has(.p3-tarjeta-enlace:focus-visible){ outline:2px solid var(
 .p3-cot-boton{ width:100%; margin-top:4px; }
 .p3-cot-resumen .p3-precio-notas{ margin-top:0; }
 .p3-cot-notas-movil{ display:none; }
+/* barra compacta: solo en celular; en computadora el detalle es el resumen de siempre */
+.p3-cot-barra{ display:none; }
+.p3-cot-detalle{ display:contents; }
 
 @media(max-width:980px){
   /* bloque normal (no grilla): así el resumen puede quedar pegado abajo mientras se recorre todo el cotizador */
   .p3-cot{ display:block; }
   .p3-cot-pasos{ margin-bottom:16px; }
-  /* celular: resumen abajo y pegajoso, compacto */
-  .p3-cot-resumen{ position:sticky; top:auto; bottom:0; z-index:5; padding:14px 16px 16px; gap:8px; border-radius:18px 18px 0 0;
+  /* celular: barra compacta abajo y pegajosa (máx. 76 px); al tocarla se despliega el detalle debajo */
+  .p3-cot-resumen{ position:sticky; top:auto; bottom:0; z-index:5; margin:0 -24px; padding:0; gap:0; border-radius:18px 18px 0 0;
     background:color-mix(in srgb, var(--fondo) 94%, transparent); backdrop-filter:blur(12px); box-shadow:0 -12px 30px -18px #000; }
-  .p3-cot-resumen .p3-caja-t, .p3-cot-resumen .p3-precio-etq, .p3-cot-notas-escritorio{ display:none; }
+  .p3-cot-barra{ display:flex; align-items:center; gap:8px; max-height:76px; padding:10px 12px 10px 8px; }
+  .p3-cot-barra-btn{ flex:1; min-width:0; display:flex; align-items:center; gap:6px; min-height:48px; padding:4px 6px; border:0; border-radius:12px;
+    background:none; color:var(--texto-2); font:inherit; font-weight:400; font-size:13px; line-height:1.3; text-align:left; cursor:pointer; }
+  .p3-cot-barra-btn:focus-visible{ outline:2px solid var(--acento); outline-offset:2px; }
+  .p3-cot-barra-btn svg{ flex:0 0 auto; color:var(--texto); transition:transform .25s; }
+  .p3-cot-resumen.is-abierto .p3-cot-barra-btn svg{ transform:rotate(180deg); }
+  .p3-cot-barra-txt{ flex:1; min-width:0; }
+  .p3-cot-barra-txt b{ font-weight:600; color:var(--destacado); white-space:nowrap; }
+  .p3-cot-barra-cta{ flex:0 0 auto; padding:10px 13px; font-size:13.5px; }
+  .p3-cot-detalle{ display:none; }
+  .p3-cot-resumen.is-abierto .p3-cot-detalle{ display:flex; flex-direction:column; gap:8px; max-height:60vh; overflow-y:auto;
+    padding:4px 16px 16px; border-top:1px solid var(--borde); padding-top:12px; }
+  .p3-cot-resumen .p3-caja-t, .p3-cot-resumen .p3-precio-etq, .p3-cot-notas-escritorio, .p3-cot-boton{ display:none; }
   .p3-cot-totales{ flex-direction:row; gap:16px; }
   .p3-cot-totales > div{ flex:1; flex-direction:column; align-items:flex-start; gap:2px; padding:0; border:0; }
   .p3-cot-totales dd{ text-align:left; }
@@ -326,7 +357,7 @@ article.p3-tarjeta:has(.p3-tarjeta-enlace:focus-visible){ outline:2px solid var(
   .p3-cot-op-precio{ grid-column:2; text-align:left; }
 }
 @media(prefers-reduced-motion:reduce){
-  .p3-cot-chip span, .p3-cot-opcion{ transition:none; }
+  .p3-cot-chip span, .p3-cot-opcion, .p3-cot-barra-btn svg{ transition:none; }
 }
 
 /* =====================================================================

@@ -208,7 +208,7 @@ export const SERVICIOS: Servicio[] = [
           pregunta: "📎 Factura de proveedor",
           respuesta: [
             { tipo: "texto", texto: "Factura leída ✅. Estos son los datos, ya ordenados:" },
-            { tipo: "ficha", titulo: "Factura de proveedor · Demo", filas: [["N.º de factura", "001-002-000123"], ["Subtotal", "$120.00"], ["IVA", "$18.00"], ["Total", "$138.00"]] },
+            { tipo: "ficha", titulo: "Factura de proveedor · Demo", filas: [["N.º de factura", "001-002-000123"], ["Subtotal", "$120,00"], ["IVA", "$18,00"], ["Total", "$138,00"]] },
             { tipo: "texto", texto: "La guardé en tu registro de compras." },
           ],
         },
@@ -313,7 +313,7 @@ export const SERVICIOS: Servicio[] = [
           pregunta: "¿Cómo nos fue esta semana?",
           respuesta: [
             { tipo: "texto", texto: "Aquí tienes el resumen de la semana:" },
-            { tipo: "indicadores", titulo: "Resumen semanal", items: [["$4,820", "Ventas"], ["312", "Pedidos"]], barras: [40, 55, 48, 62, 70, 95, 80] },
+            { tipo: "indicadores", titulo: "Resumen semanal", items: [["$4.820", "Ventas"], ["312", "Pedidos"]], barras: [40, 55, 48, 62, 70, 95, 80] },
             { tipo: "texto", texto: "El sábado fue tu mejor día. 📈" },
           ],
         },

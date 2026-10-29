@@ -19,7 +19,7 @@ export const BARRA_OFERTA = "Precios de lanzamiento · hasta 100 USD menos en tu
 export const BARRA_OFERTA_CORTA = "Precios de lanzamiento hasta el 31/12 →";   // celular (menos de 640 px)
 // La mensualidad de oferta solo rige los primeros MESES_OFERTA meses; desde el siguiente, la normal.
 export const MESES_OFERTA = 3;
-export const TEXTO_MESES = `los primeros ${MESES_OFERTA} meses`;
+export const TEXTO_MESES = `primeros ${MESES_OFERTA} meses`;
 export const TEXTO_DESDE_MES = `Desde el mes ${MESES_OFERTA + 1}`;
 
 export const ofertaVigente = (ahora: number = Date.now()) => ahora <= FIN_OFERTA_MS;
@@ -31,11 +31,11 @@ export type Tramo = { id: string; nombre: string; mensual: Monto | null };    //
 export type PrecioServicio = {
   implementacion: Monto;
   mensual?: Monto;                // mensualidad "desde" (la más baja)
+  mensualNombre?: string;         // etiqueta de la segunda fila (por defecto "Mensualidad")
   incluye?: string;               // qué trae la implementación base
   modulos?: Modulo[];
   tramos?: Tramo[];
-  extra?: string;                 // texto en lugar de la mensualidad (ej. hosting)
-  combo?: { porcentaje: number; con: string[] };   // descuento al contratar junto con otros servicios
+  combo?: { porcentaje: number; con: string[] };   // descuento al contratar junto con otros servicios (no vence; sobre el precio vigente)
 };
 
 // Las claves son los slugs de lib/servicios.ts.
@@ -67,7 +67,8 @@ export const PRECIOS: Record<string, PrecioServicio> = {
   },
   "webs-con-ia": {
     implementacion: { normal: 250, oferta: 200 },
-    extra: "hosting desde $15/mes",
+    mensual: { normal: 15 },
+    mensualNombre: "Hosting desde",
     combo: { porcentaje: 50, con: ["atencion-y-ventas-whatsapp", "agendamiento-y-recordatorios", "cotizaciones-al-instante"] },
   },
 };
@@ -75,9 +76,12 @@ export const PRECIOS: Record<string, PrecioServicio> = {
 export const precioDe = (slug: string): PrecioServicio | undefined => PRECIOS[slug];
 export const tieneOferta = (slug: string) => PRECIOS[slug]?.implementacion.oferta !== undefined;
 
-// $1,500 · $250 (sin decimales si es entero)
-export const dolares = (n: number) =>
-  "$" + n.toLocaleString("en-US", { minimumFractionDigits: Number.isInteger(n) ? 0 : 2, maximumFractionDigits: 2 });
+// Formato de montos de todo el sitio: punto para miles y coma para decimales; sin decimales si es entero.
+// $1.000 · $250 · $89,90
+export const dolares = (n: number) => {
+  const [entero, dec] = (Number.isInteger(n) ? String(n) : n.toFixed(2)).split(".");
+  return "$" + entero.replace(/\B(?=(\d{3})+(?!\d))/g, ".") + (dec ? "," + dec : "");
+};
 
 // Monto a cobrar según la fecha.
 export const vigenteDe = (m: Monto, conOferta: boolean) => (conOferta && m.oferta !== undefined ? m.oferta : m.normal);
