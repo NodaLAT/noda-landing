@@ -5,8 +5,9 @@ import { IconoServicio } from "@/components/portada/Iconos";
 import { LineaPrecio } from "@/components/precios/Precio";
 import Vista from "./Vistas";
 
-// Tarjeta de un servicio en la grilla bento de /servicios: ícono, etiquetas (Servicio estrella / Oferta),
-// número, mini vista previa animada, nombre, línea, precio (o "Cotiza a medida") y "Ver servicio".
+// Tarjeta de un servicio en la grilla bento de /servicios. Arriba, una fila con ícono + nombre (título) +
+// etiquetas (Servicio estrella / Oferta) + número; luego la vista previa animada; al final la línea,
+// el precio (o "Cotiza a medida") y "Ver servicio".
 // Toda la tarjeta lleva a la página del servicio (el enlace del título se extiende con ::after);
 // "Cotiza el tuyo" queda por encima. data-pulso: la red de nodos manda pulsos a la tarjeta (RedPlexus).
 export default function TarjetaServicio({ servicio: s, indice }: { servicio: Servicio; indice: number }) {
@@ -14,18 +15,22 @@ export default function TarjetaServicio({ servicio: s, indice }: { servicio: Ser
   const oferta = tieneOferta(s.slug) && ofertaVigente();
   return (
     <article className={`p3-bc${s.destacado ? " p3-bc--estrella" : ""}`} data-pulso>
-      <span className="p3-bc-cab">
+      <div className="p3-bc-cab">
         <span className="p3-bc-ico"><IconoServicio icono={s.icono} /></span>
-        <span className="p3-bc-etqs">
-          {s.destacado && <span className="p3-estrella p3-estrella--tarjeta">Servicio estrella</span>}
-          {oferta && <span className="p3-bc-oferta p3-con-oferta">Oferta</span>}
+        <span className="p3-bc-titulo">
+          <h2 className="p3-bc-t"><Link href={`/servicios/${s.slug}`} className="p3-tarjeta-enlace">{s.nombre}</Link></h2>
+          {(s.destacado || oferta) && (
+            <span className="p3-bc-etqs">
+              {s.destacado && <span className="p3-estrella p3-estrella--tarjeta">Servicio estrella</span>}
+              {oferta && <span className="p3-bc-oferta p3-con-oferta">Oferta</span>}
+            </span>
+          )}
         </span>
         <span className="p3-bc-num">{numeroServicio(indice)}</span>
-      </span>
+      </div>
       <div className="p3-bc-cuerpo">
         <Vista icono={s.icono} />
         <div className="p3-bc-txt">
-          <h2 className="p3-bc-t"><Link href={`/servicios/${s.slug}`} className="p3-tarjeta-enlace">{s.nombre}</Link></h2>
           <p className="p3-bc-d">{s.linea}</p>
           <div className="p3-bc-pie">
             <LineaPrecio slug={s.slug} etiqueta={false} />
