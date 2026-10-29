@@ -246,3 +246,81 @@ article.p3-tarjeta:has(.p3-tarjeta-enlace:focus-visible){ outline:2px solid var(
 @media(prefers-reduced-motion:reduce){
   article.p3-tarjeta:hover{ transform:none; }
 }
+
+/* =====================================================================
+   COTIZADOR de Atención 24/7 (controles nativos con apariencia propia)
+   ===================================================================== */
+.p3-pag-head--corto{ padding-bottom:clamp(24px,3vw,36px); }
+.p3-cot{ display:grid; grid-template-columns:minmax(0,1fr) 380px; gap:clamp(24px,3vw,40px); align-items:start; }
+.p3-cot-pasos{ display:flex; flex-direction:column; gap:16px; margin:0; }
+.p3-cot-paso{ margin:0; padding:clamp(20px,2.6vw,28px); border:1px solid var(--borde); border-radius:18px; background:var(--superficie);
+  display:flex; flex-direction:column; gap:10px; min-width:0; }
+.p3-cot-paso legend{ float:left; width:100%; margin:0 0 8px; padding:0; display:flex; align-items:center; gap:12px;
+  font-family:var(--display); font-weight:600; font-size:clamp(17px,2vw,20px); color:var(--texto); }
+.p3-cot-paso legend + *{ clear:both; }
+.p3-cot-num{ font-weight:600; font-size:13px; letter-spacing:.06em; color:var(--etiquetas); }
+.p3-cot-chips{ display:flex; flex-wrap:wrap; gap:8px; }
+.p3-cot-chip{ position:relative; }
+.p3-cot-chip input, .p3-cot-opcion input{ position:absolute; opacity:0; width:1px; height:1px; margin:0; pointer-events:none; }
+.p3-cot-chip span{ display:inline-flex; align-items:center; min-height:40px; padding:8px 16px; border-radius:999px; cursor:pointer;
+  font-weight:600; font-size:14px; color:var(--texto-2); border:1px solid var(--borde); background:rgba(255,255,255,.03);
+  transition:border-color .2s, background .2s, color .2s; }
+.p3-cot-chip span:hover{ border-color:var(--texto-3); }
+.p3-cot-chip input:checked + span{ border-color:var(--acento); color:var(--texto); background:color-mix(in srgb, var(--acento) 16%, transparent); }
+.p3-cot-chip input:focus-visible + span{ outline:2px solid var(--acento); outline-offset:3px; }
+.p3-cot-opcion{ position:relative; display:grid; grid-template-columns:24px minmax(0,1fr) auto; align-items:center; gap:14px;
+  padding:14px 16px; border-radius:14px; border:1px solid var(--borde); cursor:pointer; transition:border-color .2s, background .2s; }
+.p3-cot-opcion:hover{ border-color:var(--texto-3); }
+.p3-cot-opcion:has(input:checked){ border-color:var(--acento); background:color-mix(in srgb, var(--acento) 10%, transparent); }
+.p3-cot-opcion:has(input:focus-visible){ outline:2px solid var(--acento); outline-offset:3px; }
+.p3-cot-opcion.is-incluida{ cursor:default; border-style:dashed; }
+.p3-cot-check{ width:22px; height:22px; border-radius:6px; border:1.5px solid var(--texto-3); display:grid; place-items:center;
+  font-size:13px; font-weight:700; color:var(--acento-contraste); }
+.p3-cot-check--radio{ border-radius:50%; }
+.is-incluida .p3-cot-check, .p3-cot-opcion input:checked ~ .p3-cot-check{ background:var(--acento); border-color:var(--acento); }
+.p3-cot-opcion input[type="checkbox"]:checked ~ .p3-cot-check::after{ content:"✓"; }
+.p3-cot-opcion input[type="radio"]:checked ~ .p3-cot-check::after{ content:""; width:8px; height:8px; border-radius:50%; background:var(--acento-contraste); }
+.p3-cot-op-txt{ display:flex; flex-direction:column; gap:3px; font-weight:400; font-size:13.5px; line-height:1.45; color:var(--texto-2); }
+.p3-cot-op-txt strong{ font-weight:600; font-size:15px; color:var(--texto); }
+.p3-cot-op-precio{ font-weight:600; font-size:14.5px; color:var(--destacado); white-space:nowrap; text-align:right; }
+.p3-cot-nota{ margin:2px 0 0; font-weight:400; font-size:13.5px; line-height:1.45; color:var(--texto-3); }
+.p3-cot-nota--destacada{ font-weight:600; color:var(--destacado); }
+
+/* resumen */
+.p3-cot-resumen{ position:sticky; top:120px; padding:26px; border-radius:20px; border:1px solid color-mix(in srgb, var(--destacado) 35%, var(--borde));
+  background:var(--superficie); display:flex; flex-direction:column; gap:12px; }
+.p3-cot-resumen .p3-caja-t{ margin:0; }
+.p3-cot-resumen .p3-precio-etq{ align-self:flex-start; }
+.p3-cot-totales{ margin:0; display:flex; flex-direction:column; gap:12px; }
+.p3-cot-totales > div{ display:flex; justify-content:space-between; align-items:baseline; gap:12px; padding-bottom:12px; border-bottom:1px solid var(--borde); }
+.p3-cot-totales dt{ font-weight:400; font-size:14px; color:var(--texto-2); }
+.p3-cot-totales dd{ margin:0; text-align:right; font-weight:600; font-size:15px; }
+.p3-cot-grande{ font-family:var(--display); font-size:clamp(24px,2.6vw,30px); letter-spacing:-.02em; font-variant-numeric:tabular-nums; }
+.p3-cot-ahorro{ margin:0; font-weight:600; font-size:14.5px; color:var(--acento-claro); }
+.p3-cot-integra{ margin:0; font-weight:600; font-size:14px; color:var(--destacado); }
+.p3-cot-boton{ width:100%; margin-top:4px; }
+.p3-cot-resumen .p3-precio-notas{ margin-top:0; }
+.p3-cot-notas-movil{ display:none; }
+
+@media(max-width:980px){
+  /* bloque normal (no grilla): así el resumen puede quedar pegado abajo mientras se recorre todo el cotizador */
+  .p3-cot{ display:block; }
+  .p3-cot-pasos{ margin-bottom:16px; }
+  /* celular: resumen abajo y pegajoso, compacto */
+  .p3-cot-resumen{ position:sticky; top:auto; bottom:0; z-index:5; padding:14px 16px 16px; gap:8px; border-radius:18px 18px 0 0;
+    background:color-mix(in srgb, var(--fondo) 94%, transparent); backdrop-filter:blur(12px); box-shadow:0 -12px 30px -18px #000; }
+  .p3-cot-resumen .p3-caja-t, .p3-cot-resumen .p3-precio-etq, .p3-cot-notas-escritorio{ display:none; }
+  .p3-cot-totales{ flex-direction:row; gap:16px; }
+  .p3-cot-totales > div{ flex:1; flex-direction:column; align-items:flex-start; gap:2px; padding:0; border:0; }
+  .p3-cot-totales dd{ text-align:left; }
+  .p3-cot-grande{ font-size:22px; }
+  .p3-cot-ahorro, .p3-cot-integra{ font-size:13px; }
+  .p3-cot-notas-movil{ display:block; padding:0 4px; }
+}
+@media(max-width:420px){
+  .p3-cot-opcion{ grid-template-columns:22px minmax(0,1fr); }
+  .p3-cot-op-precio{ grid-column:2; text-align:left; }
+}
+@media(prefers-reduced-motion:reduce){
+  .p3-cot-chip span, .p3-cot-opcion{ transition:none; }
+}

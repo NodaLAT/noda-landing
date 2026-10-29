@@ -5,7 +5,7 @@
    ===================================================================== */
 
 .p3{ background:var(--fondo-seccion, var(--fondo)); color:var(--texto); min-height:100vh;
-  font-family:var(--body); font-weight:400; overflow-x:hidden; }
+  font-family:var(--body); font-weight:400; overflow-x:clip; }   /* clip (no hidden): no rompe position:sticky */
 .p3 *{ box-sizing:border-box; }
 .p3-wrap{ max-width:1180px; margin:0 auto; padding:0 24px; position:relative; }
 .p3-sec{ padding:clamp(72px,10vw,120px) 0; position:relative; background:var(--fondo-seccion, var(--fondo)); }
