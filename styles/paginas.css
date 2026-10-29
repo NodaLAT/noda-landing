@@ -384,3 +384,12 @@ article.p3-tarjeta:has(.p3-tarjeta-enlace:focus-visible){ outline:2px solid var(
 .p3-cot-mes-etq{ font-weight:400; font-size:13.5px; color:var(--texto-2); }
 .p3-cot-mes-desde{ display:block; margin-top:4px; font-weight:400; font-size:13.5px; color:var(--texto-2); }
 .p3-cot-totales > div:has(.p3-cot-mes-desde){ flex-wrap:wrap; }
+
+/* =====================================================================
+   /servicios: red de nodos ("plexus", components/servicios/RedPlexus.tsx)
+   El lienzo es sticky y mide lo que la pantalla; el margen negativo hace que el
+   contenido empiece encima de él. Las tarjetas van sobre la red con #111 al 80 % y un leve desenfoque.
+   ===================================================================== */
+.p3-plexus-zona{ position:relative; isolation:isolate; }
+.p3-plexus{ position:sticky; top:0; display:block; width:100%; height:100vh; margin-bottom:-100vh; z-index:-1; pointer-events:none; }
+.p3-plexus-zona .p3-tarjeta, .p3-plexus-zona .p3-tarjeta-extra{ background:rgb(17 17 17 / .8); -webkit-backdrop-filter:blur(6px); backdrop-filter:blur(6px); }

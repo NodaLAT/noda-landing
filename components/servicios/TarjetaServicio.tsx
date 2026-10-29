@@ -10,7 +10,7 @@ import { LineaPrecio } from "@/components/precios/Precio";
 export default function TarjetaServicio({ servicio: s, indice }: { servicio: Servicio; indice: number }) {
   const cotizador = !!precioDe(s.slug)?.modulos;
   return (
-    <article className={`p3-tarjeta${s.destacado ? " p3-tarjeta--estrella" : ""}`}>
+    <article className={`p3-tarjeta${s.destacado ? " p3-tarjeta--estrella" : ""}`} data-pulso>
       <span className="p3-tarjeta-cab">
         <span className="p3-tarjeta-ico"><IconoServicio icono={s.icono} /></span>
         <span className="p3-tarjeta-num">{numeroServicio(indice)}</span>
