@@ -14,7 +14,7 @@ DATOS GENERALES
 TEXTOS OBLIGATORIOS
 • Toda conversación de ejemplo lleva la etiqueta "Demo".
 • Toda demo de salud lleva: "Esta explicación es orientativa y no reemplaza la consulta con tu médico."
-• Por ahora ningún servicio muestra precio: va "Cotiza a medida". (Los precios se agregarán en una fase aparte.)
+• Atención 24/7, Agendamiento, Cotizaciones y Webs con IA muestran su precio (ver PRECIOS). Interpretación, CRM, Reportes y Apps llevan "Cotiza a medida".
 • Las cifras van siempre con su fuente visible.
 • VyR San Rafael NO usa agendamiento, recordatorios ni reportes: nunca mencionarlos junto a VyR.
 
@@ -102,7 +102,7 @@ PÁGINA DE INICIO
 
 8. PREGUNTAS FRECUENTES
 • ¿Necesito saber de tecnología? — No. Nosotros nos encargamos de todo; tú solo nos cuentas cómo funciona tu negocio.
-• ¿Cuánto cuesta? — Depende de lo que quieras automatizar. Después del diagnóstico gratuito te damos una propuesta con precio claro.
+• ¿Cuánto cuesta? — Los servicios principales tienen su precio en la web, con precios de lanzamiento hasta el 31 de diciembre. Los demás dependen de tu proceso: después del diagnóstico gratuito te damos una propuesta con precio claro.
 • ¿Funciona con mi número de WhatsApp? — Trabajamos con WhatsApp Business oficial. En el diagnóstico revisamos tu caso.
 • ¿Qué pasa si la IA no sabe responder algo? — Pasa la conversación a una persona de tu equipo.
 • ¿Cuánto tarda la implementación? — La primera automatización suele quedar lista en unos 7 días.
@@ -260,3 +260,38 @@ PÁGINA 404:
 
 IMAGEN PARA COMPARTIR (WhatsApp, LinkedIn):
 • Logo + "Automatizamos tu negocio para que vendas más."
+
+══════════════════════════════════════════════
+PRECIOS
+══════════════════════════════════════════════
+(Valores en USD. Se editan en un solo lugar: lib/precios.ts.)
+
+CÓMO SE MUESTRAN
+• Etiqueta: "Precio de lanzamiento".
+• Precio normal tachado en gris y precio de oferta en crema (Poppins 600).
+• Formato: "Desde ~~$350~~ $250 + ~~$89~~ $70/mes". Todos llevan "+ IVA".
+• Debajo: "Precio referencial. Lo confirmamos en el diagnóstico gratuito." y "Implementación en un pago único."
+• Vigencia: "Válido para contratos hasta el 31 de diciembre de 2026."
+• Fin de la oferta: 31 de diciembre de 2026, 23:59 (hora de Ecuador). Después, el sitio muestra solo el precio normal y oculta todo lo de la oferta.
+• Barra superior (todas las páginas, hasta el fin de la oferta; se puede cerrar): "Precios de lanzamiento · hasta 100 USD menos en tu implementación · hasta el 31 de diciembre" · enlace a /servicios.
+
+ATENCIÓN Y VENTAS 24/7 POR WHATSAPP
+• Implementación base: normal $350 · oferta $250. Incluye respuestas con tu información, atención 24/7, paso a una persona e historial.
+• Módulos (sin descuento): catálogo o lista de precios +$50 · envío automático de documentos +$200 · interpretación con IA +$300 · registro y etiquetas de clientes +$150 · conectar con tu sistema: se cotiza aparte.
+• Mensualidad: hasta 1.000 conversaciones al mes, normal $89 · oferta $70 · hasta 3.000, normal $149 · oferta $130 · más de 3.000: a cotizar.
+
+AGENDAMIENTO Y RECORDATORIOS
+• Implementación: normal $300 · oferta $200 · Mensualidad: normal $89 · oferta $70.
+
+COTIZACIONES AL INSTANTE
+• Implementación: normal $350 · oferta $250 · Mensualidad: normal $89 · oferta $70.
+
+WEBS CON IA INTEGRADA
+• Implementación: normal $250 · oferta $200 · hosting desde $15/mes.
+• 50 % menos ($100) si se contrata con Atención 24/7, Agendamiento o Cotizaciones.
+
+INTERPRETACIÓN, CRM, REPORTES Y APPS
+• "Cotiza a medida".
+
+PREGUNTA "¿CUÁNTO CUESTA?" (portada)
+• Los servicios principales tienen su precio en la web, con precios de lanzamiento hasta el 31 de diciembre. Los demás dependen de tu proceso: después del diagnóstico gratuito te damos una propuesta con precio claro.

@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import DatosEstructurados from "@/components/DatosEstructurados";
+import { CLAVE_BARRA, FIN_OFERTA_MS } from "@/lib/precios";
 import { Analytics } from "@vercel/analytics/next";
 import { Poppins } from "next/font/google";
 import { ES_PRODUCCION, SITE_URL } from "@/lib/seo";
@@ -27,10 +28,17 @@ export const viewport: Viewport = {
   themeColor: "#000000",
 };
 
+// Antes de pintar: si ya pasó la fecha de fin de la oferta, marca <html data-oferta="fin"> (el CSS muestra
+// solo los precios normales y oculta la barra), y si la persona cerró la barra, la mantiene oculta.
+const SCRIPT_OFERTA = `(function(){var d=document.documentElement;if(Date.now()>${FIN_OFERTA_MS})d.setAttribute("data-oferta","fin");try{if(localStorage.getItem("${CLAVE_BARRA}")==="cerrada")d.setAttribute("data-barra","cerrada")}catch(e){}})();`;
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   // data-tema: tema de color de la PORTADA. Cambiar "neutro" por "teal" aquí cambia toda la paleta.
   return (
-    <html lang="es" data-scroll-behavior="smooth" data-tema="mixto" className={poppins.variable}>
+    <html lang="es" data-scroll-behavior="smooth" data-tema="mixto" className={poppins.variable} suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: SCRIPT_OFERTA }} />
+      </head>
       <body>
         {/* Fondo "luz desenfocada": solo se ve con el tema mixto en la portada (ver design-system.css) */}
         <div className="fondo-luz" aria-hidden="true"><span className="fondo-luz-a" /><span className="fondo-luz-b" /></div>

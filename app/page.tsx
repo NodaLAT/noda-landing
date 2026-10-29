@@ -10,6 +10,7 @@ import Proceso from "@/components/portada/Proceso";
 import PorQue from "@/components/portada/PorQue";
 import Faq from "@/components/portada/Faq";
 import Cierre from "@/components/portada/Cierre";
+import { ofertaVigente } from "@/lib/precios";
 
 export const metadata: Metadata = metadataPagina({
   titulo: "Noda — Automatización con IA para tu negocio",
@@ -27,7 +28,7 @@ export default function Home() {
       <Hero />
       <Cinta />
       <Problema />
-      <RedNodos />
+      <RedNodos vigente={ofertaVigente()} />
       <Caso />
       <Proceso />
       <PorQue />

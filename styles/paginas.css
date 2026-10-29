@@ -37,8 +37,6 @@
 /* ---------- página de servicio ---------- */
 .p3-srv-head-ico{ width:64px; height:64px; border-radius:50%; display:grid; place-items:center; margin-bottom:22px;
   background:var(--superficie); border:1px solid var(--acento); color:var(--acento); }
-.p3-precio{ display:inline-block; margin-top:22px; font-weight:600; font-size:13px; letter-spacing:.06em; text-transform:uppercase;
-  color:var(--texto-2); padding:6px 14px; border-radius:999px; border:1px solid var(--borde); background:var(--superficie); }
 .p3-dos{ display:grid; grid-template-columns:1.05fr .95fr; gap:clamp(28px,5vw,64px); align-items:start; }
 .p3-caja{ background:var(--superficie); border:1px solid var(--borde); border-radius:18px; padding:28px; }
 .p3-caja-t{ font-weight:600; font-size:13px; letter-spacing:.08em; text-transform:uppercase; color:var(--etiquetas); margin:0 0 16px; }
@@ -182,3 +180,69 @@ ol.p3-pasos{ list-style:none; padding:0; margin-top:8px; }
   background:color-mix(in srgb, var(--acento) 6%, var(--superficie)); }
 .p3-tarjeta-extra-t{ font-family:var(--display); font-weight:600; font-size:clamp(18px,2.2vw,22px); line-height:1.3; color:var(--texto); margin:0; }
 .p3-red-extra{ max-width:640px; margin:16px auto 0; }
+
+/* =====================================================================
+   PRECIOS (lib/precios.ts). Normal tachado en gris, oferta en crema, Poppins 600.
+   Con <html data-oferta="fin"> se ocultan las versiones de oferta y se muestran las normales.
+   ===================================================================== */
+.p3-sin-oferta{ display:none; }
+[data-oferta="fin"] .p3-con-oferta{ display:none !important; }
+[data-oferta="fin"] .p3-sin-oferta{ display:revert; }
+.p3-precio{ display:flex; flex-direction:column; align-items:flex-start; gap:6px; }
+.p3-precio-etq{ display:inline-block; font-weight:600; font-size:11px; letter-spacing:.08em; text-transform:uppercase;
+  color:var(--destacado); border:1px solid color-mix(in srgb, var(--destacado) 55%, transparent); border-radius:999px; padding:3px 9px; }
+.p3-precio-linea{ font-weight:600; font-size:15px; line-height:1.4; color:var(--texto); }
+.p3-tachado{ font-weight:600; color:var(--texto-3); text-decoration:line-through; text-decoration-thickness:1.5px; }
+.p3-monto{ font-weight:600; color:var(--destacado); }
+.p3-iva{ font-weight:400; font-size:.85em; color:var(--texto-2); white-space:nowrap; }
+.p3-precio-medida{ font-weight:600; font-size:14px; color:var(--texto-2); }
+.p3-precio-cab{ margin:18px 0 0; }
+.p3-nodo-precio{ margin:-6px 0 18px; }
+
+/* bloque de precio en la página de servicio */
+.p3-precio-bloque{ display:grid; grid-template-columns:1.1fr .9fr; gap:clamp(24px,4vw,48px); align-items:start;
+  background:var(--superficie); border:1px solid var(--borde); border-radius:20px; padding:clamp(24px,3.5vw,40px); }
+.p3-precio-principal .p3-eyebrow{ display:flex; }
+.p3-precio-principal .p3-precio-etq{ margin-bottom:12px; }
+.p3-precio-grande{ margin:0; }
+.p3-precio-grande .p3-precio-linea{ font-family:var(--display); font-size:clamp(24px,3.2vw,34px); line-height:1.25; letter-spacing:-.02em; }
+.p3-precio-incluye{ font-weight:400; font-size:15px; line-height:1.55; color:var(--texto-2); margin:14px 0 0; max-width:52ch; }
+.p3-precio-notas{ list-style:none; margin:16px 0 0; padding:0; display:flex; flex-direction:column; gap:4px;
+  font-weight:400; font-size:13.5px; line-height:1.45; color:var(--texto-3); }
+.p3-precio-detalle .p3-caja-t{ margin-top:22px; }
+.p3-precio-detalle .p3-caja-t:first-child{ margin-top:0; }
+.p3-precio-tabla{ list-style:none; margin:0; padding:0; }
+.p3-precio-tabla li{ display:flex; justify-content:space-between; align-items:baseline; gap:16px; padding:10px 0;
+  border-bottom:1px solid var(--borde); font-weight:400; font-size:14.5px; color:var(--texto-2); }
+.p3-precio-tabla b{ font-weight:600; color:var(--texto); white-space:nowrap; text-align:right; }
+
+/* tarjeta de /servicios: todo el bloque lleva al servicio; "Cotiza el tuyo" queda encima */
+article.p3-tarjeta{ position:relative; }
+.p3-tarjeta-enlace{ color:inherit; text-decoration:none; }
+.p3-tarjeta-enlace::after{ content:""; position:absolute; inset:0; border-radius:18px; }
+article.p3-tarjeta:hover{ transform:translateY(-3px); border-color:var(--acento); }
+article.p3-tarjeta:has(.p3-tarjeta-enlace:focus-visible){ outline:2px solid var(--acento); outline-offset:3px; }
+.p3-tarjeta-pie{ flex-direction:column; align-items:flex-start; }
+.p3-tarjeta-acciones{ display:flex; align-items:center; justify-content:space-between; gap:12px; width:100%; }
+.p3-tarjeta-cotizar{ position:relative; z-index:1; font-weight:600; font-size:13.5px; color:var(--destacado);
+  text-decoration:underline; text-underline-offset:3px; }
+
+/* barra superior de oferta */
+.p3-barra{ background:var(--cierre-bg); color:var(--cierre-tx); border-bottom:1px solid color-mix(in srgb, var(--cierre-tx) 18%, transparent); }
+.p3-barra-in{ max-width:1180px; margin:0 auto; padding:6px 12px 6px 24px; display:flex; align-items:center; justify-content:center; gap:10px; }
+.p3-barra-txt{ flex:1; text-align:center; font-weight:600; font-size:13px; line-height:1.35; color:var(--cierre-titulo); text-decoration:none; }
+.p3-barra-txt:hover{ text-decoration:underline; text-underline-offset:3px; }
+.p3-barra-x{ flex:0 0 auto; display:grid; place-items:center; width:32px; height:32px; border-radius:8px; border:0;
+  background:transparent; color:var(--cierre-titulo); cursor:pointer; }
+.p3-barra-x:hover{ background:color-mix(in srgb, var(--cierre-titulo) 12%, transparent); }
+[data-barra="cerrada"] .p3-barra, [data-oferta="fin"] .p3-barra{ display:none; }
+
+@media(max-width:980px){
+  .p3-precio-bloque{ grid-template-columns:1fr; }
+}
+@media(max-width:560px){
+  .p3-barra-txt{ font-size:12px; text-align:left; }
+}
+@media(prefers-reduced-motion:reduce){
+  article.p3-tarjeta:hover{ transform:none; }
+}

@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { WHATSAPP_URL } from "@/lib/site";
+import BarraOferta from "@/components/precios/BarraOferta";
 
 // Cabecera oscura (todas las páginas): logo blanco, menú central de 3 pastillas, botón WhatsApp.
 // En celular: hamburguesa -> menú a pantalla completa con fondo desenfocado.
@@ -18,7 +19,7 @@ function NavLink({ href, label, onClick }: { href: string; label: string; onClic
     : <Link href={href} className="p3-pill" onClick={onClick}>{label}</Link>;
 }
 
-export default function HeaderPortada() {
+export default function HeaderPortada({ vigente }: { vigente: boolean }) {
   const [scrolled, setScrolled] = useState(false);
   const [abierto, setAbierto] = useState(false);
 
@@ -36,6 +37,7 @@ export default function HeaderPortada() {
 
   return (
     <header className={`p3-nav${scrolled ? " scrolled" : ""}`}>
+      {vigente && <BarraOferta />}
       <div className="p3-nav-in">
         <a href="/#" className="p3-logo" aria-label="Noda — inicio">
           <img src="/logo-noda.webp" alt="Noda" width={439} height={150} />

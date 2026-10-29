@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { SERVICIOS, mensajeInteres, textoPrecio, type Servicio } from "@/lib/servicios";
+import { SERVICIOS, mensajeInteres, type Servicio } from "@/lib/servicios";
+import { RUTA_COTIZADOR, precioDe } from "@/lib/precios";
+import { BloquePrecio, LineaPrecio } from "@/components/precios/Precio";
 import { whatsappLink } from "@/lib/site";
 import { metadataPagina } from "@/lib/seo";
 import Marco from "@/components/portada/Marco";
@@ -39,6 +41,7 @@ export default async function ServicioPage({ params }: Props) {
   const whatsapp = whatsappLink(mensajeInteres(s));
   const relacionados = s.relacionados.map((r) => SERVICIOS.find((x) => x.slug === r)).filter((x): x is Servicio => !!x);
   const d = s.demo;
+  const precio = precioDe(s.slug);
 
   return (
     <Marco>
@@ -53,9 +56,14 @@ export default async function ServicioPage({ params }: Props) {
           <h1 className="p3-pag-h1">{s.nombre}</h1>
           <p className="p3-pag-sub">{s.subtitulo}</p>
           <div className="p3-pag-acc">
-            <a href={whatsapp} className="p3-btn p3-btn-acento p3-shine">{textoPrecio(s.precio)}</a>
-            <a href="#ejemplo" className="p3-btn p3-btn-outline">Ver la demo</a>
+            {precio
+              ? <a href="#precio" className="p3-btn p3-btn-acento p3-shine">Ver precio</a>
+              : <a href={whatsapp} className="p3-btn p3-btn-acento p3-shine">Cotiza a medida</a>}
+            {precio?.modulos
+              ? <Link href={RUTA_COTIZADOR} className="p3-btn p3-btn-outline">Cotiza el tuyo</Link>
+              : <a href="#ejemplo" className="p3-btn p3-btn-outline">Ver la demo</a>}
           </div>
+          {precio && <p className="p3-precio-cab"><LineaPrecio slug={s.slug} /></p>}
         </div>
       </section>
 
@@ -144,8 +152,10 @@ export default async function ServicioPage({ params }: Props) {
       {/* Preguntas frecuentes */}
       <Faq preguntas={s.faq} titulo="Preguntas frecuentes" />
 
-      {/* Cotiza a medida */}
-      <Cierre palabra="" titulo="Cotiza a medida" sub="" texto="" boton="Cotiza por WhatsApp" href={whatsapp} correo={false} />
+      {/* Precio (servicios con precio) o "Cotiza a medida", junto al botón de WhatsApp */}
+      {precio
+        ? <BloquePrecio slug={s.slug} whatsapp={whatsapp} />
+        : <Cierre palabra="" titulo="Cotiza a medida" sub="" texto="" boton="Cotiza por WhatsApp" href={whatsapp} correo={false} />}
 
       {/* Se combina con */}
       {relacionados.length > 0 && (

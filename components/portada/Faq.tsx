@@ -4,7 +4,7 @@ export type Pregunta = { pregunta: string; respuesta: string };
 
 const PREGUNTAS: Pregunta[] = [
   { pregunta: "¿Necesito saber de tecnología?", respuesta: "No. Nosotros nos encargamos de todo; tú solo nos cuentas cómo funciona tu negocio." },
-  { pregunta: "¿Cuánto cuesta?", respuesta: "Depende de lo que quieras automatizar. Después del diagnóstico gratuito te damos una propuesta con precio claro." },
+  { pregunta: "¿Cuánto cuesta?", respuesta: "Los servicios principales tienen su precio en la web, con precios de lanzamiento hasta el 31 de diciembre. Los demás dependen de tu proceso: después del diagnóstico gratuito te damos una propuesta con precio claro." },
   { pregunta: "¿Funciona con mi número de WhatsApp?", respuesta: "Trabajamos con WhatsApp Business oficial. En el diagnóstico revisamos tu caso." },
   { pregunta: "¿Qué pasa si la IA no sabe responder algo?", respuesta: "Pasa la conversación a una persona de tu equipo." },
   { pregunta: "¿Cuánto tarda la implementación?", respuesta: "La primera automatización suele quedar lista en unos 7 días." },

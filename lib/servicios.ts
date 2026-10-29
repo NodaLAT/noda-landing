@@ -8,16 +8,9 @@
 //   1. Copia una entrada de SERVICIOS y cambia sus textos.
 //   2. Dale un "slug" único (será la dirección: /servicios/tu-slug).
 //
-// PRECIOS: no están aprobados. Mientras "mostrarPrecio" sea false,
-// la página muestra "Cotiza a medida".
+// PRECIOS: están en lib/precios.ts (servicios sin precio muestran "Cotiza a medida").
 // =====================================================================
 import { CONVERSACIONES, type Conversacion } from "./conversaciones";
-
-export type Precio = {
-  setup: number | null;      // pago único de implementación (USD)
-  mensual: number | null;    // pago mensual (USD)
-  mostrarPrecio: boolean;
-};
 
 // Íconos de línea (components/portada/Iconos.tsx), los mismos de la red de la portada.
 export type Icono = "chat" | "calendario" | "calculadora" | "documento" | "personas" | "barras" | "navegador" | "bloques";
@@ -54,7 +47,6 @@ export type Servicio = {
   subtitulo: string;        // debajo del título en la página del servicio
   icono: Icono;
   destacado?: boolean;      // servicio estrella
-  precio: Precio;
   seo: { titulo: string; descripcion: string };
   problema: string;
   pasos: [string, string, string];   // "Cómo funciona"
@@ -66,8 +58,6 @@ export type Servicio = {
   relacionados: string[];   // slugs de servicios que se combinan bien con este ("Se combina con")
   casoVyR?: boolean;        // muestra el bloque "Caso en marcha" (VyR) en la página del servicio
 };
-
-const SIN_PRECIO: Precio = { setup: null, mensual: null, mostrarPrecio: false };
 
 // Cifras de "El problema" en la portada (con su fuente visible).
 export const CIFRAS_PROBLEMA: Dato[] = [
@@ -89,7 +79,6 @@ export const SERVICIOS: Servicio[] = [
     subtitulo: "Tu negocio responde al instante, a cualquier hora, y te pasa al cliente cuando está listo para comprar.",
     icono: "chat",
     destacado: true,
-    precio: SIN_PRECIO,
     seo: {
       titulo: "Atención y ventas 24/7 por WhatsApp",
       descripcion: "Un asistente con IA que atiende a tus clientes por WhatsApp a cualquier hora, responde sus preguntas y te avisa cuando están listos para comprar.",
@@ -121,7 +110,6 @@ export const SERVICIOS: Servicio[] = [
     linea: "Tus clientes reservan solos y reciben un recordatorio para que no falten.",
     subtitulo: "Tus clientes reservan solos por WhatsApp y reciben un recordatorio para que no falten.",
     icono: "calendario",
-    precio: SIN_PRECIO,
     seo: {
       titulo: "Agendamiento de citas y recordatorios por WhatsApp",
       descripcion: "Tus clientes agendan, cambian y confirman sus citas por WhatsApp, a cualquier hora, y reciben recordatorios automáticos para no faltar.",
@@ -151,7 +139,6 @@ export const SERVICIOS: Servicio[] = [
     linea: "Precio en segundos, con tus tarifas y tu formato.",
     subtitulo: "Precio en segundos, con tus tarifas y tu formato, directo en WhatsApp.",
     icono: "calculadora",
-    precio: SIN_PRECIO,
     seo: {
       titulo: "Cotizaciones al instante por WhatsApp",
       descripcion: "Tus clientes piden precio por WhatsApp y reciben una cotización clara en segundos, con tus precios y tu formato. Sin hojas de cálculo.",
@@ -180,7 +167,6 @@ export const SERVICIOS: Servicio[] = [
     linea: "Lee resultados, facturas u órdenes y los explica en palabras simples.",
     subtitulo: "La IA lee resultados, facturas u órdenes y los explica en palabras simples.",
     icono: "documento",
-    precio: SIN_PRECIO,
     seo: {
       titulo: "Interpretación de documentos con IA",
       descripcion: "La IA lee resultados, informes, facturas u órdenes, extrae lo importante y lo explica en palabras simples a tus clientes o a tu equipo.",
@@ -245,7 +231,6 @@ export const SERVICIOS: Servicio[] = [
     linea: "Cada cliente registrado y con seguimiento, para que ninguno se enfríe.",
     subtitulo: "Cada persona que te escribe queda registrada y recibe seguimiento hasta que decide.",
     icono: "personas",
-    precio: SIN_PRECIO,
     seo: {
       titulo: "CRM y seguimiento de clientes potenciales",
       descripcion: "Registra automáticamente a cada persona interesada en tu negocio, organiza en qué etapa está y dale seguimiento sin depender de la memoria de tu equipo.",
@@ -305,7 +290,6 @@ export const SERVICIOS: Servicio[] = [
     linea: "Los números de tu negocio, claros, en tu correo o WhatsApp.",
     subtitulo: "Los números de tu negocio, claros, en tu correo o WhatsApp.",
     icono: "barras",
-    precio: SIN_PRECIO,
     seo: {
       titulo: "Reportes y dashboards automáticos",
       descripcion: "Convierte los datos de tu negocio en reportes claros y paneles fáciles de leer, que llegan a tu WhatsApp o correo para que decidas con información real.",
@@ -365,7 +349,6 @@ export const SERVICIOS: Servicio[] = [
     linea: "Una web que no solo se ve bien: responde y te trae clientes.",
     subtitulo: "Una web que no solo se ve bien: responde, capta clientes y se conecta con tu WhatsApp.",
     icono: "navegador",
-    precio: SIN_PRECIO,
     seo: {
       titulo: "Webs con IA integrada para tu negocio",
       descripcion: "Creamos webs modernas para tu negocio con WhatsApp integrado, formularios que guardan cada contacto y la opción de un asistente con IA que atiende por ti.",
@@ -400,7 +383,6 @@ export const SERVICIOS: Servicio[] = [
     linea: "Herramientas que funcionan en el navegador, hechas para cómo trabaja tu negocio.",
     subtitulo: "Herramientas que funcionan desde el navegador, hechas para cómo trabaja tu negocio.",
     icono: "bloques",
-    precio: SIN_PRECIO,
     seo: {
       titulo: "Apps y sistemas a medida para tu negocio",
       descripcion: "Desarrollamos portales de clientes, paneles internos y herramientas a medida que funcionan desde el navegador, adaptadas a la forma en que trabaja tu negocio.",
@@ -434,17 +416,5 @@ export const EXTRA_A_MEDIDA = {
 };
 
 export const numeroServicio = (i: number) => String(i + 1).padStart(2, "0");
-
-// Dólares con coma para miles y punto para decimales: 1500 → "$1,500"; 49.9 → "$49.90".
-const dolares = (n: number) =>
-  "$" + n.toLocaleString("en-US", { minimumFractionDigits: Number.isInteger(n) ? 0 : 2, maximumFractionDigits: 2 });
-
-export function textoPrecio(p: Precio): string {
-  if (!p.mostrarPrecio || (p.setup === null && p.mensual === null)) return "Cotiza a medida";
-  const partes: string[] = [];
-  if (p.setup !== null) partes.push(`${dolares(p.setup)} de implementación`);
-  if (p.mensual !== null) partes.push(`${dolares(p.mensual)}/mes`);
-  return "Desde " + partes.join(" + ");
-}
 
 export const mensajeInteres = (s: Servicio) => `Hola Noda, me interesa ${s.nombre}`;

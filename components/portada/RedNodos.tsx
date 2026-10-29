@@ -4,6 +4,8 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { whatsappLink } from "@/lib/site";
 import { EXTRA_A_MEDIDA } from "@/lib/servicios";
+import { precioDe } from "@/lib/precios";
+import { LineaPrecio } from "@/components/precios/Precio";
 import { NODOS } from "./datos";
 import { IconoServicio } from "./Iconos";
 import { montarLienzo, leerColores, reducirMovimiento, observarTema } from "./lienzo";
@@ -21,7 +23,7 @@ const posicion = (i: number) => {
   return { "--x": `${50 + 42 * Math.cos(a)}%`, "--y": `${50 + 40 * Math.sin(a)}%` } as React.CSSProperties;
 };
 
-export default function RedNodos() {
+export default function RedNodos({ vigente }: { vigente: boolean }) {
   const ref = useRef<HTMLCanvasElement>(null);
   const [activo, setActivo] = useState(0);                 // servicio del panel
   const [encendidos, setEncendidos] = useState<number[]>([0]);
@@ -161,8 +163,9 @@ export default function RedNodos() {
           <span className="p3-nodo-n">Servicio{n.destacado && <span className="p3-estrella">Servicio estrella</span>}</span>
           <h3 className="p3-nodo-nombre">{n.nombre}</h3>
           <p className="p3-nodo-desc">{n.desc}</p>
+          <p className="p3-nodo-precio"><LineaPrecio slug={n.slug} vigente={vigente} /></p>
           <div className="p3-nodo-acc">
-            <a href={whatsappLink(`Hola Noda, me interesa ${n.nombre}`)} className="p3-btn p3-btn-acento p3-btn-sm">Cotiza a medida</a>
+            <a href={whatsappLink(`Hola Noda, me interesa ${n.nombre}`)} className="p3-btn p3-btn-acento p3-btn-sm">{precioDe(n.slug) ? "Cotiza por WhatsApp" : "Cotiza a medida"}</a>
             <Link href={`/servicios/${n.slug}`} className="p3-nodo-link">Ver servicio →</Link>
           </div>
         </div>
