@@ -240,8 +240,12 @@ article.p3-tarjeta:has(.p3-tarjeta-enlace:focus-visible){ outline:2px solid var(
 @media(max-width:980px){
   .p3-precio-bloque{ grid-template-columns:1fr; }
 }
-@media(max-width:560px){
-  .p3-barra-txt{ font-size:11.5px; line-height:1.3; text-align:left; }
+.p3-barra-corto{ display:none; }
+/* celular: una sola línea con el texto corto */
+@media(max-width:639px){
+  .p3-barra-largo{ display:none; }
+  .p3-barra-corto{ display:inline; }
+  .p3-barra-txt{ font-size:12.5px; line-height:1.3; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
 }
 @media(prefers-reduced-motion:reduce){
   article.p3-tarjeta:hover{ transform:none; }
@@ -329,10 +333,15 @@ article.p3-tarjeta:has(.p3-tarjeta-enlace:focus-visible){ outline:2px solid var(
    MENÚ: panel de Servicios (computadora) y acordeón (celular)
    ===================================================================== */
 .p3-menu-zona{ position:static; }
-.p3-menu-boton{ display:inline-flex; align-items:center; gap:6px; font-family:var(--body); cursor:pointer; }
-.p3-menu-boton svg{ transition:transform .25s; }
-.p3-menu-boton.is-abierto{ color:var(--texto); }
-.p3-menu-boton.is-abierto svg{ transform:rotate(180deg); }
+/* "Servicios" (enlace) + flecha (botón que abre el panel) dentro de una misma pastilla */
+.p3-menu-par{ display:inline-flex; align-items:center; padding:0; }
+.p3-menu-link{ color:inherit; text-decoration:none; padding:8px 4px 8px 16px; border-radius:999px 0 0 999px; }
+.p3-menu-flecha{ display:grid; place-items:center; align-self:stretch; padding:0 12px 0 6px; border:0; background:none; color:inherit;
+  font:inherit; cursor:pointer; border-radius:0 999px 999px 0; }
+.p3-menu-flecha svg{ transition:transform .25s; }
+.p3-menu-par.is-abierto{ color:var(--texto); }
+.p3-menu-par.is-abierto .p3-menu-flecha svg{ transform:rotate(180deg); }
+.p3-menu-link:focus-visible, .p3-menu-flecha:focus-visible{ outline:2px solid var(--acento); outline-offset:2px; }
 .p3-menu-panel{ position:absolute; left:50%; top:calc(100% - 6px); transform:translateX(-50%); width:min(1100px, calc(100vw - 48px));
   display:grid; grid-template-columns:300px minmax(0,1fr); gap:20px; padding:20px; border-radius:22px;
   background:color-mix(in srgb, var(--fondo) 94%, transparent); backdrop-filter:blur(20px) saturate(1.2);
@@ -340,10 +349,18 @@ article.p3-tarjeta:has(.p3-tarjeta-enlace:focus-visible){ outline:2px solid var(
 .p3-menu-panel[hidden]{ display:none; }
 /* puente invisible para que el panel no se cierre al bajar el mouse desde el botón */
 .p3-menu-panel::before{ content:""; position:absolute; left:0; right:0; top:-18px; height:18px; }
-.p3-menu-intro{ display:flex; flex-direction:column; align-items:flex-start; gap:14px; padding:24px; border-radius:16px;
+.p3-menu-intro{ display:flex; flex-direction:column; justify-content:space-between; gap:22px; padding:24px; border-radius:16px;
   background:color-mix(in srgb, var(--acento) 10%, var(--superficie)); border:1px solid color-mix(in srgb, var(--acento) 30%, var(--borde)); }
-.p3-menu-intro-t{ margin:0 0 4px; font-family:var(--display); font-weight:600; font-size:20px; line-height:1.25; letter-spacing:-.01em; color:var(--texto); }
+.p3-menu-intro-top{ display:flex; flex-direction:column; gap:14px; }
+.p3-menu-intro-t{ margin:0; font-family:var(--display); font-weight:600; font-size:23px; line-height:1.25; letter-spacing:-.01em; color:var(--texto); }
 .p3-menu-enlace{ font-weight:600; font-size:14px; color:var(--destacado); text-decoration:underline; text-underline-offset:3px; }
+.p3-menu-datos{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:8px; font-weight:400; font-size:14.5px; line-height:1.4; color:var(--texto-2); }
+.p3-menu-datos li{ position:relative; padding-left:16px; }
+.p3-menu-datos li::before{ content:""; position:absolute; left:0; top:.5em; width:6px; height:6px; border-radius:50%; background:var(--acento); }
+.p3-menu-datos b{ font-weight:600; color:var(--destacado); }
+.p3-menu-acc{ display:flex; flex-direction:column; align-items:stretch; gap:10px; }
+.p3-menu-acc .p3-btn{ padding:12px 18px; }
+.p3-menu-acc .p3-menu-enlace{ align-self:center; margin-top:6px; }
 .p3-menu-lista{ list-style:none; margin:0; padding:0; display:grid; grid-template-columns:1fr 1fr; gap:4px; }
 .p3-menu-item{ display:flex; gap:12px; align-items:flex-start; padding:12px; border-radius:12px; text-decoration:none; transition:background .2s; }
 .p3-menu-item:hover{ background:rgba(255,255,255,.05); }
@@ -360,8 +377,10 @@ article.p3-tarjeta:has(.p3-tarjeta-enlace:focus-visible){ outline:2px solid var(
 /* celular: menú desplazable y Servicios en acordeón */
 .p3-movil{ overflow-y:auto; justify-content:flex-start; padding:88px 20px 40px; }
 .p3-movil-nav{ width:100%; max-width:420px; margin:0 auto; }
-.p3-movil-acordeon{ display:inline-flex; align-items:center; gap:8px; font-family:var(--body); cursor:pointer; }
-.p3-movil-acordeon[aria-expanded="true"] svg{ transform:rotate(180deg); }
+.p3-movil-fila{ display:inline-flex; align-items:stretch; gap:8px; }
+.p3-movil-nav .p3-movil-flecha{ display:grid; place-items:center; width:52px; padding:0; font-family:var(--body); cursor:pointer; }
+.p3-movil-flecha svg{ transition:transform .25s; }
+.p3-movil-flecha[aria-expanded="true"] svg{ transform:rotate(180deg); }
 .p3-movil-lista{ list-style:none; margin:0; padding:8px; width:100%; display:flex; flex-direction:column; gap:2px;
   border:1px solid var(--borde); border-radius:16px; background:var(--superficie); }
 .p3-movil-lista[hidden]{ display:none; }
@@ -375,7 +394,7 @@ article.p3-tarjeta:has(.p3-tarjeta-enlace:focus-visible){ outline:2px solid var(
   .p3-menu-panel{ grid-template-columns:240px minmax(0,1fr); }
 }
 @media(prefers-reduced-motion:reduce){
-  .p3-menu-boton svg, .p3-menu-item{ transition:none; }
+  .p3-menu-flecha svg, .p3-movil-flecha svg, .p3-menu-item{ transition:none; }
 }
 
 /* mensualidad de oferta: solo los primeros 3 meses (lib/precios.ts, MESES_OFERTA) */

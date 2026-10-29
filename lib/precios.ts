@@ -16,6 +16,7 @@ export const VIGENCIA = "Válido para contratos hasta el 31 de diciembre de 2026
 export const NOTA_REFERENCIAL = "Precio referencial. Lo confirmamos en el diagnóstico gratuito.";
 export const NOTA_PAGO_UNICO = "Implementación en un pago único.";
 export const BARRA_OFERTA = "Precios de lanzamiento · hasta 100 USD menos en tu implementación y 3 meses de mensualidad rebajada · hasta el 31 de diciembre";
+export const BARRA_OFERTA_CORTA = "Precios de lanzamiento hasta el 31/12 →";   // celular (menos de 640 px)
 // La mensualidad de oferta solo rige los primeros MESES_OFERTA meses; desde el siguiente, la normal.
 export const MESES_OFERTA = 3;
 export const TEXTO_MESES = `los primeros ${MESES_OFERTA} meses`;
