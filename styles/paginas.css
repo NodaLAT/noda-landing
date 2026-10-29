@@ -377,3 +377,10 @@ article.p3-tarjeta:has(.p3-tarjeta-enlace:focus-visible){ outline:2px solid var(
 @media(prefers-reduced-motion:reduce){
   .p3-menu-boton svg, .p3-menu-item{ transition:none; }
 }
+
+/* mensualidad de oferta: solo los primeros 3 meses (lib/precios.ts, MESES_OFERTA) */
+.p3-meses{ font-weight:400; font-size:.88em; color:var(--texto-2); }
+.p3-meses--bloque, .p3-precio-tabla .p3-meses{ display:block; white-space:normal; font-size:12.5px; line-height:1.35; margin-top:2px; }
+.p3-cot-mes-etq{ font-weight:400; font-size:13.5px; color:var(--texto-2); }
+.p3-cot-mes-desde{ display:block; margin-top:4px; font-weight:400; font-size:13.5px; color:var(--texto-2); }
+.p3-cot-totales > div:has(.p3-cot-mes-desde){ flex-wrap:wrap; }

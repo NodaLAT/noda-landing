@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { NOTA_PAGO_UNICO, NOTA_REFERENCIAL, VIGENCIA, dolares, ofertaVigente } from "@/lib/precios";
+import { MESES_OFERTA, NOTA_PAGO_UNICO, NOTA_REFERENCIAL, TEXTO_DESDE_MES, TEXTO_MESES, VIGENCIA, dolares, ofertaVigente } from "@/lib/precios";
 import { BASE, BASE_INCLUYE, MODULOS, NEGOCIOS, SISTEMA, TRAMOS, calcular, mensajeWhatsApp, type Eleccion, type Sistema } from "@/lib/cotizador";
 import { whatsappLink } from "@/lib/site";
 
@@ -103,7 +103,7 @@ export default function Cotizador({ vigente }: { vigente: boolean }) {
               <span className="p3-cot-op-precio">
                 {t.mensual
                   ? (conOferta && t.mensual.oferta !== undefined
-                    ? <><Tachado valor={t.mensual.normal} /> {dolares(t.mensual.oferta)}/mes</>
+                    ? <><Tachado valor={t.mensual.normal} /> {dolares(t.mensual.oferta)}/mes<span className="p3-meses p3-meses--bloque">{TEXTO_MESES}</span></>
                     : `${dolares(t.mensual.normal)}/mes`)
                   : "A cotizar"}
               </span>
@@ -142,9 +142,15 @@ export default function Cotizador({ vigente }: { vigente: boolean }) {
           <div>
             <dt>Mensualidad</dt>
             <dd>
-              {r.mensual === null ? <span className="p3-monto">A cotizar</span> : (
+              {r.mensual === null ? <span className="p3-monto">A cotizar</span> : r.mesesOferta ? (
                 <>
-                  {conOferta && r.mensualNormal !== null && r.mensualNormal > r.mensual && <><Tachado valor={r.mensualNormal} />{" "}</>}
+                  <span className="p3-cot-mes-etq">Primeros {MESES_OFERTA} meses:</span>{" "}
+                  <span className="p3-monto p3-cot-grande" aria-hidden="true"><Numero valor={r.mensual} />/mes</span>
+                  <span className="p3-sr">{dolares(r.mensual)} al mes.</span>
+                  <span className="p3-cot-mes-desde"><span aria-hidden="true">· </span>{TEXTO_DESDE_MES}: {dolares(r.mensualNormal!)}/mes</span>
+                </>
+              ) : (
+                <>
                   <span className="p3-monto p3-cot-grande" aria-hidden="true"><Numero valor={r.mensual} />/mes</span>
                   <span className="p3-sr">{dolares(r.mensual)} al mes</span>
                 </>
@@ -155,7 +161,9 @@ export default function Cotizador({ vigente }: { vigente: boolean }) {
         {conOferta && r.ahorro > 0 && <p className="p3-cot-ahorro">Ahorras {dolares(r.ahorro)} en la implementación</p>}
         {r.integracion && <p className="p3-cot-integra">Integración: se cotiza aparte</p>}
         <p className="p3-sr" aria-live="polite">
-          {`Implementación ${dolares(r.impl)}. Mensualidad ${r.mensual === null ? "a cotizar" : `${dolares(r.mensual)} al mes`}.`}
+          {`Implementación ${dolares(r.impl)}. Mensualidad ${r.mensual === null ? "a cotizar"
+            : r.mesesOferta ? `${dolares(r.mensual)} al mes los primeros ${MESES_OFERTA} meses y ${dolares(r.mensualNormal!)} al mes desde el mes ${MESES_OFERTA + 1}`
+            : `${dolares(r.mensual)} al mes`}.`}
         </p>
         <div className="p3-cot-notas-escritorio">{notas}</div>
         <a href={enlace} className="p3-btn p3-btn-acento p3-shine p3-cot-boton" target="_blank" rel="noopener">

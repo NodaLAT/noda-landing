@@ -269,22 +269,24 @@ PRECIOS
 CÓMO SE MUESTRAN
 • Etiqueta: "Precio de lanzamiento".
 • Precio normal tachado en gris y precio de oferta en crema (Poppins 600).
-• Formato: "Desde ~~$350~~ $250 + ~~$89~~ $70/mes". Todos llevan "+ IVA".
+• Formato: "Desde ~~$350~~ $250 + ~~$89~~ $70/mes los primeros 3 meses". Todos llevan "+ IVA".
+• La mensualidad de oferta ($70 y $130) aplica solo los primeros 3 meses; desde el mes 4 rige la normal ($89 y $149).
+• Cotizador (resumen): "Primeros 3 meses: $70/mes · Desde el mes 4: $89/mes". El mensaje de WhatsApp también lo indica.
 • Debajo: "Precio referencial. Lo confirmamos en el diagnóstico gratuito." y "Implementación en un pago único."
 • Vigencia: "Válido para contratos hasta el 31 de diciembre de 2026."
 • Fin de la oferta: 31 de diciembre de 2026, 23:59 (hora de Ecuador). Después, el sitio muestra solo el precio normal y oculta todo lo de la oferta.
-• Barra superior (todas las páginas, hasta el fin de la oferta; se puede cerrar): "Precios de lanzamiento · hasta 100 USD menos en tu implementación · hasta el 31 de diciembre" · enlace a /servicios.
+• Barra superior (todas las páginas, hasta el fin de la oferta; se puede cerrar): "Precios de lanzamiento · hasta 100 USD menos en tu implementación y 3 meses de mensualidad rebajada · hasta el 31 de diciembre" · enlace a /servicios.
 
 ATENCIÓN Y VENTAS 24/7 POR WHATSAPP
 • Implementación base: normal $350 · oferta $250. Incluye respuestas con tu información, atención 24/7, paso a una persona e historial.
 • Módulos (sin descuento): catálogo o lista de precios +$50 · envío automático de documentos +$200 · interpretación con IA +$300 · registro y etiquetas de clientes +$150 · conectar con tu sistema: se cotiza aparte.
-• Mensualidad: hasta 1.000 conversaciones al mes, normal $89 · oferta $70 · hasta 3.000, normal $149 · oferta $130 · más de 3.000: a cotizar.
+• Mensualidad: hasta 1.000 conversaciones al mes, normal $89 · oferta $70 los primeros 3 meses · hasta 3.000, normal $149 · oferta $130 los primeros 3 meses · más de 3.000: a cotizar.
 
 AGENDAMIENTO Y RECORDATORIOS
-• Implementación: normal $300 · oferta $200 · Mensualidad: normal $89 · oferta $70.
+• Implementación: normal $300 · oferta $200 · Mensualidad: normal $89 · oferta $70 los primeros 3 meses.
 
 COTIZACIONES AL INSTANTE
-• Implementación: normal $350 · oferta $250 · Mensualidad: normal $89 · oferta $70.
+• Implementación: normal $350 · oferta $250 · Mensualidad: normal $89 · oferta $70 los primeros 3 meses.
 
 WEBS CON IA INTEGRADA
 • Implementación: normal $250 · oferta $200 · hosting desde $15/mes.

@@ -1,6 +1,7 @@
 // Cálculo del cotizador de Atención 24/7 (sin interfaz, para poder probarlo aparte).
-// Precios en lib/precios.ts. Los módulos no tienen descuento; la base y la mensualidad sí.
-import { PRECIOS, dolares, vigenteDe, type Modulo, type Tramo } from "./precios";
+// Precios en lib/precios.ts. Los módulos no tienen descuento; la base y la mensualidad sí
+// (la mensualidad rebajada, solo los primeros MESES_OFERTA meses).
+import { MESES_OFERTA, PRECIOS, dolares, vigenteDe, type Modulo, type Tramo } from "./precios";
 
 export const SLUG_ATENCION = "atencion-y-ventas-whatsapp";
 export const NEGOCIOS = ["Tienda", "Ferretería", "Restaurante", "Clínica o consultorio", "Laboratorio", "Taller", "Inmobiliaria", "Otro"];
@@ -25,12 +26,16 @@ export function calcular(e: Eleccion, conOferta: boolean) {
   const tramo = TRAMOS.find((t) => t.id === e.tramo) ?? TRAMOS[0];
   const implNormal = BASE.normal + extras;
   const impl = vigenteDe(BASE, conOferta) + extras;
+  const mensualNormal = tramo.mensual?.normal ?? null;
+  const mensual = tramo.mensual ? vigenteDe(tramo.mensual, conOferta) : null;   // null = a cotizar
   return {
     implNormal,
     impl,
     ahorro: implNormal - impl,
-    mensualNormal: tramo.mensual?.normal ?? null,
-    mensual: tramo.mensual ? vigenteDe(tramo.mensual, conOferta) : null,   // null = a cotizar
+    mensualNormal,
+    mensual,
+    // la mensualidad de oferta vale solo los primeros meses; luego sube a la normal
+    mesesOferta: mensual !== null && mensualNormal !== null && mensualNormal > mensual,
     tramo,
     integracion: e.sistema === "si",
   };
@@ -50,6 +55,8 @@ export function mensajeWhatsApp(e: Eleccion, conOferta: boolean) {
     `• Conversaciones: ${r.tramo.nombre}`,
     `• Sistema para conectar: ${sistema ?? "sin elegir"}${r.integracion ? " (integración: se cotiza aparte)" : ""}`,
     `• Implementación: ${dolares(r.impl)}${lanzamiento} + IVA`,
-    `• Mensualidad: ${r.mensual === null ? "a cotizar" : `${dolares(r.mensual)}/mes${lanzamiento} + IVA`}`,
+    `• Mensualidad: ${r.mensual === null ? "a cotizar"
+      : r.mesesOferta ? `primeros ${MESES_OFERTA} meses, ${dolares(r.mensual)}/mes${lanzamiento}; desde el mes ${MESES_OFERTA + 1}, ${dolares(r.mensualNormal!)}/mes + IVA`
+      : `${dolares(r.mensual)}/mes + IVA`}`,
   ].join("\n");
 }

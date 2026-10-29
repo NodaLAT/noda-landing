@@ -1,6 +1,6 @@
 import Link from "next/link";
 import {
-  NOTA_PAGO_UNICO, NOTA_REFERENCIAL, RUTA_COTIZADOR, VIGENCIA, dolares, ofertaVigente, precioDe,
+  NOTA_PAGO_UNICO, NOTA_REFERENCIAL, RUTA_COTIZADOR, TEXTO_MESES, VIGENCIA, dolares, ofertaVigente, precioDe,
   type Monto, type PrecioServicio,
 } from "@/lib/precios";
 import { SERVICIOS } from "@/lib/servicios";
@@ -11,12 +11,14 @@ import { SERVICIOS } from "@/lib/servicios";
 // app/layout.tsx marca <html data-oferta="fin"> y el CSS cambia de versión solo.
 
 // Monto: con oferta, el normal tachado (gris) y el de oferta (crema); sin oferta, solo el normal.
-export function Par({ m, conOferta, sufijo = "" }: { m: Monto; conOferta: boolean; sufijo?: string }) {
+// "meses": es una mensualidad y la oferta dura solo los primeros meses ("~~$89~~ $70/mes los primeros 3 meses").
+export function Par({ m, conOferta, sufijo = "", meses = false }: { m: Monto; conOferta: boolean; sufijo?: string; meses?: boolean }) {
   if (!conOferta || m.oferta === undefined) return <span className="p3-monto">{dolares(m.normal)}{sufijo}</span>;
   return (
     <>
       <s className="p3-tachado"><span className="p3-sr">Antes </span>{dolares(m.normal)}</s>{" "}
       <span className="p3-monto"><span className="p3-sr">ahora </span>{dolares(m.oferta)}{sufijo}</span>
+      {meses && <>{" "}<span className="p3-meses">{TEXTO_MESES}</span></>}
     </>
   );
 }
@@ -25,7 +27,7 @@ function Linea({ p, conOferta }: { p: PrecioServicio; conOferta: boolean }) {
   return (
     <span className="p3-precio-linea">
       Desde <Par m={p.implementacion} conOferta={conOferta} />
-      {p.mensual && <> + <Par m={p.mensual} conOferta={conOferta} sufijo="/mes" /></>}
+      {p.mensual && <> + <Par m={p.mensual} conOferta={conOferta} sufijo="/mes" meses /></>}
       {p.extra && <> + {p.extra}</>}
       <span className="p3-iva"> + IVA</span>
     </span>
@@ -104,7 +106,7 @@ export function BloquePrecio({ slug, whatsapp }: { slug: string; whatsapp: strin
                       <li key={t.id}>
                         <span>{t.nombre}</span>
                         <b>{t.mensual
-                          ? <Versiones conOferta={conOferta}>{(o) => <Par m={t.mensual!} conOferta={o} sufijo="/mes" />}</Versiones>
+                          ? <Versiones conOferta={conOferta}>{(o) => <Par m={t.mensual!} conOferta={o} sufijo="/mes" meses />}</Versiones>
                           : "A cotizar"}</b>
                       </li>
                     ))}

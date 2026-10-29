@@ -1,7 +1,8 @@
 // =====================================================================
 // PRECIOS DE NODA — todos los precios en un solo lugar (USD, sin IVA)
 // ---------------------------------------------------------------------
-// "normal" es el precio de lista; "oferta" es el precio de lanzamiento.
+// "normal" es el precio de lista; "oferta" es el precio de lanzamiento. En las mensualidades,
+// la oferta aplica solo los primeros 3 meses (MESES_OFERTA); desde el mes 4 rige la normal.
 // Hasta FIN_OFERTA el sitio muestra el normal tachado y la oferta; después,
 // muestra solo el normal y oculta todo lo de la oferta (también en el navegador,
 // sin volver a publicar: ver el script de app/layout.tsx).
@@ -14,7 +15,11 @@ export const FIN_OFERTA_MS = Date.parse(FIN_OFERTA);
 export const VIGENCIA = "Válido para contratos hasta el 31 de diciembre de 2026.";
 export const NOTA_REFERENCIAL = "Precio referencial. Lo confirmamos en el diagnóstico gratuito.";
 export const NOTA_PAGO_UNICO = "Implementación en un pago único.";
-export const BARRA_OFERTA = "Precios de lanzamiento · hasta 100 USD menos en tu implementación · hasta el 31 de diciembre";
+export const BARRA_OFERTA = "Precios de lanzamiento · hasta 100 USD menos en tu implementación y 3 meses de mensualidad rebajada · hasta el 31 de diciembre";
+// La mensualidad de oferta solo rige los primeros MESES_OFERTA meses; desde el siguiente, la normal.
+export const MESES_OFERTA = 3;
+export const TEXTO_MESES = `los primeros ${MESES_OFERTA} meses`;
+export const TEXTO_DESDE_MES = `Desde el mes ${MESES_OFERTA + 1}`;
 
 export const ofertaVigente = (ahora: number = Date.now()) => ahora <= FIN_OFERTA_MS;
 
