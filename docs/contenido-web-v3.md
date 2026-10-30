@@ -308,6 +308,16 @@ Orden: título · subtítulo · el problema · cómo funciona (3 pasos) · qué 
 • Preguntas:
   – ¿Es una app de celular? — Es una app web: funciona en celular y computadora desde el navegador, sin descargar nada.
   – ¿Cuánto tarda? — Depende del alcance; lo definimos en la propuesta.
+• Cómo funciona (v3, 4 pasos):
+  1) Definimos el proceso. — Qué quieres resolver y quién lo usa.
+  2) Diseñamos la app a medida. — Solo lo que tu negocio necesita.
+  3) Tu equipo la usa. — Pedidos, estados y tareas en un solo panel.
+  4) Avisos como tú los quieras. — Si quieres, tu cliente se entera cuando su pedido cambia de estado.
+• Antes / Con Noda (v3):
+  – Pedidos por llamadas y notas sueltas. / Todo en un panel.
+  – El cliente pregunta "¿ya está?". / Puede recibir el aviso automáticamente.
+  – El proceso depende de una persona. / El sistema lo sostiene.
+• Demo de cabecera (v3): panel de pedidos donde un pedido cambia de estado (Recibido → En preparación → Listo) y aparece un aviso al cliente. Se anima sola al entrar y se repite.
 
 ══════════════════════════════════════════════
 OTRAS PÁGINAS

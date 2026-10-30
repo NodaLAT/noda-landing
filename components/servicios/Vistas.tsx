@@ -208,11 +208,22 @@ function Panel() {
         </span>
         <span className="bv-apps-tabla">
           {PEDIDOS.map(([n, c, e, col], i) => (
-            <span key={n} className={`bv-apps-fila${i === 0 ? " is-nueva" : ""}`}>
-              <b>{n}</b><span>{c}</span><em className={`bv-etq bv-etq--${col}`}>{e}</em>
+            <span key={n} className="bv-apps-fila">
+              <b>{n}</b><span>{c}</span>
+              {i === 0 ? (
+                // El pedido de arriba avanza de estado: Recibido → En preparación → Listo
+                <span className="bv-apps-estado">
+                  <em className="bv-etq bv-etq--ambar">Recibido</em>
+                  <em className="bv-etq bv-etq--azul">En preparación</em>
+                  <em className="bv-etq bv-etq--verde">Listo</em>
+                </span>
+              ) : (
+                <em className={`bv-etq bv-etq--${col}`}>{e}</em>
+              )}
             </span>
           ))}
         </span>
+        <span className="bv-apps-aviso"><Check2 />Aviso enviado al cliente · Pedido listo</span>
       </span>
     </div>
   );

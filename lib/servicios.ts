@@ -491,6 +491,17 @@ export const SERVICIOS: Servicio[] = [
       { pregunta: "¿Cuánto tarda?", respuesta: "Depende del alcance; lo definimos en la propuesta." },
     ],
     relacionados: ["webs-con-ia", "reportes-y-dashboards", "interpretacion-de-documentos"],
+    comoFunciona: [
+      { titulo: "Definimos el proceso.", detalle: "Qué quieres resolver y quién lo usa." },
+      { titulo: "Diseñamos la app a medida.", detalle: "Solo lo que tu negocio necesita." },
+      { titulo: "Tu equipo la usa.", detalle: "Pedidos, estados y tareas en un solo panel." },
+      { titulo: "Avisos como tú los quieras.", detalle: "Si quieres, tu cliente se entera cuando su pedido cambia de estado." },
+    ],
+    antesConNoda: [
+      { antes: "Pedidos por llamadas y notas sueltas.", con: "Todo en un panel." },
+      { antes: "El cliente pregunta “¿ya está?”.", con: "Puede recibir el aviso automáticamente." },
+      { antes: "El proceso depende de una persona.", con: "El sistema lo sostiene." },
+    ],
   },
 ];
 
