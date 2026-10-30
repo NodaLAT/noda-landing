@@ -61,7 +61,10 @@ export type Servicio = {
   //     su página usa la plantilla v3; si no, usa la plantilla antigua. ---
   comoFunciona?: { titulo: string; detalle?: string }[];   // 3 o 4 pasos; "detalle" opcional
   antesConNoda?: { antes: string; con: string }[];          // pares "Antes / Con Noda"
+  avisoSalud?: boolean;     // muestra el aviso médico visible (servicios de salud)
 };
+
+export { AVISO_SALUD } from "./conversaciones";
 
 // Cifras de "El problema" en la portada (con su fuente visible).
 export const CIFRAS_PROBLEMA: Dato[] = [
@@ -260,6 +263,18 @@ export const SERVICIOS: Servicio[] = [
     ],
     relacionados: ["atencion-y-ventas-whatsapp", "cotizaciones-al-instante", "apps-y-sistemas-a-medida"],
     casoVyR: true,
+    avisoSalud: true,
+    comoFunciona: [
+      { titulo: "Llega el resultado.", detalle: "El paciente lo recibe por WhatsApp." },
+      { titulo: "La IA lo lee.", detalle: "Revisa cada valor junto con su rango de referencia." },
+      { titulo: "Lo explica en palabras simples.", detalle: "Qué significa cada valor, sin tecnicismos." },
+      { titulo: "Si hace falta, pasa a una persona.", detalle: "Ante dudas o valores fuera de rango, deriva a tu equipo o sugiere consultar al médico." },
+    ],
+    antesConNoda: [
+      { antes: "El paciente recibe un documento lleno de términos que no entiende.", con: "Recibe una explicación clara de su resultado." },
+      { antes: "Llama a preguntar y satura a la secretaria.", con: "La IA responde y deriva solo lo que hace falta." },
+      { antes: "Busca en internet y se asusta.", con: "La explicación se basa en su propio resultado." },
+    ],
   },
 
   // ------------------------------------------------------------------ 05

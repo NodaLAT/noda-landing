@@ -62,6 +62,7 @@
 .p3-demo-nota{ font-weight:400; font-size:14px; line-height:1.5; color:var(--texto-3); margin:16px 0 0; max-width:48ch; }
 .p3-demo-aviso{ font-weight:600; font-size:14px; line-height:1.5; color:var(--texto-2); margin:16px 0 0; max-width:48ch;
   padding:12px 14px; border-left:3px solid var(--acento); background:var(--superficie); border-radius:0 10px 10px 0; }
+.pa-aviso-salud{ margin-top:0; }
 /* chat interactivo en el teléfono oscuro */
 .p3-fono--demo{ height:600px; }
 .p3-fono--demo .p3-fono-chat{ overflow-y:auto; overscroll-behavior:contain; scrollbar-width:thin; }
@@ -808,8 +809,10 @@ article.p3-tarjeta:has(.p3-tarjeta-enlace:focus-visible){ outline:2px solid var(
 .pa-head-demo{ display:flex; justify-content:center; }
 /* demo de cabecera de los otros 7 servicios: su vista previa (Vistas.tsx) ampliada y legible */
 .pa-demo-cab{ width:min(440px,100%); }
-.pa-demo-cab .p3-bv{ height:auto; min-height:400px; padding:14px; border-radius:20px; font-size:12.5px; }
+.pa-demo-cab .p3-bv{ height:auto; min-height:360px; padding:14px; border-radius:20px; font-size:12.5px; }
 .pa-demo-cab .p3-bv > :not(.bv-wa){ font-size:13.5px; }
+/* el laboratorio (hoja + explicación) es corto: se centra para no dejar hueco */
+.pa-demo-cab .bv-lab{ justify-content:center; }
 
 /* 2) "Cómo funciona": 3 pasos con línea que se ilumina */
 .pa-pasos{ list-style:none; margin:28px 0 0; padding:0; position:relative;

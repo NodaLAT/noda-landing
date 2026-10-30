@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { SERVICIOS, mensajeInteres, type Servicio } from "@/lib/servicios";
+import { SERVICIOS, mensajeInteres, AVISO_SALUD, type Servicio } from "@/lib/servicios";
 import { RUTA_COTIZADOR, precioDe } from "@/lib/precios";
 import { BloquePrecio, LineaPrecio } from "@/components/precios/Precio";
 import { whatsappLink } from "@/lib/site";
@@ -78,6 +78,13 @@ export default async function ServicioPage({ params }: Props) {
             <div className="pa-head-demo"><DemoCabecera icono={s.icono} /></div>
           </div>
         </section>
+
+        {/* Aviso médico visible (servicios de salud) */}
+        {s.avisoSalud && (
+          <section className="p3-sec p3-sec-c">
+            <div className="p3-wrap"><p className="p3-demo-aviso pa-aviso-salud">{AVISO_SALUD}</p></div>
+          </section>
+        )}
 
         {/* El problema */}
         <section className="p3-sec p3-sec-c">

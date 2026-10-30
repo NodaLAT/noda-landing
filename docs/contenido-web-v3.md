@@ -224,6 +224,17 @@ Orden: título · subtítulo · el problema · cómo funciona (3 pasos) · qué 
 • Preguntas:
   – ¿La IA reemplaza al profesional? — No. Explica en palabras simples y siempre recomienda consultar al especialista.
   – ¿Qué documentos puede leer? — PDF e imágenes; en el diagnóstico revisamos los tuyos.
+• Cómo funciona (v3, 4 pasos):
+  1) Llega el resultado. — El paciente lo recibe por WhatsApp.
+  2) La IA lo lee. — Revisa cada valor junto con su rango de referencia.
+  3) Lo explica en palabras simples. — Qué significa cada valor, sin tecnicismos.
+  4) Si hace falta, pasa a una persona. — Ante dudas o valores fuera de rango, deriva a tu equipo o sugiere consultar al médico.
+• Antes / Con Noda (v3):
+  – El paciente recibe un documento lleno de términos que no entiende. / Recibe una explicación clara de su resultado.
+  – Llama a preguntar y satura a la secretaria. / La IA responde y deriva solo lo que hace falta.
+  – Busca en internet y se asusta. / La explicación se basa en su propio resultado.
+• Aviso visible (obligatorio): "Esta explicación es orientativa y no reemplaza la consulta con tu médico."
+• Demo de cabecera (v3): resultado de laboratorio ficticio que se "escanea" con una línea; aparece la explicación en lenguaje simple y, al final, el aviso médico. Se anima sola al entrar y se repite.
 
 05 CRM Y SEGUIMIENTO DE LEADS
 • Subtítulo: Cada persona que te escribe queda registrada y recibe seguimiento hasta que decide.
