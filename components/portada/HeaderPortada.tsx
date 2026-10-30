@@ -39,6 +39,8 @@ function Flechita({ size }: { size: number }) {
 export default function HeaderPortada({ vigente }: { vigente: boolean }) {
   const { items } = usePlan();
   const enPlan = items.length;
+  const [rebote, setRebote] = useState(false);            // burbuja: rebote corto al agregar
+  const previo = useRef(enPlan);
   const [scrolled, setScrolled] = useState(false);
   const [montado, setMontado] = useState(false);          // para el portal (evita render en el servidor)
   const [abierto, setAbierto] = useState(false);          // menú de celular
@@ -58,6 +60,17 @@ export default function HeaderPortada({ vigente }: { vigente: boolean }) {
   }, []);
 
   useEffect(() => { setMontado(true); }, []);
+
+  // Al agregar un servicio (la cuenta sube), la burbuja hace un rebote corto. CSS lo anula con movimiento reducido.
+  useEffect(() => {
+    if (enPlan > previo.current) {
+      setRebote(true);
+      const t = window.setTimeout(() => setRebote(false), 550);
+      previo.current = enPlan;
+      return () => window.clearTimeout(t);
+    }
+    previo.current = enPlan;
+  }, [enPlan]);
 
   // El menú de celular se renderiza en <body> (portal) para que no quede atrapado dentro del
   // encabezado: la cabecera usa backdrop-filter, y eso convierte a .p3-nav en el bloque contenedor
@@ -168,13 +181,17 @@ export default function HeaderPortada({ vigente }: { vigente: boolean }) {
           </div>
           {LINKS.map((l) => <a key={l.href} href={l.href} className="p3-pill">{l.label}</a>)}
         </nav>
-        {enPlan > 0 && (
-          <Link href={RUTA_PLAN} className="p3-plan-acceso" onClick={cerrarTodo}>
-            Mi plan <span className="p3-plan-cuenta" aria-hidden="true">{enPlan}</span>
-            <span className="p3-sr">({enPlan} {enPlan === 1 ? "servicio" : "servicios"})</span>
-          </Link>
-        )}
+        <Link href={RUTA_PLAN} className="p3-plan-acceso" onClick={cerrarTodo}>
+          <span className="p3-plan-acceso-ico p3-ico-linea" aria-hidden="true"><IconoServicio icono="bloques" size={16} /></span>
+          Arma tu plan
+          {enPlan > 0 && <span className={`p3-plan-cuenta${rebote ? " p3-rebote" : ""}`} aria-hidden="true">{enPlan}</span>}
+          {enPlan > 0 && <span className="p3-sr">({enPlan} {enPlan === 1 ? "servicio" : "servicios"})</span>}
+        </Link>
         <a href={WHATSAPP_URL} className="p3-btn p3-btn-acento p3-nav-cta">Cotiza por WhatsApp</a>
+        <Link href={RUTA_PLAN} className="p3-plan-movil" aria-label="Arma tu plan" onClick={cerrarTodo}>
+          <span className="p3-ico-linea" aria-hidden="true"><IconoServicio icono="bloques" size={22} /></span>
+          {enPlan > 0 && <span className={`p3-plan-cuenta${rebote ? " p3-rebote" : ""}`} aria-hidden="true">{enPlan}</span>}
+        </Link>
         <button className="p3-burger" aria-label="Abrir menú" aria-expanded={abierto} onClick={() => setAbierto((o) => !o)}>
           <span /><span /><span />
         </button>
@@ -204,11 +221,9 @@ export default function HeaderPortada({ vigente }: { vigente: boolean }) {
             <li><Link href={RUTA_COTIZADOR} className="p3-movil-item p3-movil-item--fuerte" onClick={cerrarTodo}>Cotiza tu bot de WhatsApp →</Link></li>
           </ul>
           {LINKS.map((l) => <a key={l.href} href={l.href} className="p3-pill" onClick={() => setAbierto(false)}>{l.label}</a>)}
-          {enPlan > 0 && (
-            <Link href={RUTA_PLAN} className="p3-pill p3-movil-plan" onClick={cerrarTodo}>
-              Mi plan <span className="p3-plan-cuenta" aria-hidden="true">{enPlan}</span>
-            </Link>
-          )}
+          <Link href={RUTA_PLAN} className="p3-pill p3-movil-plan" onClick={cerrarTodo}>
+            Arma tu plan {enPlan > 0 && <span className="p3-plan-cuenta" aria-hidden="true">{enPlan}</span>}
+          </Link>
           <a href={WHATSAPP_URL} className="p3-btn p3-btn-acento" onClick={() => setAbierto(false)}>Cotiza por WhatsApp</a>
         </nav>
         </div>,

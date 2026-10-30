@@ -60,13 +60,22 @@
 .p3-pill:hover{ color:var(--texto); transform:translateY(-1px);
   background:linear-gradient(180deg, rgba(255,255,255,.16), rgba(255,255,255,.05)); }
 .p3-nav-cta{ flex:0 0 auto; }
-/* acceso "Mi plan" con contador (solo cuando el plan tiene servicios) */
+/* acceso "Arma tu plan": siempre visible, estilo secundario (no compite con el botón crema). Burbuja con la cuenta cuando hay servicios. */
 .p3-plan-acceso{ flex:0 0 auto; display:inline-flex; align-items:center; gap:8px; padding:8px 14px; border-radius:999px;
   font-weight:600; font-size:13.5px; color:var(--texto); text-decoration:none; border:1px solid color-mix(in srgb, var(--acento) 50%, var(--borde));
   background:color-mix(in srgb, var(--acento) 12%, transparent); transition:background .25s, border-color .25s; }
 .p3-plan-acceso:hover{ background:color-mix(in srgb, var(--acento) 20%, transparent); border-color:var(--acento); }
+.p3-plan-acceso-ico{ display:inline-flex; color:var(--acento-claro); }
 .p3-plan-cuenta{ display:inline-grid; place-items:center; min-width:20px; height:20px; padding:0 6px; border-radius:999px;
   background:var(--acento); color:var(--acento-contraste); font-size:12px; font-weight:700; }
+/* celular: ícono "Arma tu plan" siempre visible junto a la hamburguesa (sin texto); la burbuja se superpone */
+.p3-plan-movil{ display:none; position:relative; flex:0 0 auto; align-items:center; justify-content:center; padding:6px;
+  background:none; border:0; color:var(--texto); text-decoration:none; cursor:pointer; }
+.p3-plan-movil .p3-ico-linea{ display:inline-flex; }
+.p3-plan-movil .p3-plan-cuenta{ position:absolute; top:-1px; right:-1px; min-width:18px; height:18px; padding:0 5px; font-size:11px; }
+/* rebote corto de la burbuja al agregar un servicio */
+@keyframes p3-rebote{ 0%{ transform:scale(1) } 30%{ transform:scale(1.35) } 55%{ transform:scale(.88) } 100%{ transform:scale(1) } }
+.p3-rebote{ animation:p3-rebote .5s cubic-bezier(.2,.8,.3,1.2); }
 .p3-burger{ display:none; flex-direction:column; gap:5px; background:none; border:0; cursor:pointer; padding:6px; }
 .p3-burger span{ width:24px; height:2px; background:var(--texto); border-radius:2px; }
 /* menú de celular a pantalla completa (se renderiza en <body>, por encima de la cabecera) */
@@ -292,6 +301,7 @@
   .p3-cifras{ grid-template-columns:repeat(2,1fr); }
   .p3-porque{ grid-template-columns:1fr; }
   .p3-pills, .p3-nav-cta, .p3-plan-acceso{ display:none; }
+  .p3-plan-movil{ display:inline-flex; }
   .p3-burger{ display:flex; }
   .p3-caso{ grid-template-columns:1fr; gap:30px; }
   .p3-pasos{ grid-template-columns:repeat(2,1fr); }
@@ -331,6 +341,7 @@
    ===================================================================== */
 @media(prefers-reduced-motion:reduce){
   .p3-anim{ animation:none !important; }
+  .p3-rebote{ animation:none; }
   /* cinta quieta: una sola vuelta de frases, centrada y en varias líneas si hace falta */
   .p3-cinta-pista{ animation:none; width:auto; justify-content:center; }
   .p3-cinta-grupo{ flex-wrap:wrap; justify-content:center; row-gap:10px; }
