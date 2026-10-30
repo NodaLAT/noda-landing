@@ -31,7 +31,7 @@ function usaReducirMovimiento() {
 // ---------------------------------------------------------------------
 export function ChatCabecera() {
   return (
-    <div className="pa-fono" aria-hidden="true">
+    <div className="pa-fono pa-fono--cab" aria-hidden="true">
       <ChatMini />
     </div>
   );
