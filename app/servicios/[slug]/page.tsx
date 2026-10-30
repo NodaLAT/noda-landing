@@ -47,7 +47,7 @@ export default async function ServicioPage({ params }: Props) {
       <Marco>
         {/* Cabecera con la demo animada al lado (debajo en celular) */}
         <section className="p3-pag-head">
-          <div className="p3-wrap pa-head">
+          <div className={`p3-wrap pa-head${esAtencion ? "" : " pa-head--vista"}`}>
             <div className="pa-head-col">
               <nav className="p3-miga" aria-label="Ruta de navegación">
                 <Link href="/servicios">Servicios</Link><span aria-hidden="true">/</span><span aria-current="page">{s.corto}</span>

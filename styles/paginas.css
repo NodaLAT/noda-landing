@@ -821,6 +821,11 @@ article.p3-tarjeta:has(.p3-tarjeta-enlace:focus-visible){ outline:2px solid var(
 .pa-head{ display:grid; grid-template-columns:minmax(0,1fr) auto; gap:clamp(28px,5vw,64px); align-items:center; }
 .pa-head-col{ min-width:0; }
 .pa-head-demo{ display:flex; justify-content:center; }
+/* Atención usa el teléfono (ancho fijo) y su columna "auto" funciona. Las vistas de Vistas.tsx
+   no tienen ancho propio, así que a esos 7 servicios les damos una columna con ancho real para
+   que la demo no se aplaste. Solo afecta a la plantilla con vista (.pa-head--vista), no a Atención. */
+.pa-head--vista{ grid-template-columns:minmax(0,1fr) minmax(360px,420px); }
+.pa-head--vista .pa-demo-cab{ width:100%; }
 /* demo de cabecera de los otros 7 servicios: su vista previa (Vistas.tsx) ampliada y legible */
 .pa-demo-cab{ width:min(440px,100%); }
 .pa-demo-cab .p3-bv{ height:auto; min-height:360px; padding:14px; border-radius:20px; font-size:12.5px; }
