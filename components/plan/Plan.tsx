@@ -2,36 +2,21 @@
 
 import { useEffect, useState } from "react";
 import { SERVICIOS } from "@/lib/servicios";
-import {
-  MESES_OFERTA, NOTA_PAGO_UNICO, NOTA_REFERENCIAL, TEXTO_DESDE_MES, VIGENCIA,
-  dolares, ofertaVigente, precioDe,
-} from "@/lib/precios";
+import { dolares, ofertaVigente, precioDe } from "@/lib/precios";
 import { SLUG_ATENCION, TRAMOS } from "@/lib/cotizador";
 import { whatsappLink } from "@/lib/site";
-import { calcularPlan, mensajePlan, nuevoCodigo, SLUG_WEBS, type ItemPlan } from "@/lib/plan";
+import { calcularPlan, mensajePlan, nuevoCodigo, type ItemPlan } from "@/lib/plan";
 import { IconoServicio } from "@/components/portada/Iconos";
-import { LineaPrecio, Tachado } from "@/components/precios/Precio";
+import { LineaPrecio } from "@/components/precios/Precio";
+import Totales, { DetalleLineas } from "./Totales";
 import { usePlan } from "./PlanProvider";
 
 // "Arma tu plan": a la izquierda la lista de los 8 servicios para agregar o quitar (Atención abre sus
 // opciones dentro de la misma página); a la derecha el resumen fijo. En celular, el resumen es una barra
 // compacta abajo que se despliega (mismas clases que el cotizador: .p3-cot-resumen / .p3-cot-barra).
+// Los totales y notas se comparten con el panel lateral (components/plan/Totales.tsx).
 
 const OPCIONES_ATENCION = precioDe(SLUG_ATENCION)!;
-
-// Mensualidad del total, con el precio normal tachado y la nota de los primeros meses.
-function TotalMensual({ r }: { r: ReturnType<typeof calcularPlan> }) {
-  if (r.mensual <= 0) return <span className="p3-monto">{r.mensualACotizar ? "A cotizar" : "—"}</span>;
-  return (
-    <>
-      {r.mesesOferta && r.mensualNormal > r.mensual && <><Tachado valor={r.mensualNormal} />{" "}</>}
-      <span className="p3-monto p3-cot-grande">{dolares(r.mensual)}/mes</span>
-      {r.mesesOferta && (
-        <span className="p3-cot-mes-desde"><span aria-hidden="true">· </span>Primeros {MESES_OFERTA} meses; {TEXTO_DESDE_MES.toLowerCase()}, {dolares(r.mensualNormal)}/mes</span>
-      )}
-    </>
-  );
-}
 
 export default function Plan({ vigente }: { vigente: boolean }) {
   const { items, tiene, agregar, actualizar, quitar, vaciar } = usePlan();
@@ -53,16 +38,6 @@ export default function Plan({ vigente }: { vigente: boolean }) {
     const actuales = atencion?.modulos ?? [];
     actualizar(SLUG_ATENCION, { modulos: actuales.includes(id) ? actuales.filter((m) => m !== id) : [...actuales, id] });
   };
-
-  const notas = (
-    <ul className="p3-precio-notas">
-      <li>Todo + IVA.</li>
-      <li>{NOTA_PAGO_UNICO}</li>
-      <li>{NOTA_REFERENCIAL}</li>
-      {r.hosting !== null && <li>El hosting de la web ({dolares(r.hosting)}/mes) se confirma en el diagnóstico.</li>}
-      {conOferta && <li>{VIGENCIA}</li>}
-    </ul>
-  );
 
   return (
     <div className="p3-cot p3-plan">
@@ -158,40 +133,8 @@ export default function Plan({ vigente }: { vigente: boolean }) {
             <p className="p3-plan-vacio">Todavía no agregaste servicios. Elige uno para empezar.</p>
           ) : (
             <>
-              <ul className="p3-plan-detalle-lista">
-                {r.lineas.map((l) => (
-                  <li key={l.slug} className="p3-plan-detalle-item">
-                    <div className="p3-plan-detalle-fila">
-                      <span>{l.nombre}</span>
-                      <b>{l.aCotizar ? "A cotizar" : dolares(l.implBase!)}</b>
-                    </div>
-                    {l.combo !== null && <span className="p3-plan-detalle-sub p3-con-oferta">{l.combo} % por combinar</span>}
-                    {l.modulos.map((m) => (
-                      <span key={m.nombre} className="p3-plan-detalle-sub">+ {m.nombre}: {m.precio === null ? "se cotiza aparte" : dolares(m.precio)}</span>
-                    ))}
-                    {l.tramoNombre && <span className="p3-plan-detalle-sub">Mensualidad: {l.tramoNombre}</span>}
-                    {!l.tramoNombre && l.mensual !== null && <span className="p3-plan-detalle-sub">Mensualidad: {dolares(l.mensual)}/mes</span>}
-                    {l.hosting !== null && <span className="p3-plan-detalle-sub">Hosting: desde {dolares(l.hosting)}/mes</span>}
-                  </li>
-                ))}
-              </ul>
-
-              <dl className="p3-cot-totales">
-                <div>
-                  <dt>Implementación</dt>
-                  <dd>
-                    {conOferta && r.ahorro > 0 && <><Tachado valor={r.implNormal} />{" "}</>}
-                    <span className="p3-monto p3-cot-grande">{dolares(r.impl)}</span>
-                  </dd>
-                </div>
-                <div>
-                  <dt>Mensualidad</dt>
-                  <dd><TotalMensual r={r} /></dd>
-                </div>
-              </dl>
-              {conOferta && r.ahorro > 0 && <p className="p3-cot-ahorro">Ahorras {dolares(r.ahorro)} en la implementación</p>}
-
-              {notas}
+              <DetalleLineas r={r} />
+              <Totales r={r} conOferta={conOferta} />
               <button type="button" className="p3-btn p3-btn-acento p3-shine p3-cot-boton p3-plan-enviar" onClick={enviar}>Enviar mi plan por WhatsApp</button>
               <button type="button" className="p3-btn p3-btn-outline p3-btn-sm p3-plan-vaciar" onClick={vaciar}>Vaciar plan</button>
             </>

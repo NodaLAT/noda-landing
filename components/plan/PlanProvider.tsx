@@ -2,8 +2,8 @@
 
 import { createContext, useCallback, useContext, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import Link from "next/link";
-import { CLAVE_PLAN, RUTA_PLAN, type ItemPlan } from "@/lib/plan";
+import { CLAVE_PLAN, type ItemPlan } from "@/lib/plan";
+import PanelPlan from "./PanelPlan";
 
 // Estado global del plan. Vive en localStorage (con try/catch; si falla, funciona solo en memoria),
 // para que el plan no se pierda al cambiar de página. No guarda ningún dato personal.
@@ -16,6 +16,9 @@ type PlanCtx = {
   quitar: (slug: string) => void;
   vaciar: () => void;
   listo: boolean;        // ya se leyó localStorage (evita parpadeos en el servidor)
+  panelAbierto: boolean; // panel lateral del plan (el "carrito")
+  abrirPanel: () => void;
+  cerrarPanel: () => void;
 };
 
 const Ctx = createContext<PlanCtx | null>(null);
@@ -40,6 +43,7 @@ export default function PlanProvider({ children }: { children: React.ReactNode }
   const [items, setItems] = useState<ItemPlan[]>([]);
   const [listo, setListo] = useState(false);
   const [aviso, setAviso] = useState(false);          // "Agregado a tu plan"
+  const [panelAbierto, setPanelAbierto] = useState(false);
   const [montado, setMontado] = useState(false);
   const tiempo = useRef<number | undefined>(undefined);
 
@@ -72,16 +76,20 @@ export default function PlanProvider({ children }: { children: React.ReactNode }
   const quitar = useCallback((slug: string) => setItems((xs) => xs.filter((i) => i.slug !== slug)), []);
   const vaciar = useCallback(() => setItems([]), []);
 
+  const abrirPanel = useCallback(() => setPanelAbierto(true), []);
+  const cerrarPanel = useCallback(() => setPanelAbierto(false), []);
+
   useEffect(() => () => window.clearTimeout(tiempo.current), []);
 
   return (
-    <Ctx.Provider value={{ items, tiene, agregar, actualizar, quitar, vaciar, listo }}>
+    <Ctx.Provider value={{ items, tiene, agregar, actualizar, quitar, vaciar, listo, panelAbierto, abrirPanel, cerrarPanel }}>
       {children}
+      <PanelPlan />
       {montado && createPortal(
         <div className={`p3-aviso-plan${aviso ? " is-visible" : ""}`} role="status" aria-live="polite" hidden={!aviso}>
           <span className="p3-aviso-plan-ico" aria-hidden="true">✓</span>
           <span>Agregado a tu plan</span>
-          <Link href={RUTA_PLAN} className="p3-aviso-plan-link" onClick={() => setAviso(false)}>Ver mi plan</Link>
+          <button type="button" className="p3-aviso-plan-link" onClick={() => { setAviso(false); abrirPanel(); }}>Ver mi plan</button>
         </div>,
         document.body
       )}

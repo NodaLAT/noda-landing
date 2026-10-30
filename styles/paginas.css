@@ -986,7 +986,8 @@ article.p3-tarjeta:has(.p3-tarjeta-enlace:focus-visible){ outline:2px solid var(
 .p3-aviso-plan.is-visible{ opacity:1; transform:translate(-50%,0); pointer-events:auto; }
 .p3-aviso-plan-ico{ display:grid; place-items:center; width:22px; height:22px; border-radius:50%; background:var(--acento);
   color:var(--acento-contraste); font-size:13px; }
-.p3-aviso-plan-link{ color:var(--acento-claro); text-decoration:underline; text-underline-offset:3px; }
+.p3-aviso-plan-link{ border:0; background:none; padding:0; font:inherit; cursor:pointer;
+  color:var(--acento-claro); text-decoration:underline; text-underline-offset:3px; }
 .p3-aviso-plan-link:focus-visible{ outline:2px solid var(--acento); outline-offset:2px; }
 @media(prefers-reduced-motion:reduce){
   .p3-aviso-plan{ transition:none; }
@@ -1014,3 +1015,48 @@ article.p3-tarjeta:has(.p3-tarjeta-enlace:focus-visible){ outline:2px solid var(
 .p3-tarjeta-plan:hover{ color:var(--texto); }
 .p3-tarjeta-plan:focus-visible{ outline:2px solid var(--acento); outline-offset:2px; border-radius:4px; }
 .p3-tarjeta-plan.is-puesto{ color:var(--texto-2); text-decoration:none; }
+
+/* =====================================================================
+   PANEL LATERAL DEL PLAN (el "carrito") — entra desde la derecha
+   ===================================================================== */
+.p3-panel-plan{ position:fixed; inset:0; z-index:300; }
+.p3-panel-fondo{ position:absolute; inset:0; border:0; padding:0; cursor:pointer;
+  background:color-mix(in srgb, #000 55%, transparent); backdrop-filter:blur(2px);
+  animation:p3-panel-fundido .25s ease both; }
+.p3-panel-caja{ position:absolute; top:0; right:0; bottom:0; width:min(420px, 100%);
+  display:flex; flex-direction:column; background:var(--fondo); border-left:1px solid var(--borde);
+  box-shadow:-24px 0 60px -30px #000; animation:p3-panel-entra .32s cubic-bezier(.16,1,.3,1) both; }
+.p3-panel-cab{ flex:0 0 auto; display:flex; align-items:center; justify-content:space-between; gap:12px;
+  padding:18px 20px; border-bottom:1px solid var(--borde); }
+.p3-panel-cab .p3-caja-t{ margin:0; }
+.p3-panel-x{ flex:0 0 auto; display:grid; place-items:center; width:36px; height:36px; border-radius:10px;
+  border:1px solid var(--borde); background:none; color:var(--texto); font-size:18px; cursor:pointer;
+  transition:background .2s, border-color .2s; }
+.p3-panel-x:hover{ background:var(--superficie); border-color:var(--acento); }
+.p3-panel-x:focus-visible{ outline:2px solid var(--acento); outline-offset:2px; }
+.p3-panel-cuerpo{ flex:1 1 auto; overflow-y:auto; -webkit-overflow-scrolling:touch;
+  display:flex; flex-direction:column; gap:14px; padding:18px 20px 24px; }
+.p3-panel-cuerpo .p3-precio-etq{ align-self:flex-start; }
+/* Lista de servicios con su precio y botón para quitar */
+.p3-panel-items{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:10px; }
+.p3-panel-item{ display:grid; grid-template-columns:minmax(0,1fr) auto auto; align-items:center; gap:10px 14px;
+  padding:12px 14px; border:1px solid var(--borde); border-radius:12px; background:var(--superficie); }
+.p3-panel-item-n{ font-weight:600; font-size:14.5px; color:var(--texto); min-width:0; }
+.p3-panel-item-p{ font-weight:700; font-size:14px; color:var(--texto); white-space:nowrap; }
+.p3-panel-quitar{ border:0; background:none; padding:4px 6px; font:inherit; font-size:13px; font-weight:600;
+  color:var(--texto-3); cursor:pointer; text-decoration:underline; text-underline-offset:3px; border-radius:6px; }
+.p3-panel-quitar:hover{ color:var(--texto); }
+.p3-panel-quitar:focus-visible{ outline:2px solid var(--acento); outline-offset:2px; }
+.p3-panel-editar{ align-self:center; margin-top:2px; font-weight:600; font-size:14px; color:var(--acento-claro);
+  text-decoration:underline; text-underline-offset:3px; }
+.p3-panel-editar:focus-visible{ outline:2px solid var(--acento); outline-offset:2px; border-radius:4px; }
+@keyframes p3-panel-fundido{ from{ opacity:0 } to{ opacity:1 } }
+@keyframes p3-panel-entra{ from{ transform:translateX(100%) } to{ transform:translateX(0) } }
+/* celular: a pantalla completa */
+@media(max-width:560px){
+  .p3-panel-caja{ width:100%; border-left:0; }
+}
+@media(prefers-reduced-motion:reduce){
+  .p3-panel-fondo, .p3-panel-caja{ animation:none; }
+  .p3-panel-x{ transition:none; }
+}

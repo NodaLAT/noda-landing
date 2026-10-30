@@ -37,8 +37,10 @@ function Flechita({ size }: { size: number }) {
 }
 
 export default function HeaderPortada({ vigente }: { vigente: boolean }) {
-  const { items } = usePlan();
+  const { items, abrirPanel } = usePlan();
   const enPlan = items.length;
+  // Con servicios en el plan, "Arma tu plan" abre el panel; vacío, va a /plan (href de respaldo sin JS).
+  const irAlPlan = (e: React.MouseEvent) => { cerrarTodo(); if (enPlan > 0) { e.preventDefault(); abrirPanel(); } };
   const [rebote, setRebote] = useState(false);            // burbuja: rebote corto al agregar
   const previo = useRef(enPlan);
   const [scrolled, setScrolled] = useState(false);
@@ -181,14 +183,14 @@ export default function HeaderPortada({ vigente }: { vigente: boolean }) {
           </div>
           {LINKS.map((l) => <a key={l.href} href={l.href} className="p3-pill">{l.label}</a>)}
         </nav>
-        <Link href={RUTA_PLAN} className="p3-plan-acceso" onClick={cerrarTodo}>
+        <Link href={RUTA_PLAN} className="p3-plan-acceso" onClick={irAlPlan}>
           <span className="p3-plan-acceso-ico p3-ico-linea" aria-hidden="true"><IconoServicio icono="bloques" size={16} /></span>
           Arma tu plan
           {enPlan > 0 && <span className={`p3-plan-cuenta${rebote ? " p3-rebote" : ""}`} aria-hidden="true">{enPlan}</span>}
           {enPlan > 0 && <span className="p3-sr">({enPlan} {enPlan === 1 ? "servicio" : "servicios"})</span>}
         </Link>
         <a href={WHATSAPP_URL} className="p3-btn p3-btn-acento p3-nav-cta">Cotiza por WhatsApp</a>
-        <Link href={RUTA_PLAN} className="p3-plan-movil" aria-label="Arma tu plan" onClick={cerrarTodo}>
+        <Link href={RUTA_PLAN} className="p3-plan-movil" aria-label="Arma tu plan" onClick={irAlPlan}>
           <span className="p3-ico-linea" aria-hidden="true"><IconoServicio icono="bloques" size={22} /></span>
           {enPlan > 0 && <span className={`p3-plan-cuenta${rebote ? " p3-rebote" : ""}`} aria-hidden="true">{enPlan}</span>}
         </Link>
@@ -221,7 +223,7 @@ export default function HeaderPortada({ vigente }: { vigente: boolean }) {
             <li><Link href={RUTA_COTIZADOR} className="p3-movil-item p3-movil-item--fuerte" onClick={cerrarTodo}>Cotiza tu bot de WhatsApp →</Link></li>
           </ul>
           {LINKS.map((l) => <a key={l.href} href={l.href} className="p3-pill" onClick={() => setAbierto(false)}>{l.label}</a>)}
-          <Link href={RUTA_PLAN} className="p3-pill p3-movil-plan" onClick={cerrarTodo}>
+          <Link href={RUTA_PLAN} className="p3-pill p3-movil-plan" onClick={irAlPlan}>
             Arma tu plan {enPlan > 0 && <span className="p3-plan-cuenta" aria-hidden="true">{enPlan}</span>}
           </Link>
           <a href={WHATSAPP_URL} className="p3-btn p3-btn-acento" onClick={() => setAbierto(false)}>Cotiza por WhatsApp</a>
