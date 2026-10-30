@@ -404,6 +404,16 @@ export const SERVICIOS: Servicio[] = [
       { pregunta: "¿Cada cuánto llegan?", respuesta: "Tú eliges: diario, semanal o mensual." },
     ],
     relacionados: ["crm-y-seguimiento-de-leads", "agendamiento-y-recordatorios", "apps-y-sistemas-a-medida"],
+    comoFunciona: [
+      { titulo: "Conectamos tus datos.", detalle: "Ventas, conversaciones, citas: lo que ya usas." },
+      { titulo: "Los indicadores se calculan solos.", detalle: "Sin hojas de cálculo." },
+      { titulo: "Los ves en un panel.", detalle: "Siempre actualizados." },
+    ],
+    antesConNoda: [
+      { antes: "Armas reportes a mano a fin de mes.", con: "Se actualizan solos." },
+      { antes: "Decides por intuición.", con: "Decides con datos al día." },
+      { antes: "Abres varios sistemas para entender tu negocio.", con: "Todo en un solo panel." },
+    ],
   },
 
   // ------------------------------------------------------------------ 07

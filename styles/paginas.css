@@ -695,7 +695,6 @@ article.p3-tarjeta:has(.p3-tarjeta-enlace:focus-visible){ outline:2px solid var(
   animation-delay:calc(var(--i) * .08s); }
 .bv-rep-linea{ fill:none; stroke:#14807a; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; vector-effect:non-scaling-stroke;
   stroke-dasharray:1; stroke-dashoffset:0; animation:bv-traza 8s ease-out infinite; }
-.bv-rep-aviso{ margin:0 8px; animation:bv-aviso-2 8s infinite; }
 @keyframes bv-kpi{ 0%{ opacity:0; transform:translateY(4px); } 6%,90%{ opacity:1; transform:none; } 97%,100%{ opacity:0; } }
 @keyframes bv-crece{ 0%{ transform:scaleY(0); } 18%,90%{ transform:scaleY(1); } 97%,100%{ transform:scaleY(0); } }
 @keyframes bv-traza{ 0%,12%{ stroke-dashoffset:1; } 40%,90%{ stroke-dashoffset:0; opacity:1; } 97%,100%{ stroke-dashoffset:0; opacity:0; } }

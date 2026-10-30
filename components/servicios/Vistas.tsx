@@ -152,7 +152,6 @@ function Barras() {
         {BARRAS.map((h, i) => <rect key={i} x={i * 28 + 1} y={60 - h * .7} width="12" height={h * .7} rx="2" className="bv-rep-barra" style={v(i)} />)}
         <path d={LINEA} pathLength={1} className="bv-rep-linea" />
       </svg>
-      <span className="bv-aviso bv-aviso--wa bv-rep-aviso"><IconoWhatsApp />Resumen semanal enviado por WhatsApp</span>
     </div>
   );
 }

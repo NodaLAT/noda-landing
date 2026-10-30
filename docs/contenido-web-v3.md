@@ -267,6 +267,15 @@ Orden: título · subtítulo · el problema · cómo funciona (3 pasos) · qué 
 • Preguntas:
   – ¿Qué datos puedo ver? — Los que tu negocio ya genera: ventas, citas, consultas y más.
   – ¿Cada cuánto llegan? — Tú eliges: diario, semanal o mensual.
+• Cómo funciona (v3, 3 pasos):
+  1) Conectamos tus datos. — Ventas, conversaciones, citas: lo que ya usas.
+  2) Los indicadores se calculan solos. — Sin hojas de cálculo.
+  3) Los ves en un panel. — Siempre actualizados.
+• Antes / Con Noda (v3):
+  – Armas reportes a mano a fin de mes. / Se actualizan solos.
+  – Decides por intuición. / Decides con datos al día.
+  – Abres varios sistemas para entender tu negocio. / Todo en un solo panel.
+• Demo de cabecera (v3): panel con indicadores y un gráfico que se dibuja. SIN resumen por WhatsApp. Valores claramente de ejemplo (Demo). Se anima sola al entrar y se repite.
 
 07 WEBS CON IA INTEGRADA
 • Subtítulo: Una web que no solo se ve bien: responde, capta clientes y se conecta con tu WhatsApp.
