@@ -36,7 +36,8 @@ export type Linea = {
   slug: string;
   nombre: string;                 // nombre corto
   aCotizar: boolean;              // servicio sin precio (se cotiza a medida)
-  impl: number | null;            // implementación vigente (con combo aplicado)
+  impl: number | null;            // implementación vigente total (base + módulos)
+  implBase: number | null;        // base para mostrar en el encabezado (sin módulos; los módulos se listan aparte)
   implNormal: number | null;      // implementación normal (para el tachado)
   combo: number | null;           // porcentaje de descuento por combinar (p. ej. 50)
   modulos: { nombre: string; precio: number | null }[];   // solo Atención
@@ -82,7 +83,7 @@ export function eleccionAtencion(item: ItemPlan): Eleccion {
 function lineaDe(item: ItemPlan, slugs: string[], conOferta: boolean): Linea {
   const base: Linea = {
     slug: item.slug, nombre: corto(item.slug), aCotizar: false,
-    impl: null, implNormal: null, combo: null, modulos: [], tramoNombre: null,
+    impl: null, implBase: null, implNormal: null, combo: null, modulos: [], tramoNombre: null,
     mensual: null, mensualNormal: null, mensualACotizar: false, hosting: null,
   };
   const p = precioDe(item.slug);
@@ -95,7 +96,7 @@ function lineaDe(item: ItemPlan, slugs: string[], conOferta: boolean): Linea {
     const elegidos = MODULOS.filter((m) => mods.includes(m.id)).map((m) => ({ nombre: m.nombre, precio: m.precio }));
     if (mods.includes(ID_SISTEMA)) elegidos.push({ nombre: "Conectar con tu sistema", precio: null });
     return {
-      ...base, impl: r.impl, implNormal: r.implNormal,
+      ...base, impl: r.impl, implBase: vigenteDe(p.implementacion, conOferta), implNormal: r.implNormal,
       modulos: elegidos, tramoNombre: r.tramo.nombre,
       mensual: r.mensual, mensualNormal: r.mensualNormal,
       mensualACotizar: r.mensual === null,
@@ -106,9 +107,10 @@ function lineaDe(item: ItemPlan, slugs: string[], conOferta: boolean): Linea {
   if (item.slug === SLUG_WEBS) {
     const activo = comboWebActivo(slugs);
     const factor = activo && p.combo ? 1 - p.combo.porcentaje / 100 : 1;
+    const impl = vigenteDe(p.implementacion, conOferta) * factor;
     return {
       ...base,
-      impl: vigenteDe(p.implementacion, conOferta) * factor,
+      impl, implBase: impl,
       implNormal: p.implementacion.normal * factor,
       combo: activo && p.combo ? p.combo.porcentaje : null,
       hosting: p.mensual ? p.mensual.normal : null,
@@ -116,9 +118,10 @@ function lineaDe(item: ItemPlan, slugs: string[], conOferta: boolean): Linea {
   }
 
   // Agendamiento y Cotizaciones: implementación + mensualidad fijas.
+  const impl = vigenteDe(p.implementacion, conOferta);
   return {
     ...base,
-    impl: vigenteDe(p.implementacion, conOferta),
+    impl, implBase: impl,
     implNormal: p.implementacion.normal,
     mensual: p.mensual ? vigenteDe(p.mensual, conOferta) : null,
     mensualNormal: p.mensual ? p.mensual.normal : null,
@@ -155,7 +158,7 @@ export function mensajePlan(items: ItemPlan[], conOferta: boolean, codigo: strin
   r.lineas.forEach((l) => {
     if (l.aCotizar) { lineas.push(`- ${l.nombre}: a cotizar`); return; }
     const combo = l.combo ? ` (${l.combo} % por combinar)` : "";
-    lineas.push(`- ${l.nombre}: ${dolares(l.impl!)}${combo}`);
+    lineas.push(`- ${l.nombre}: ${dolares(l.implBase!)}${combo}`);
     l.modulos.forEach((m) => lineas.push(`  + ${m.nombre}: ${m.precio === null ? "a cotizar" : dolares(m.precio)}`));
     if (l.tramoNombre) lineas.push(`  Mensualidad: ${l.tramoNombre}`);
     else if (l.mensual !== null) lineas.push(`  Mensualidad: ${dolares(l.mensual)}/mes`);

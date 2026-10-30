@@ -3,6 +3,7 @@ import { numeroServicio, type Servicio } from "@/lib/servicios";
 import { RUTA_COTIZADOR, ofertaVigente, precioDe, tieneOferta } from "@/lib/precios";
 import { IconoServicio } from "@/components/portada/Iconos";
 import { LineaPrecio } from "@/components/precios/Precio";
+import BotonPlan from "@/components/plan/BotonPlan";
 import Vista from "./Vistas";
 
 // Tarjeta de un servicio en la grilla bento de /servicios. Arriba, una fila con ícono + nombre (título) +
@@ -36,7 +37,10 @@ export default function TarjetaServicio({ servicio: s, indice }: { servicio: Ser
             <LineaPrecio slug={s.slug} etiqueta={false} />
             <span className="p3-tarjeta-acciones">
               <span className="p3-tarjeta-link" aria-hidden="true">Ver servicio →</span>
-              {cotizador && <Link href={RUTA_COTIZADOR} className="p3-tarjeta-cotizar">Cotiza el tuyo</Link>}
+              <span className="p3-tarjeta-acc-der">
+                {cotizador && <Link href={RUTA_COTIZADOR} className="p3-tarjeta-cotizar">Cotiza el tuyo</Link>}
+                <BotonPlan slug={s.slug} variante="tarjeta" />
+              </span>
             </span>
           </div>
         </div>

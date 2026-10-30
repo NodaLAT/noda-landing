@@ -2,8 +2,10 @@
 
 import { useEffect, useRef, useState } from "react";
 import { MESES_OFERTA, NOTA_PAGO_UNICO, NOTA_REFERENCIAL, TEXTO_DESDE_MES, TEXTO_MESES, VIGENCIA, dolares, ofertaVigente } from "@/lib/precios";
-import { BASE, BASE_INCLUYE, MODULOS, NEGOCIOS, SISTEMA, TRAMOS, calcular, mensajeWhatsApp, type Eleccion, type Sistema } from "@/lib/cotizador";
+import { BASE, BASE_INCLUYE, MODULOS, NEGOCIOS, SISTEMA, SLUG_ATENCION, TRAMOS, calcular, mensajeWhatsApp, type Eleccion, type Sistema } from "@/lib/cotizador";
 import { whatsappLink } from "@/lib/site";
+import { ID_SISTEMA } from "@/lib/plan";
+import { usePlan } from "@/components/plan/PlanProvider";
 import { Tachado } from "./Precio";
 
 // Cotizador de Atención 24/7: 4 pasos con controles nativos (radios y casillas, accesibles con teclado)
@@ -41,6 +43,9 @@ export default function Cotizador({ vigente }: { vigente: boolean }) {
   const [e, setE] = useState<Eleccion>({ negocio: null, modulos: [], tramo: TRAMOS[0].id, sistema: null });
   const r = calcular(e, conOferta);
   const enlace = whatsappLink(mensajeWhatsApp(e, conOferta));
+  const { agregar } = usePlan();
+  const agregarAlPlan = () =>
+    agregar({ slug: SLUG_ATENCION, modulos: [...e.modulos, ...(e.sistema === "si" ? [ID_SISTEMA] : [])], tramo: e.tramo });
   const alternar = (id: string) =>
     setE((x) => ({ ...x, modulos: x.modulos.includes(id) ? x.modulos.filter((m) => m !== id) : [...x.modulos, id] }));
 
@@ -175,6 +180,9 @@ export default function Cotizador({ vigente }: { vigente: boolean }) {
         <a href={enlace} className="p3-btn p3-btn-acento p3-shine p3-cot-boton" target="_blank" rel="noopener">
           Pedir mi propuesta por WhatsApp
         </a>
+        <button type="button" className="p3-btn p3-btn-outline p3-cot-plan" onClick={agregarAlPlan}>
+          Agregar a mi plan
+        </button>
         </div>
         <p className="p3-sr" aria-live="polite">
           {`Implementación ${dolares(r.impl)}. Mensualidad ${r.mensual === null ? "a cotizar"

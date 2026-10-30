@@ -992,3 +992,25 @@ article.p3-tarjeta:has(.p3-tarjeta-enlace:focus-visible){ outline:2px solid var(
   .p3-aviso-plan{ transition:none; }
   .p3-plan-serv{ transition:none; }
 }
+
+/* =====================================================================
+   ENTRADAS AL PLAN (botones en servicio, cotizador y tarjetas)
+   ===================================================================== */
+/* Página de servicio: "Agregar a mi plan" / "En tu plan ✓ · Quitar" */
+.p3-bt-plan-estado{ display:inline-flex; align-items:center; gap:10px; padding:0 2px; }
+.p3-bt-plan-ok{ font-weight:600; font-size:14.5px; color:var(--acento-claro); }
+.p3-bt-plan-quitar{ border:0; background:none; padding:4px 6px; font:inherit; font-size:13.5px; font-weight:600; color:var(--texto-3);
+  cursor:pointer; text-decoration:underline; text-underline-offset:3px; border-radius:6px; }
+.p3-bt-plan-quitar:hover{ color:var(--texto); }
+.p3-bt-plan-quitar:focus-visible{ outline:2px solid var(--acento); outline-offset:2px; }
+
+/* Cotizador: botón "Agregar a mi plan" bajo "Pedir mi propuesta" */
+.p3-cot-plan{ width:100%; margin-top:2px; }
+
+/* Tarjetas de /servicios: acción pequeña "Agregar a mi plan" */
+.p3-tarjeta-acc-der{ display:flex; align-items:center; gap:14px; }
+.p3-tarjeta-plan{ position:relative; z-index:1; border:0; background:none; padding:0; font:inherit; cursor:pointer;
+  font-weight:600; font-size:13.5px; color:var(--acento-claro); text-decoration:underline; text-underline-offset:3px; }
+.p3-tarjeta-plan:hover{ color:var(--texto); }
+.p3-tarjeta-plan:focus-visible{ outline:2px solid var(--acento); outline-offset:2px; border-radius:4px; }
+.p3-tarjeta-plan.is-puesto{ color:var(--texto-2); text-decoration:none; }

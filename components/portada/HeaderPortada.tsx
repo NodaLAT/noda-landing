@@ -8,6 +8,8 @@ import { SERVICIOS } from "@/lib/servicios";
 import { RUTA_COTIZADOR, dolares, precioDe, tieneOferta } from "@/lib/precios";
 import { SLUG_ATENCION } from "@/lib/cotizador";
 import BarraOferta from "@/components/precios/BarraOferta";
+import { RUTA_PLAN } from "@/lib/plan";
+import { usePlan } from "@/components/plan/PlanProvider";
 import { IconoServicio } from "./Iconos";
 
 // Cabecera oscura (todas las páginas): logo blanco, menú central (Servicios · Casos · Proceso) y botón WhatsApp.
@@ -35,6 +37,8 @@ function Flechita({ size }: { size: number }) {
 }
 
 export default function HeaderPortada({ vigente }: { vigente: boolean }) {
+  const { items } = usePlan();
+  const enPlan = items.length;
   const [scrolled, setScrolled] = useState(false);
   const [montado, setMontado] = useState(false);          // para el portal (evita render en el servidor)
   const [abierto, setAbierto] = useState(false);          // menú de celular
@@ -164,6 +168,12 @@ export default function HeaderPortada({ vigente }: { vigente: boolean }) {
           </div>
           {LINKS.map((l) => <a key={l.href} href={l.href} className="p3-pill">{l.label}</a>)}
         </nav>
+        {enPlan > 0 && (
+          <Link href={RUTA_PLAN} className="p3-plan-acceso" onClick={cerrarTodo}>
+            Mi plan <span className="p3-plan-cuenta" aria-hidden="true">{enPlan}</span>
+            <span className="p3-sr">({enPlan} {enPlan === 1 ? "servicio" : "servicios"})</span>
+          </Link>
+        )}
         <a href={WHATSAPP_URL} className="p3-btn p3-btn-acento p3-nav-cta">Cotiza por WhatsApp</a>
         <button className="p3-burger" aria-label="Abrir menú" aria-expanded={abierto} onClick={() => setAbierto((o) => !o)}>
           <span /><span /><span />
@@ -194,6 +204,11 @@ export default function HeaderPortada({ vigente }: { vigente: boolean }) {
             <li><Link href={RUTA_COTIZADOR} className="p3-movil-item p3-movil-item--fuerte" onClick={cerrarTodo}>Cotiza tu bot de WhatsApp →</Link></li>
           </ul>
           {LINKS.map((l) => <a key={l.href} href={l.href} className="p3-pill" onClick={() => setAbierto(false)}>{l.label}</a>)}
+          {enPlan > 0 && (
+            <Link href={RUTA_PLAN} className="p3-pill p3-movil-plan" onClick={cerrarTodo}>
+              Mi plan <span className="p3-plan-cuenta" aria-hidden="true">{enPlan}</span>
+            </Link>
+          )}
           <a href={WHATSAPP_URL} className="p3-btn p3-btn-acento" onClick={() => setAbierto(false)}>Cotiza por WhatsApp</a>
         </nav>
         </div>,

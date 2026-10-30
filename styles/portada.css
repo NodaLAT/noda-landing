@@ -60,6 +60,13 @@
 .p3-pill:hover{ color:var(--texto); transform:translateY(-1px);
   background:linear-gradient(180deg, rgba(255,255,255,.16), rgba(255,255,255,.05)); }
 .p3-nav-cta{ flex:0 0 auto; }
+/* acceso "Mi plan" con contador (solo cuando el plan tiene servicios) */
+.p3-plan-acceso{ flex:0 0 auto; display:inline-flex; align-items:center; gap:8px; padding:8px 14px; border-radius:999px;
+  font-weight:600; font-size:13.5px; color:var(--texto); text-decoration:none; border:1px solid color-mix(in srgb, var(--acento) 50%, var(--borde));
+  background:color-mix(in srgb, var(--acento) 12%, transparent); transition:background .25s, border-color .25s; }
+.p3-plan-acceso:hover{ background:color-mix(in srgb, var(--acento) 20%, transparent); border-color:var(--acento); }
+.p3-plan-cuenta{ display:inline-grid; place-items:center; min-width:20px; height:20px; padding:0 6px; border-radius:999px;
+  background:var(--acento); color:var(--acento-contraste); font-size:12px; font-weight:700; }
 .p3-burger{ display:none; flex-direction:column; gap:5px; background:none; border:0; cursor:pointer; padding:6px; }
 .p3-burger span{ width:24px; height:2px; background:var(--texto); border-radius:2px; }
 /* menú de celular a pantalla completa (se renderiza en <body>, por encima de la cabecera) */
@@ -284,7 +291,7 @@
 @media(max-width:980px){
   .p3-cifras{ grid-template-columns:repeat(2,1fr); }
   .p3-porque{ grid-template-columns:1fr; }
-  .p3-pills, .p3-nav-cta{ display:none; }
+  .p3-pills, .p3-nav-cta, .p3-plan-acceso{ display:none; }
   .p3-burger{ display:flex; }
   .p3-caso{ grid-template-columns:1fr; gap:30px; }
   .p3-pasos{ grid-template-columns:repeat(2,1fr); }

@@ -163,7 +163,7 @@ export default function Plan({ vigente }: { vigente: boolean }) {
                   <li key={l.slug} className="p3-plan-detalle-item">
                     <div className="p3-plan-detalle-fila">
                       <span>{l.nombre}</span>
-                      <b>{l.aCotizar ? "A cotizar" : dolares(l.impl!)}</b>
+                      <b>{l.aCotizar ? "A cotizar" : dolares(l.implBase!)}</b>
                     </div>
                     {l.combo !== null && <span className="p3-plan-detalle-sub p3-con-oferta">{l.combo} % por combinar</span>}
                     {l.modulos.map((m) => (

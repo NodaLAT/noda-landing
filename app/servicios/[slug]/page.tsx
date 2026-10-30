@@ -12,6 +12,7 @@ import Caso from "@/components/portada/Caso";
 import Cierre from "@/components/portada/Cierre";
 import { IconoServicio } from "@/components/portada/Iconos";
 import { ComoFunciona, DemoCabecera, DemoWhatsApp, QueIncluye, ICONOS_INCLUYE_ATENCION } from "@/components/servicios/Atencion";
+import BotonPlan from "@/components/plan/BotonPlan";
 
 // Plantilla v3 para todas las páginas /servicios/[slug]: cabecera con la demo animada al lado,
 // "Cómo funciona", (Atención suma "Pruébalo tú mismo"), "Antes y con Noda", "Qué incluye", dato,
@@ -63,6 +64,7 @@ export default async function ServicioPage({ params }: Props) {
                 {precio?.modulos
                   ? <Link href={RUTA_COTIZADOR} className="p3-btn p3-btn-outline">Cotiza el tuyo</Link>
                   : <a href="#como-funciona" className="p3-btn p3-btn-outline">Ver cómo funciona</a>}
+                <BotonPlan slug={s.slug} />
               </div>
               {precio && <p className="p3-precio-cab"><LineaPrecio slug={s.slug} /></p>}
             </div>
