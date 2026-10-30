@@ -287,6 +287,16 @@ Orden: título · subtítulo · el problema · cómo funciona (3 pasos) · qué 
 • Preguntas:
   – ¿Incluye dominio y hosting? — Lo vemos en la propuesta según tu caso.
   – ¿Puedo actualizarla yo? — Sí, podemos dejarte una forma simple de editarla.
+• Cómo funciona (v3, 4 pasos):
+  1) Nos cuentas de tu negocio. — Qué vendes, a quién y cómo te contactan.
+  2) Armamos tu web. — Diseño a medida, construida con IA.
+  3) La conectamos a tu WhatsApp. — Cada visita puede terminar en una conversación.
+  4) Lista para los buscadores. — Optimizada para que te encuentren.
+• Antes / Con Noda (v3):
+  – Solo tienes Instagram y no te encuentran en los buscadores. / Tienes web propia, lista para ser encontrada.
+  – Webs caras que tardan meses. / Tu web, rápido y con precio claro.
+  – Una web que no lleva a nada. / Cada visita termina en WhatsApp.
+• Demo de cabecera (v3): la web de Café La Ronda (encabezado, menú, ubicación, botón de WhatsApp) y al final su resultado en un buscador genérico. Sin logos de Google ni de otras empresas. Se anima sola al entrar y se repite.
 
 08 APPS Y SISTEMAS A MEDIDA
 • Subtítulo: Herramientas que funcionan desde el navegador, hechas para cómo trabaja tu negocio.

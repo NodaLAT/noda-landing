@@ -448,6 +448,17 @@ export const SERVICIOS: Servicio[] = [
       { pregunta: "¿Puedo actualizarla yo?", respuesta: "Sí, podemos dejarte una forma simple de editarla." },
     ],
     relacionados: ["atencion-y-ventas-whatsapp", "crm-y-seguimiento-de-leads", "apps-y-sistemas-a-medida"],
+    comoFunciona: [
+      { titulo: "Nos cuentas de tu negocio.", detalle: "Qué vendes, a quién y cómo te contactan." },
+      { titulo: "Armamos tu web.", detalle: "Diseño a medida, construida con IA." },
+      { titulo: "La conectamos a tu WhatsApp.", detalle: "Cada visita puede terminar en una conversación." },
+      { titulo: "Lista para los buscadores.", detalle: "Optimizada para que te encuentren." },
+    ],
+    antesConNoda: [
+      { antes: "Solo tienes Instagram y no te encuentran en los buscadores.", con: "Tienes web propia, lista para ser encontrada." },
+      { antes: "Webs caras que tardan meses.", con: "Tu web, rápido y con precio claro." },
+      { antes: "Una web que no lleva a nada.", con: "Cada visita termina en WhatsApp." },
+    ],
   },
 
   // ------------------------------------------------------------------ 08
