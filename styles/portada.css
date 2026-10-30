@@ -62,12 +62,13 @@
 .p3-nav-cta{ flex:0 0 auto; }
 .p3-burger{ display:none; flex-direction:column; gap:5px; background:none; border:0; cursor:pointer; padding:6px; }
 .p3-burger span{ width:24px; height:2px; background:var(--texto); border-radius:2px; }
-/* menú de celular a pantalla completa */
-.p3-movil{ position:fixed; inset:0; z-index:99; display:none; flex-direction:column; align-items:center; justify-content:center; gap:14px;
-  background:color-mix(in srgb, var(--fondo) 80%, transparent); backdrop-filter:blur(20px); }
+/* menú de celular a pantalla completa (se renderiza en <body>, por encima de la cabecera) */
+.p3-movil{ position:fixed; inset:0; z-index:200; display:none; flex-direction:column; align-items:center;
+  justify-content:center; gap:14px; overflow-y:auto; -webkit-overflow-scrolling:touch;
+  padding:88px 20px 40px; background:var(--fondo); }
 .p3-movil.abierto{ display:flex; }
-.p3-movil-x{ position:absolute; top:22px; right:22px; background:none; border:0; color:var(--texto); font-size:26px; cursor:pointer; }
-.p3-movil-nav{ display:flex; flex-direction:column; align-items:center; gap:14px; }
+.p3-movil-x{ position:fixed; top:22px; right:22px; background:none; border:0; color:var(--texto); font-size:26px; cursor:pointer; z-index:1; }
+.p3-movil-nav{ display:flex; flex-direction:column; align-items:center; gap:14px; margin:auto 0; }
 .p3-movil-nav .p3-pill{ font-size:18px; padding:12px 26px; }
 
 /* ---------- hero ---------- */

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import Link from "next/link";
 import { WHATSAPP_URL } from "@/lib/site";
 import { SERVICIOS } from "@/lib/servicios";
@@ -35,6 +36,7 @@ function Flechita({ size }: { size: number }) {
 
 export default function HeaderPortada({ vigente }: { vigente: boolean }) {
   const [scrolled, setScrolled] = useState(false);
+  const [montado, setMontado] = useState(false);          // para el portal (evita render en el servidor)
   const [abierto, setAbierto] = useState(false);          // menú de celular
   const [panel, setPanel] = useState(false);              // panel de Servicios (computadora)
   const [acordeon, setAcordeon] = useState(false);        // Servicios en el menú de celular
@@ -51,9 +53,22 @@ export default function HeaderPortada({ vigente }: { vigente: boolean }) {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  useEffect(() => { setMontado(true); }, []);
+
+  // El menú de celular se renderiza en <body> (portal) para que no quede atrapado dentro del
+  // encabezado: la cabecera usa backdrop-filter, y eso convierte a .p3-nav en el bloque contenedor
+  // de los elementos position:fixed, lo que recortaba el panel al alto del encabezado.
   useEffect(() => {
     document.body.style.overflow = abierto ? "hidden" : "";
     return () => { document.body.style.overflow = ""; };
+  }, [abierto]);
+
+  // El menú de celular se cierra con la tecla Escape.
+  useEffect(() => {
+    if (!abierto) return;
+    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") setAbierto(false); };
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
   }, [abierto]);
 
   // Panel: Esc lo cierra (y devuelve el foco a la flecha); clic o toque afuera lo cierra.
@@ -155,7 +170,8 @@ export default function HeaderPortada({ vigente }: { vigente: boolean }) {
         </button>
       </div>
 
-      <div className={`p3-movil${abierto ? " abierto" : ""}`} hidden={!abierto}>
+      {montado && createPortal(
+        <div className={`p3-movil${abierto ? " abierto" : ""}`} hidden={!abierto}>
         <button className="p3-movil-x" aria-label="Cerrar menú" onClick={() => setAbierto(false)}>✕</button>
         <nav className="p3-movil-nav" aria-label="Menú de celular">
           <span className="p3-movil-fila">
@@ -180,7 +196,9 @@ export default function HeaderPortada({ vigente }: { vigente: boolean }) {
           {LINKS.map((l) => <a key={l.href} href={l.href} className="p3-pill" onClick={() => setAbierto(false)}>{l.label}</a>)}
           <a href={WHATSAPP_URL} className="p3-btn p3-btn-acento" onClick={() => setAbierto(false)}>Cotiza por WhatsApp</a>
         </nav>
-      </div>
+        </div>,
+        document.body
+      )}
     </header>
   );
 }
