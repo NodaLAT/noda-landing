@@ -1,7 +1,9 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import type { Icono } from "@/lib/servicios";
 import ChatMini from "./ChatMini";
+import Vista from "./Vistas";
 
 // =====================================================================
 // PILOTO de la página "Atención y ventas 24/7 por WhatsApp"
@@ -38,10 +40,41 @@ export function ChatCabecera() {
 }
 
 // ---------------------------------------------------------------------
+// Demo animada de la cabecera (al lado del título; en celular, debajo).
+// Atención usa el chat de WhatsApp (ChatCabecera). Los demás servicios usan
+// su vista previa (components/servicios/Vistas.tsx) ampliada, que se anima sola
+// cuando entra en pantalla y se repite. Decorativa (aria-hidden).
+// La animación de las Vistas corre con la clase .is-activa en el .p3-bv; aquí
+// la activamos/desactivamos según esté en pantalla. Con "reducir movimiento"
+// queda activa (estado final quieto, como en las tarjetas).
+// ---------------------------------------------------------------------
+export function DemoCabecera({ icono }: { icono: Icono }) {
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const host = ref.current;
+    const bv = host?.querySelector(".p3-bv");
+    if (!bv) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) { bv.classList.add("is-activa"); return; }
+    const io = new IntersectionObserver(
+      (es) => es.forEach((e) => bv.classList.toggle("is-activa", e.isIntersecting)),
+      { rootMargin: "60px" }
+    );
+    io.observe(bv);
+    return () => io.disconnect();
+  }, []);
+
+  if (icono === "chat") return <ChatCabecera />;
+  return <div className="pa-demo-cab" ref={ref}><Vista icono={icono} /></div>;
+}
+
+// ---------------------------------------------------------------------
 // Mini ilustraciones de los 3 pasos (trazo, 24×24, como el resto de íconos).
 // ---------------------------------------------------------------------
 const trazo = { fill: "none", stroke: "currentColor", strokeWidth: 1.7, strokeLinecap: "round", strokeLinejoin: "round" } as const;
-const ICONOS_PASOS = [
+// Íconos propios de los 3 pasos de Atención 24/7 (el piloto se ve igual). Otros servicios
+// muestran el número del paso en el círculo (no pasan "iconos" a ComoFunciona).
+export const ICONOS_ATENCION = [
   // llega el mensaje
   <g key="1" {...trazo}><path d="M21 11.5a8 8 0 0 1-11.6 7.1L4 20l1.4-4.4A8 8 0 1 1 21 11.5Z" /><path d="M8.5 11.5h7M8.5 14h4" /></g>,
   // la IA responde con tu información
@@ -55,10 +88,10 @@ const ICONOS_PASOS = [
 //    Cada paso se enciende cuando entra en pantalla. Con "reducir movimiento"
 //    quedan los 3 encendidos y la línea completa, sin transiciones.
 // ---------------------------------------------------------------------
-export function ComoFunciona({ pasos }: { pasos: string[] }) {
+export function ComoFunciona({ pasos, iconos }: { pasos: { titulo: string; detalle?: string }[]; iconos?: React.ReactNode[] }) {
   const reduce = usaReducirMovimiento();
   const refs = useRef<(HTMLLIElement | null)[]>([]);
-  const [activos, setActivos] = useState(0); // cuántos pasos encendidos (0..3)
+  const [activos, setActivos] = useState(0); // cuántos pasos encendidos (0..n)
 
   useEffect(() => {
     if (reduce) { setActivos(pasos.length); return; }
@@ -77,23 +110,29 @@ export function ComoFunciona({ pasos }: { pasos: string[] }) {
     return () => io.disconnect();
   }, [reduce, pasos.length]);
 
-  // avance de la línea: de círculo a círculo (0 · ½ · 1)
+  // avance de la línea: de círculo a círculo (0 · … · 1)
   const avance = pasos.length > 1 ? (activos <= 1 ? 0 : (activos - 1) / (pasos.length - 1)) : 1;
 
   return (
-    <ol className="pa-pasos" style={{ "--avance": avance } as React.CSSProperties}>
+    <ol className="pa-pasos" style={{ "--avance": avance, "--n": pasos.length } as React.CSSProperties}>
       <span className="pa-pasos-linea" aria-hidden="true"><i /></span>
       {pasos.map((p, k) => (
         <li
-          key={p}
+          key={p.titulo}
           ref={(el) => { refs.current[k] = el; }}
           className={`pa-paso${k < activos ? " is-on" : ""}`}
         >
           <span className="pa-paso-ico" aria-hidden="true">
-            <svg viewBox="0 0 24 24" width="30" height="30">{ICONOS_PASOS[k]}</svg>
+            {iconos?.[k]
+              ? <svg viewBox="0 0 24 24" width="30" height="30">{iconos[k]}</svg>
+              : <span className="pa-paso-ncirc">{k + 1}</span>}
           </span>
-          <span className="pa-paso-num">{String(k + 1).padStart(2, "0")}</span>
-          <p className="pa-paso-txt">{p}</p>
+          {iconos && <span className="pa-paso-num">{String(k + 1).padStart(2, "0")}</span>}
+          <p className="pa-paso-txt">
+            {p.detalle
+              ? <><b className="pa-paso-tit">{p.titulo}</b><span className="pa-paso-det">{p.detalle}</span></>
+              : p.titulo}
+          </p>
         </li>
       ))}
     </ol>
@@ -258,7 +297,8 @@ export function DemoWhatsApp() {
 // ---------------------------------------------------------------------
 // 5) "Qué incluye" con íconos y una entrada suave al entrar en pantalla.
 // ---------------------------------------------------------------------
-const ICONOS_INCLUYE = [
+// Íconos propios de "Qué incluye" de Atención 24/7 (el piloto se ve igual).
+export const ICONOS_INCLUYE_ATENCION = [
   // respuestas con tu información
   <g key="1" {...trazo}><path d="M21 11.5a8 8 0 0 1-11.6 7.1L4 20l1.4-4.4A8 8 0 1 1 21 11.5Z" /><path d="M8.5 11h7M8.5 14h4" /></g>,
   // atención 24/7
@@ -269,7 +309,10 @@ const ICONOS_INCLUYE = [
   <g key="4" {...trazo}><path d="M4 12a8 8 0 1 1 2.3 5.6" /><path d="M4 12v4M4 16h4M12 8v4l3 2" /></g>,
 ];
 
-export function QueIncluye({ items }: { items: string[] }) {
+// Ícono por defecto para "Qué incluye" (servicios que no traen íconos propios): un check.
+const ICONO_CHECK = <g key="check" {...trazo}><path d="M20 6 9 17l-5-5" /></g>;
+
+export function QueIncluye({ items, iconos }: { items: string[]; iconos?: React.ReactNode[] }) {
   const reduce = usaReducirMovimiento();
   const ref = useRef<HTMLUListElement>(null);
   const [visible, setVisible] = useState(false);
@@ -291,7 +334,7 @@ export function QueIncluye({ items }: { items: string[] }) {
       {items.map((t, k) => (
         <li key={t} className="pa-incluye-item" style={{ "--d": `${k * 90}ms` } as React.CSSProperties}>
           <span className="pa-incluye-ico" aria-hidden="true">
-            <svg viewBox="0 0 24 24" width="24" height="24">{ICONOS_INCLUYE[k % ICONOS_INCLUYE.length]}</svg>
+            <svg viewBox="0 0 24 24" width="24" height="24">{iconos ? iconos[k % iconos.length] : ICONO_CHECK}</svg>
           </span>
           <span className="pa-incluye-tx">{t}</span>
         </li>

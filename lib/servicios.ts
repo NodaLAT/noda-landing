@@ -49,7 +49,7 @@ export type Servicio = {
   destacado?: boolean;      // servicio estrella
   seo: { titulo: string; descripcion: string };
   problema: string;
-  pasos: [string, string, string];   // "Cómo funciona"
+  pasos: [string, string, string];   // "Cómo funciona" (texto corto, plantilla antigua)
   incluye: string[];
   idealPara: string;
   dato?: Dato;              // sin dato, la sección no se muestra
@@ -57,6 +57,10 @@ export type Servicio = {
   faq: { pregunta: string; respuesta: string }[];
   relacionados: string[];   // slugs de servicios que se combinan bien con este ("Se combina con")
   casoVyR?: boolean;        // muestra el bloque "Caso en marcha" (VyR) en la página del servicio
+  // --- Plantilla v3 (cabecera con demo al lado). Si el servicio define "comoFunciona",
+  //     su página usa la plantilla v3; si no, usa la plantilla antigua. ---
+  comoFunciona?: { titulo: string; detalle?: string }[];   // 3 o 4 pasos; "detalle" opcional
+  antesConNoda?: { antes: string; con: string }[];          // pares "Antes / Con Noda"
 };
 
 // Cifras de "El problema" en la portada (con su fuente visible).
@@ -100,6 +104,18 @@ export const SERVICIOS: Servicio[] = [
     ],
     relacionados: ["agendamiento-y-recordatorios", "cotizaciones-al-instante", "crm-y-seguimiento-de-leads"],
     casoVyR: true,
+    // Cómo funciona del piloto: 3 pasos cortos (sin "detalle", se ve igual que en la Fase 0; usa íconos propios).
+    comoFunciona: [
+      { titulo: "El cliente escribe a tu WhatsApp." },
+      { titulo: "La IA responde con la información de tu negocio: precios, horarios, productos y ubicación." },
+      { titulo: "Cuando hay intención de compra o un caso especial, pasa la conversación a tu equipo." },
+    ],
+    antesConNoda: [
+      { antes: "Un cliente escribe a las 11 de la noche y no hay nadie para responder.", con: "Recibe una respuesta al instante, de día, de noche o en feriado." },
+      { antes: "Tu equipo frena lo que está haciendo para contestar lo mismo de siempre.", con: "La IA responde las preguntas repetidas y tu equipo se enfoca en vender." },
+      { antes: "El mensaje del sábado se contesta el lunes… si alguien se acuerda.", con: "Los fines de semana también quedan atendidos y nada se pierde." },
+      { antes: "La misma duda de precio, horario y stock, una y otra vez.", con: "Precios, horarios y disponibilidad respondidos al instante, con tu información." },
+    ],
   },
 
   // ------------------------------------------------------------------ 02

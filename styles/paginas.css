@@ -801,11 +801,16 @@ article.p3-tarjeta:has(.p3-tarjeta-enlace:focus-visible){ outline:2px solid var(
 .pa-head{ display:grid; grid-template-columns:minmax(0,1fr) auto; gap:clamp(28px,5vw,64px); align-items:center; }
 .pa-head-col{ min-width:0; }
 .pa-head-demo{ display:flex; justify-content:center; }
+/* demo de cabecera de los otros 7 servicios: su vista previa (Vistas.tsx) ampliada y legible */
+.pa-demo-cab{ width:min(440px,100%); }
+.pa-demo-cab .p3-bv{ height:auto; min-height:400px; padding:14px; border-radius:20px; font-size:12.5px; }
+.pa-demo-cab .p3-bv > :not(.bv-wa){ font-size:13.5px; }
 
 /* 2) "Cómo funciona": 3 pasos con línea que se ilumina */
 .pa-pasos{ list-style:none; margin:28px 0 0; padding:0; position:relative;
-  display:grid; grid-template-columns:repeat(3,1fr); gap:clamp(20px,4vw,40px); }
-.pa-pasos-linea{ position:absolute; top:32px; left:16.667%; right:16.667%; height:2px; z-index:0; border-radius:2px; background:var(--borde); overflow:hidden; }
+  display:grid; grid-template-columns:repeat(var(--n,3),minmax(0,1fr)); gap:clamp(20px,4vw,40px); }
+/* la línea une los centros del primer y último círculo: centro = 100% / (2 · nº de pasos) */
+.pa-pasos-linea{ position:absolute; top:32px; left:calc(100% / (2 * var(--n,3))); right:calc(100% / (2 * var(--n,3))); height:2px; z-index:0; border-radius:2px; background:var(--borde); overflow:hidden; }
 .pa-pasos-linea i{ display:block; width:100%; height:100%; background:var(--acento); transform-origin:left center; transform:scaleX(var(--avance,0)); transition:transform .6s var(--ease); }
 .pa-paso{ position:relative; z-index:1; display:flex; flex-direction:column; align-items:center; text-align:center; gap:12px; }
 .pa-paso-ico{ width:64px; height:64px; border-radius:50%; display:grid; place-items:center; color:var(--texto-3);
@@ -815,7 +820,12 @@ article.p3-tarjeta:has(.p3-tarjeta-enlace:focus-visible){ outline:2px solid var(
   box-shadow:0 0 0 6px color-mix(in srgb, var(--acento) 14%, transparent), 0 0 26px color-mix(in srgb, var(--acento) 45%, transparent); }
 .pa-paso-num{ font-weight:600; font-size:12px; letter-spacing:.08em; color:var(--texto-3); transition:color .4s; }
 .pa-paso.is-on .pa-paso-num{ color:var(--acento-claro); }
+/* número dentro del círculo (servicios sin íconos propios) */
+.pa-paso-ncirc{ font-family:var(--display); font-weight:700; font-size:24px; line-height:1; color:currentColor; }
 .pa-paso-txt{ font-weight:500; font-size:16.5px; line-height:1.5; color:var(--texto); margin:0; max-width:30ch; }
+/* paso con título + detalle (servicios con "detalle") */
+.pa-paso-tit{ display:block; font-weight:700; color:var(--texto); }
+.pa-paso-det{ display:block; margin-top:4px; font-weight:400; font-size:15px; color:var(--texto-2); }
 
 /* 3) demo interactiva grande */
 /* teléfono y preguntas juntos y centrados como un bloque (sin hueco grande entre ellos) */
