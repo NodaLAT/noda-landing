@@ -66,7 +66,10 @@ function Proforma() {
       <div className="bv-pro-fila bv-pro-sub" style={v(2)}><span>Subtotal</span><b>$70,00</b></div>
       <div className="bv-pro-fila bv-pro-sub" style={v(3)}><span>IVA 15 %</span><b>$10,50</b></div>
       <div className="bv-pro-fila bv-pro-total" style={v(4)}><span>Total</span><b>$80,50</b></div>
-      <span className="bv-sello"><IconoWhatsApp />Enviada por WhatsApp <Check2 /></span>
+      <span className="bv-pro-accion">
+        <em className="bv-pro-aprobar">Aprobar</em>
+        <span className="bv-sello"><Check2 />Aprobada · PDF con tu marca</span>
+      </span>
     </div>
   );
 }

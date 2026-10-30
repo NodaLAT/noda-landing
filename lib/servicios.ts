@@ -185,6 +185,17 @@ export const SERVICIOS: Servicio[] = [
       { pregunta: "¿Puedo revisar antes de enviar?", respuesta: "Sí, se puede configurar para que tu equipo apruebe cada cotización." },
     ],
     relacionados: ["atencion-y-ventas-whatsapp", "crm-y-seguimiento-de-leads", "interpretacion-de-documentos"],
+    comoFunciona: [
+      { titulo: "El cliente pide lo que necesita.", detalle: "Por WhatsApp, con sus propias palabras." },
+      { titulo: "El asistente arma la proforma.", detalle: "Usa tu lista de productos y precios, línea por línea." },
+      { titulo: "Tú la apruebas.", detalle: "Revisas la proforma antes de que salga." },
+      { titulo: "Le llega lista para aceptar.", detalle: "En PDF y con tu marca." },
+    ],
+    antesConNoda: [
+      { antes: "Cotizas a mano en Word o Excel.", con: "La proforma se arma sola y tú solo la apruebas." },
+      { antes: "Errores de precio o productos olvidados.", con: "Precios tomados de tu lista." },
+      { antes: "El cliente espera horas y se va con otro.", con: "Recibe su cotización mientras sigue interesado." },
+    ],
   },
 
   // ------------------------------------------------------------------ 04

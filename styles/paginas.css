@@ -619,10 +619,15 @@ article.p3-tarjeta:has(.p3-tarjeta-enlace:focus-visible){ outline:2px solid var(
 .bv-pro-fila.bv-pro-sub:nth-of-type(4){ margin-top:3px; padding-top:4px; border-top:1px dashed #d0d7de; }
 .bv-pro-total{ font-weight:700; font-size:1.1em; }
 .bv-pro-total b{ font-weight:700; color:#14807a; }
-.bv-sello{ align-self:flex-start; margin-top:auto; display:inline-flex; align-items:center; gap:4px; padding:3px 8px; border-radius:999px;
+/* acción de la proforma: primero el botón "Aprobar", luego el sello "Aprobada · PDF" */
+.bv-pro-accion{ position:relative; margin-top:auto; align-self:stretch; min-height:1.9em; }
+.bv-pro-aprobar{ position:absolute; left:0; bottom:0; font-style:normal; font-weight:700; font-size:.92em; padding:4px 12px; border-radius:999px;
+  background:#14807a; color:#fff; animation:bv-aprobar 8s infinite; }
+.bv-sello{ position:absolute; left:0; bottom:0; display:inline-flex; align-items:center; gap:4px; padding:3px 8px; border-radius:999px;
   background:#e7f8ee; color:#0f5132; font-weight:600; font-size:.9em; animation:bv-sello 8s infinite; }
 @keyframes bv-fila{ 0%{ opacity:0; transform:translateX(-6px); } 5%,88%{ opacity:1; transform:none; } 95%,100%{ opacity:0; } }
-@keyframes bv-sello{ 0%,36%{ opacity:0; transform:scale(1.25) rotate(-4deg); } 42%{ opacity:1; transform:scale(.96); } 46%,88%{ opacity:1; transform:none; } 95%,100%{ opacity:0; } }
+@keyframes bv-aprobar{ 0%,40%{ opacity:0; transform:translateY(6px); } 45%,56%{ opacity:1; transform:none; } 61%,100%{ opacity:0; } }
+@keyframes bv-sello{ 0%,60%{ opacity:0; transform:scale(1.2) rotate(-4deg); } 66%{ opacity:1; transform:scale(.97); } 70%,90%{ opacity:1; transform:none; } 96%,100%{ opacity:0; } }
 
 /* ---------- Interpretación: resultado de laboratorio con escaneo y explicación ---------- */
 .bv-lab{ display:flex; flex-direction:column; gap:6px; }

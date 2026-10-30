@@ -201,6 +201,16 @@ Orden: título · subtítulo · el problema · cómo funciona (3 pasos) · qué 
 • Preguntas:
   – ¿Y si mis precios cambian? — Se actualizan y el sistema usa siempre los vigentes.
   – ¿Puedo revisar antes de enviar? — Sí, se puede configurar para que tu equipo apruebe cada cotización.
+• Cómo funciona (v3, 4 pasos):
+  1) El cliente pide lo que necesita. — Por WhatsApp, con sus propias palabras.
+  2) El asistente arma la proforma. — Usa tu lista de productos y precios, línea por línea.
+  3) Tú la apruebas. — Revisas la proforma antes de que salga.
+  4) Le llega lista para aceptar. — En PDF y con tu marca.
+• Antes / Con Noda (v3):
+  – Cotizas a mano en Word o Excel. / La proforma se arma sola y tú solo la apruebas.
+  – Errores de precio o productos olvidados. / Precios tomados de tu lista.
+  – El cliente espera horas y se va con otro. / Recibe su cotización mientras sigue interesado.
+• Demo de cabecera (v3): proforma de Taller AutoPro que se arma línea por línea; aparece el total, el botón "Aprobar" se marca y sale como PDF con la marca del taller. Se anima sola al entrar y se repite.
 
 04 INTERPRETACIÓN DE DOCUMENTOS CON IA
 • Subtítulo: La IA lee resultados, facturas u órdenes y los explica en palabras simples.
