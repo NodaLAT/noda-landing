@@ -11,7 +11,7 @@ import Faq from "@/components/portada/Faq";
 import Caso from "@/components/portada/Caso";
 import Cierre from "@/components/portada/Cierre";
 import { IconoServicio } from "@/components/portada/Iconos";
-import { ComoFunciona, DemoCabecera, DemoWhatsApp, QueIncluye, ICONOS_ATENCION, ICONOS_INCLUYE_ATENCION } from "@/components/servicios/Atencion";
+import { ComoFunciona, DemoCabecera, DemoWhatsApp, QueIncluye, ICONOS_INCLUYE_ATENCION } from "@/components/servicios/Atencion";
 
 // Plantilla v3 para todas las páginas /servicios/[slug]: cabecera con la demo animada al lado,
 // "Cómo funciona", (Atención suma "Pruébalo tú mismo"), "Antes y con Noda", "Qué incluye", dato,
@@ -89,7 +89,7 @@ export default async function ServicioPage({ params }: Props) {
         <section className="p3-sec p3-sec-c" id="como-funciona">
           <div className="p3-wrap">
             <h2 className="p3-eyebrow">Cómo funciona</h2>
-            <ComoFunciona pasos={s.comoFunciona} iconos={esAtencion ? ICONOS_ATENCION : undefined} />
+            <ComoFunciona pasos={s.comoFunciona} slug={s.slug} />
           </div>
         </section>
 
