@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import DatosEstructurados from "@/components/DatosEstructurados";
+import PlanProvider from "@/components/plan/PlanProvider";
 import { CLAVE_BARRA, FIN_OFERTA_MS } from "@/lib/precios";
 import { Analytics } from "@vercel/analytics/next";
 import { Poppins } from "next/font/google";
@@ -43,7 +44,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         {/* Fondo "luz desenfocada": solo se ve con el tema mixto en la portada (ver design-system.css) */}
         <div className="fondo-luz" aria-hidden="true"><span className="fondo-luz-a" /><span className="fondo-luz-b" /></div>
         {/* Cabecera y pie: los pone cada página con el Marco oscuro (components/portada/Marco.tsx) */}
-        <main>{children}</main>
+        <PlanProvider>
+          <main>{children}</main>
+        </PlanProvider>
         <DatosEstructurados />
         {/* Medición de visitas de Vercel: sin cookies y sin datos que identifiquen a la persona */}
         <Analytics />
