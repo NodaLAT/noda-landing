@@ -916,3 +916,79 @@ article.p3-tarjeta:has(.p3-tarjeta-enlace:focus-visible){ outline:2px solid var(
   .pa-incluye-item{ opacity:1; transform:none; transition:none; }
   .pa-fono--demo .bv-wa-m{ animation:none; }
 }
+
+/* =====================================================================
+   ARMA TU PLAN (/plan) — lista de servicios + resumen (reusa .p3-cot-*)
+   ===================================================================== */
+/* Tres pasos cortos bajo el título */
+.p3-plan-pasos{ list-style:none; margin:clamp(20px,3vw,28px) 0 0; padding:0; display:flex; flex-wrap:wrap; gap:clamp(12px,2vw,20px); }
+.p3-plan-paso{ display:flex; align-items:center; gap:10px; min-width:0; font-weight:400; font-size:14.5px; color:var(--texto-2); }
+.p3-plan-paso-ico{ flex:0 0 auto; display:grid; place-items:center; width:38px; height:38px; border-radius:11px;
+  border:1px solid var(--borde); color:var(--acento-claro); }
+.p3-plan-paso-num{ flex:0 0 auto; font-weight:600; font-size:13px; color:var(--etiquetas); }
+.p3-plan-paso-txt{ min-width:0; }
+
+/* Lista de servicios (columna izquierda de la grilla .p3-cot) */
+.p3-plan-lista{ display:flex; flex-direction:column; gap:12px; min-width:0; }
+.p3-plan-serv{ padding:clamp(16px,2vw,20px); border:1px solid var(--borde); border-radius:16px; background:var(--superficie);
+  transition:border-color .2s, background .2s; }
+.p3-plan-serv.is-puesto{ border-color:color-mix(in srgb, var(--acento) 55%, var(--borde)); background:color-mix(in srgb, var(--acento) 7%, var(--superficie)); }
+.p3-plan-serv-cab{ display:grid; grid-template-columns:auto minmax(0,1fr) auto; align-items:start; gap:14px; }
+.p3-plan-serv-ico{ flex:0 0 auto; display:grid; place-items:center; width:44px; height:44px; border-radius:12px; border:1px solid var(--borde); }
+.p3-plan-serv-txt{ min-width:0; display:flex; flex-direction:column; gap:4px; }
+.p3-plan-serv-t{ margin:0; font-family:var(--display); font-weight:600; font-size:17px; color:var(--texto); }
+.p3-plan-serv-linea{ margin:0; font-weight:400; font-size:13.5px; line-height:1.45; color:var(--texto-2); }
+.p3-plan-serv-precio{ margin:2px 0 0; }
+.p3-plan-serv-precio .p3-pf{ gap:0 10px; }
+.p3-plan-serv-acc{ display:flex; flex-direction:column; align-items:flex-end; gap:4px; text-align:right; }
+.p3-plan-puesto{ font-weight:600; font-size:13.5px; color:var(--acento-claro); white-space:nowrap; }
+.p3-plan-quitar{ border:0; background:none; padding:2px 4px; font:inherit; font-size:13px; font-weight:600; color:var(--texto-3);
+  cursor:pointer; text-decoration:underline; text-underline-offset:3px; border-radius:6px; }
+.p3-plan-quitar:hover{ color:var(--texto); }
+.p3-plan-quitar:focus-visible{ outline:2px solid var(--acento); outline-offset:2px; }
+.p3-plan-agregar{ flex:0 0 auto; white-space:nowrap; }
+
+/* Opciones de Atención 24/7, dentro de la misma tarjeta */
+.p3-plan-opciones{ margin-top:16px; padding-top:16px; border-top:1px solid var(--borde); display:flex; flex-direction:column; gap:16px; }
+.p3-plan-grupo{ margin:0; padding:0; border:0; display:flex; flex-direction:column; gap:8px; }
+.p3-plan-grupo legend{ padding:0; margin:0 0 4px; font-weight:600; font-size:14.5px; color:var(--texto); }
+
+/* Resumen (reusa .p3-cot-resumen / .p3-cot-barra / .p3-cot-detalle) */
+.p3-plan-resumen .p3-precio-etq{ align-self:flex-start; }
+.p3-plan-vacio{ margin:0; font-weight:400; font-size:14.5px; line-height:1.5; color:var(--texto-2); }
+.p3-plan-detalle-lista{ list-style:none; margin:0; padding:0 0 4px; display:flex; flex-direction:column; gap:12px;
+  border-bottom:1px solid var(--borde); }
+.p3-plan-detalle-item{ display:flex; flex-direction:column; gap:2px; }
+.p3-plan-detalle-fila{ display:flex; justify-content:space-between; align-items:baseline; gap:12px; font-size:14.5px; color:var(--texto); }
+.p3-plan-detalle-fila b{ font-weight:600; color:var(--destacado); white-space:nowrap; }
+.p3-plan-detalle-sub{ font-weight:400; font-size:12.5px; line-height:1.4; color:var(--texto-3); }
+.p3-plan-detalle-sub.p3-con-oferta{ color:var(--acento-claro); }
+.p3-plan-resumen .p3-cot-totales{ margin-top:2px; }
+.p3-plan-vaciar{ width:100%; }
+
+@media(max-width:980px){
+  /* el resumen baja a barra compacta igual que el cotizador; la lista queda arriba */
+  .p3-plan-lista{ margin-bottom:16px; }
+  .p3-plan-resumen .p3-plan-detalle-lista{ gap:8px; }
+}
+@media(max-width:520px){
+  .p3-plan-serv-cab{ grid-template-columns:auto minmax(0,1fr); }
+  .p3-plan-serv-acc{ grid-column:1 / -1; flex-direction:row; align-items:center; justify-content:space-between; }
+  .p3-plan-agregar{ grid-column:1 / -1; width:100%; }
+}
+
+/* Aviso corto "Agregado a tu plan" (se dibuja en <body> con un portal) */
+.p3-aviso-plan{ position:fixed; left:50%; bottom:24px; z-index:60; transform:translate(-50%,16px);
+  display:inline-flex; align-items:center; gap:10px; max-width:calc(100vw - 32px); padding:12px 16px; border-radius:14px;
+  border:1px solid color-mix(in srgb, var(--acento) 45%, var(--borde)); background:color-mix(in srgb, var(--fondo) 92%, transparent);
+  backdrop-filter:blur(12px); box-shadow:0 18px 40px -20px #000; color:var(--texto); font-weight:600; font-size:14px;
+  opacity:0; pointer-events:none; transition:opacity .25s, transform .25s; }
+.p3-aviso-plan.is-visible{ opacity:1; transform:translate(-50%,0); pointer-events:auto; }
+.p3-aviso-plan-ico{ display:grid; place-items:center; width:22px; height:22px; border-radius:50%; background:var(--acento);
+  color:var(--acento-contraste); font-size:13px; }
+.p3-aviso-plan-link{ color:var(--acento-claro); text-decoration:underline; text-underline-offset:3px; }
+.p3-aviso-plan-link:focus-visible{ outline:2px solid var(--acento); outline-offset:2px; }
+@media(prefers-reduced-motion:reduce){
+  .p3-aviso-plan{ transition:none; }
+  .p3-plan-serv{ transition:none; }
+}
