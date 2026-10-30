@@ -178,6 +178,17 @@ Orden: título · subtítulo · el problema · cómo funciona (3 pasos) · qué 
 • Preguntas:
   – ¿Funciona con mi calendario actual? — En el diagnóstico revisamos cuál usas y cómo conectarlo.
   – ¿El cliente puede cambiar su cita? — Sí, desde el mismo chat.
+• Cómo funciona (v3, 4 pasos):
+  1) Tu cliente pide una cita por WhatsApp. — Escribe a cualquier hora, como lo haría con tu recepción.
+  2) Ve solo tus horarios libres. — El asistente le muestra las horas que de verdad tienes disponibles.
+  3) Elige y queda agendado. — La cita aparece en tu calendario al instante, sin cruces.
+  4) Le llega su recordatorio. — Antes de la cita recibe un mensaje para confirmar, cambiar o cancelar.
+• Antes / Con Noda (v3):
+  – Agendas por chat, de ida y vuelta, hasta encontrar una hora. / El cliente elige solo entre tus horas libres.
+  – Citas cruzadas o anotadas en papel. / Todo en un solo calendario.
+  – Te enteras de que alguien no viene cuando ya no llegó. / Puede confirmar o reprogramar con tiempo.
+  – Fuera de horario nadie agenda. / Se agenda 24/7.
+• Demo de cabecera (v3): calendario semanal con horas libres; entra la cita confirmada y luego el recordatorio estilo WhatsApp. Se anima sola al entrar en pantalla y se repite.
 
 03 COTIZACIONES AL INSTANTE
 • Subtítulo: Precio en segundos, con tus tarifas y tu formato, directo en WhatsApp.

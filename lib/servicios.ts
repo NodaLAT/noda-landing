@@ -145,6 +145,18 @@ export const SERVICIOS: Servicio[] = [
       { pregunta: "¿El cliente puede cambiar su cita?", respuesta: "Sí, desde el mismo chat." },
     ],
     relacionados: ["atencion-y-ventas-whatsapp", "crm-y-seguimiento-de-leads", "reportes-y-dashboards"],
+    comoFunciona: [
+      { titulo: "Tu cliente pide una cita por WhatsApp.", detalle: "Escribe a cualquier hora, como lo haría con tu recepción." },
+      { titulo: "Ve solo tus horarios libres.", detalle: "El asistente le muestra las horas que de verdad tienes disponibles." },
+      { titulo: "Elige y queda agendado.", detalle: "La cita aparece en tu calendario al instante, sin cruces." },
+      { titulo: "Le llega su recordatorio.", detalle: "Antes de la cita recibe un mensaje para confirmar, cambiar o cancelar." },
+    ],
+    antesConNoda: [
+      { antes: "Agendas por chat, de ida y vuelta, hasta encontrar una hora.", con: "El cliente elige solo entre tus horas libres." },
+      { antes: "Citas cruzadas o anotadas en papel.", con: "Todo en un solo calendario." },
+      { antes: "Te enteras de que alguien no viene cuando ya no llegó.", con: "Puede confirmar o reprogramar con tiempo." },
+      { antes: "Fuera de horario nadie agenda.", con: "Se agenda 24/7." },
+    ],
   },
 
   // ------------------------------------------------------------------ 03
