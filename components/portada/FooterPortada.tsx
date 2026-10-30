@@ -3,7 +3,7 @@ import { EMAIL, INSTAGRAM_URL, LINKEDIN_URL, TIKTOK_URL, WHATSAPP_NUMERO, WHATSA
 import { SERVICIOS } from "@/lib/servicios";
 
 // 3.7 Pie de página oscuro (el mismo en todas las páginas, vía Marco). Textos de docs/contenido-web-v3.md.
-// LinkedIn: mientras LINKEDIN_URL esté vacío en lib/site.ts se muestra un marcador [PENDIENTE].
+// LinkedIn: solo se muestra cuando LINKEDIN_URL tiene valor en lib/site.ts; mientras esté vacío, no aparece.
 const EN_PIE: Record<string, string> = {
   "atencion-y-ventas-whatsapp": "Atención 24/7",
   "agendamiento-y-recordatorios": "Agendamiento",
@@ -44,9 +44,7 @@ export default function FooterPortada() {
             <a href={WHATSAPP_URL} target="_blank" rel="noopener" aria-label={`WhatsApp ${WHATSAPP_NUMERO}`}>{WHATSAPP_NUMERO}</a>
             <a href={INSTAGRAM_URL} target="_blank" rel="noopener">Instagram</a>
             <a href={TIKTOK_URL} target="_blank" rel="noopener">TikTok</a>
-            {LINKEDIN_URL
-              ? <a href={LINKEDIN_URL} target="_blank" rel="noopener">LinkedIn</a>
-              : <span className="p3-footer-pendiente">LinkedIn [PENDIENTE: URL]</span>}
+            {LINKEDIN_URL && <a href={LINKEDIN_URL} target="_blank" rel="noopener">LinkedIn</a>}
           </div>
         </div>
         <div className="p3-footer-bottom">© 2026 NODA S.A.S. · Quito, Ecuador</div>
