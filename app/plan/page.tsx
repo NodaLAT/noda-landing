@@ -3,7 +3,6 @@ import { metadataPagina } from "@/lib/seo";
 import { ofertaVigente } from "@/lib/precios";
 import { RUTA_PLAN } from "@/lib/plan";
 import Marco from "@/components/portada/Marco";
-import { IconoServicio } from "@/components/portada/Iconos";
 import Plan from "@/components/plan/Plan";
 
 export const metadata: Metadata = metadataPagina({
@@ -12,14 +11,9 @@ export const metadata: Metadata = metadataPagina({
   ruta: RUTA_PLAN,
 });
 
-// Tres pasos cortos, con íconos del mismo set de los servicios.
-const PASOS = [
-  { icono: "bloques", texto: "Elige tus servicios." },
-  { icono: "calculadora", texto: "Mira tu precio al instante." },
-  { icono: "chat", texto: "Envíalo por WhatsApp y te respondemos." },
-] as const;
-
 // Página "Arma tu plan". El estado vive en el proveedor global (components/plan/PlanProvider.tsx).
+// Los tres pasos los muestra <Plan> solo cuando el plan tiene servicios; con el plan vacío, la lista
+// de servicios para agregar es lo primero que se ve.
 export default function PlanPage() {
   return (
     <Marco>
@@ -28,15 +22,6 @@ export default function PlanPage() {
           <span className="p3-eyebrow">Arma tu plan</span>
           <h1 className="p3-pag-h1">Arma tu plan</h1>
           <p className="p3-pag-sub">Arma tu plan y recibe la respuesta por WhatsApp en segundos.</p>
-          <ol className="p3-plan-pasos">
-            {PASOS.map((p, k) => (
-              <li key={p.texto} className="p3-plan-paso">
-                <span className="p3-plan-paso-ico p3-ico-linea"><IconoServicio icono={p.icono} size={22} /></span>
-                <span className="p3-plan-paso-num">{k + 1}</span>
-                <span className="p3-plan-paso-txt">{p.texto}</span>
-              </li>
-            ))}
-          </ol>
         </div>
       </section>
 

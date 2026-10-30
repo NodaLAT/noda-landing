@@ -18,6 +18,14 @@ import { usePlan } from "./PlanProvider";
 
 const OPCIONES_ATENCION = precioDe(SLUG_ATENCION)!;
 
+// Tres pasos cortos, con íconos del mismo set de los servicios. Se muestran cuando el plan tiene
+// servicios; con el plan vacío la lista de servicios es lo primero que se ve.
+const PASOS = [
+  { icono: "bloques", texto: "Elige tus servicios." },
+  { icono: "calculadora", texto: "Mira tu precio al instante." },
+  { icono: "chat", texto: "Envíalo por WhatsApp y te respondemos." },
+] as const;
+
 export default function Plan({ vigente }: { vigente: boolean }) {
   const { items, tiene, agregar, actualizar, quitar, vaciar } = usePlan();
   const [conOferta, setConOferta] = useState(vigente);
@@ -40,7 +48,19 @@ export default function Plan({ vigente }: { vigente: boolean }) {
   };
 
   return (
-    <div className="p3-cot p3-plan">
+    <>
+      {!vacio && (
+        <ol className="p3-plan-pasos">
+          {PASOS.map((p, k) => (
+            <li key={p.texto} className="p3-plan-paso">
+              <span className="p3-plan-paso-ico p3-ico-linea"><IconoServicio icono={p.icono} size={22} /></span>
+              <span className="p3-plan-paso-num">{k + 1}</span>
+              <span className="p3-plan-paso-txt">{p.texto}</span>
+            </li>
+          ))}
+        </ol>
+      )}
+      <div className="p3-cot p3-plan">
       <div className="p3-plan-lista">
         {SERVICIOS.map((s) => {
           const puesto = tiene(s.slug);
@@ -141,6 +161,7 @@ export default function Plan({ vigente }: { vigente: boolean }) {
           )}
         </div>
       </aside>
-    </div>
+      </div>
+    </>
   );
 }

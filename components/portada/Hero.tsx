@@ -1,4 +1,6 @@
+import Link from "next/link";
 import { WHATSAPP_URL } from "@/lib/site";
+import { RUTA_PLAN } from "@/lib/plan";
 import IsotipoCanvas from "./IsotipoCanvas";
 
 const ico = {
@@ -25,8 +27,8 @@ export default function Hero() {
             Respondemos, agendamos y cotizamos por ti en WhatsApp, las 24 horas, con IA.
           </p>
           <div className="p3-hero-acc p3-anim" style={{ "--d": ".8s" } as React.CSSProperties}>
-            <a href={WHATSAPP_URL} className="p3-btn p3-btn-acento p3-shine">Cotiza por WhatsApp</a>
-            <a href="#nodos" className="p3-btn p3-btn-outline">Ver servicios</a>
+            <Link href={RUTA_PLAN} className="p3-btn p3-btn-acento p3-shine">Arma tu plan</Link>
+            <a href={WHATSAPP_URL} className="p3-btn p3-btn-outline">Cotiza por WhatsApp</a>
           </div>
         </div>
       </div>

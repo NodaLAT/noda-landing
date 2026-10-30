@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { metadataPagina } from "@/lib/seo";
 import { EXTRA_A_MEDIDA, SERVICIOS } from "@/lib/servicios";
+import { RUTA_PLAN } from "@/lib/plan";
 import { WHATSAPP_URL, whatsappLink } from "@/lib/site";
 import Marco from "@/components/portada/Marco";
 import Cierre from "@/components/portada/Cierre";
@@ -26,6 +28,10 @@ export default function ServiciosPage() {
           <span className="p3-eyebrow">Servicios</span>
           <h1 className="p3-pag-h1">Todo lo que tu negocio repite, lo automatizamos.</h1>
           <p className="p3-pag-sub">Elige por dónde empezar o cuéntanos tu proceso y lo diseñamos contigo.</p>
+          <p className="p3-pag-linea-plan">
+            <span>Agrega los que necesites y mira tu precio al instante.</span>
+            <Link href={RUTA_PLAN} className="p3-btn p3-btn-outline p3-btn-sm">Arma tu plan</Link>
+          </p>
         </div>
       </section>
 

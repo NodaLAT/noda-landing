@@ -928,6 +928,10 @@ article.p3-tarjeta:has(.p3-tarjeta-enlace:focus-visible){ outline:2px solid var(
 .p3-plan-paso-num{ flex:0 0 auto; font-weight:600; font-size:13px; color:var(--etiquetas); }
 .p3-plan-paso-txt{ min-width:0; }
 
+/* /servicios: línea corta con el botón "Arma tu plan" bajo el título */
+.p3-pag-linea-plan{ display:flex; align-items:center; flex-wrap:wrap; gap:10px 14px; margin:clamp(16px,2vw,22px) 0 0;
+  font-weight:400; font-size:15px; color:var(--texto-2); }
+
 /* Lista de servicios (columna izquierda de la grilla .p3-cot) */
 .p3-plan-lista{ display:flex; flex-direction:column; gap:12px; min-width:0; }
 .p3-plan-serv{ padding:clamp(16px,2vw,20px); border:1px solid var(--borde); border-radius:16px; background:var(--superficie);
