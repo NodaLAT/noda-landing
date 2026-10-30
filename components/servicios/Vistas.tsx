@@ -104,8 +104,8 @@ function Documento() {
 // CRM: tablero Nuevo · Seguimiento · Cliente; una tarjeta pasa de columna en columna.
 type Contacto = { ini: string; nombre: string; interes: string; etq: [string, string]; color: string };
 const COLUMNAS: [string, Contacto][] = [
-  ["Nuevo", { ini: "LM", nombre: "Lucía", interes: "Taladro", etq: ["Web", "verde"], color: "#2563eb" }],
-  ["Seguimiento", { ini: "LP", nombre: "Luis", interes: "Cotización", etq: ["Urgente", "rojo"], color: "#b45309" }],
+  ["Interesado", { ini: "LM", nombre: "Lucía", interes: "Taladro", etq: ["Web", "verde"], color: "#2563eb" }],
+  ["Cotizó", { ini: "LP", nombre: "Luis", interes: "Cotización", etq: ["Urgente", "rojo"], color: "#b45309" }],
   ["Cliente", { ini: "AR", nombre: "Ana", interes: "Limpieza", etq: ["VIP", "azul"], color: "#7c3aed" }],
 ];
 const MUEVE: Contacto = { ini: "JV", nombre: "Jorge", interes: "Proforma", etq: ["Nuevo", "verde"], color: "#0f766e" };

@@ -334,6 +334,17 @@ export const SERVICIOS: Servicio[] = [
       { pregunta: "¿El seguimiento es automático?", respuesta: "Sí, y tu equipo puede intervenir cuando quiera." },
     ],
     relacionados: ["atencion-y-ventas-whatsapp", "cotizaciones-al-instante", "reportes-y-dashboards"],
+    comoFunciona: [
+      { titulo: "Cada conversación crea un contacto.", detalle: "Nadie tiene que anotarlo." },
+      { titulo: "Se etiqueta solo.", detalle: "Por ejemplo: interesado, cotizó, cliente." },
+      { titulo: "Ves tu embudo.", detalle: "Las tarjetas avanzan por etapa." },
+      { titulo: "Tienes el historial completo.", detalle: "Todo lo que habló cada contacto, en un solo lugar." },
+    ],
+    antesConNoda: [
+      { antes: "Clientes dispersos en chats y libretas.", con: "Todos en un solo lugar." },
+      { antes: "No sabes quién está por comprar.", con: "Ves en qué etapa está cada uno." },
+      { antes: "Si cambia el vendedor, se pierde la historia.", con: "El historial queda en el sistema." },
+    ],
   },
 
   // ------------------------------------------------------------------ 06

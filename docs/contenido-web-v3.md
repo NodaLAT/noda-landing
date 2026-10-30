@@ -246,6 +246,16 @@ Orden: título · subtítulo · el problema · cómo funciona (3 pasos) · qué 
 • Preguntas:
   – ¿Dónde veo a mis clientes? — En un panel o en una hoja ordenada, según lo que te sirva.
   – ¿El seguimiento es automático? — Sí, y tu equipo puede intervenir cuando quiera.
+• Cómo funciona (v3, 4 pasos):
+  1) Cada conversación crea un contacto. — Nadie tiene que anotarlo.
+  2) Se etiqueta solo. — Por ejemplo: interesado, cotizó, cliente.
+  3) Ves tu embudo. — Las tarjetas avanzan por etapa.
+  4) Tienes el historial completo. — Todo lo que habló cada contacto, en un solo lugar.
+• Antes / Con Noda (v3):
+  – Clientes dispersos en chats y libretas. / Todos en un solo lugar.
+  – No sabes quién está por comprar. / Ves en qué etapa está cada uno.
+  – Si cambia el vendedor, se pierde la historia. / El historial queda en el sistema.
+• Demo de cabecera (v3): tablero con columnas Interesado → Cotizó → Cliente; una tarjeta avanza de columna. Se anima sola al entrar y se repite.
 
 06 REPORTES Y DASHBOARDS
 • Subtítulo: Los números de tu negocio, claros, en tu correo o WhatsApp.
